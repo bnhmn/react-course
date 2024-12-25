@@ -1,4 +1,5 @@
 import { CORE_CONCEPTS } from '../data';
+import './Main.css';
 import { Tile } from './Tile';
 
 export function Main() {
