@@ -1,3 +1,12 @@
+export default function App() {
+  return (
+    <div>
+      <Header />
+      <Main />
+    </div>
+  );
+}
+
 function Header() {
   return (
     <header>
@@ -13,14 +22,5 @@ function Main() {
     <main>
       <h2>Time to get started!</h2>
     </main>
-  );
-}
-
-export default function App() {
-  return (
-    <div>
-      <Header />
-      <Main />
-    </div>
   );
 }
