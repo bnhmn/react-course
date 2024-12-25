@@ -14,6 +14,12 @@ const content = [
     'Next.js (Fullstack framework)',
     'React Native (build native mobile apps with React)',
   ],
+  [
+    'Vanilla JavaScript requires imperative programming',
+    'Imperative Programming: You define all the steps needed to achieve a result',
+    'React on the other hand embraces declarative programming',
+    'With React, you define the goal and React figures out how to get there',
+  ],
 ];
 
 export default function App() {
