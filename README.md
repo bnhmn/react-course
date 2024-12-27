@@ -2,9 +2,13 @@
 
 This repository is forked from <https://github.com/academind/react-complete-guide-course-resources> and provides code files, slides, and other resources of the [Udemy React course](https://www.udemy.com/course/react-the-complete-guide-incl-redux/).
 
-React is a JavaScript library to build web and native user interfaces.
+React is a JavaScript library for building web and native user interfaces.
 
 It uses a declarative programming style: You define the target UI state, but not the steps to get there. Instead, React will figure out how to achieve the target state.
+
+React doesn't produce static HTML code. Instead, it uses JavaScript to manipulate the DOM and dynamically generate the target HTML at runtime on the client side.
+
+When something on the page changes, React only updates that specific part using something called a Virtual DOM, instead of reloading the whole page.
 
 ## Repository Content
 
