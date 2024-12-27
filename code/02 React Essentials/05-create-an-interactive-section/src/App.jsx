@@ -1,11 +1,16 @@
+import './App.css';
+import { Concepts } from './components/Concepts';
+import { Examples } from './components/Examples';
 import { Header } from './components/Header';
-import { Main } from './components/Main';
 
 export default function App() {
   return (
     <div>
       <Header />
-      <Main />
+      <main>
+        <Concepts />
+        <Examples />
+      </main>
     </div>
   );
 }
