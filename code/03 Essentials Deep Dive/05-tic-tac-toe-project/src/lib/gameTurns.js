@@ -9,7 +9,7 @@ export function createGrid(gameTurns, gridSize = 3, defaultContent = null) {
   return grid;
 }
 
-export function addGameTurn(gameTurns, rowNum, colNum) {
+export function addGameTurn(gameTurns, symbols, rowNum, colNum) {
   // It is strongly recommended to use immutable state values.
   // When you are trying to mutate reference state values (objects and arrays),
   // it may cause bugs or side effects and React may not even apply these changes to the UI.
@@ -17,15 +17,17 @@ export function addGameTurn(gameTurns, rowNum, colNum) {
   // Instead of updating the 'gameTurns' array, we create a new copy with updated content.
   // See https://react.dev/learn/updating-objects-in-state.
   //
-  const activeSymbol = computeActiveSymbol(gameTurns);
+  const activeSymbol = computeActiveSymbol(gameTurns, symbols);
   const newGameTurns = structuredClone(gameTurns);
   newGameTurns.push({ rowNum, colNum, symbol: activeSymbol });
   return newGameTurns;
 }
 
-export function computeActiveSymbol(gameTurns) {
-  const lastSymbol = gameTurns.at(-1)?.symbol;
-  return lastSymbol === 'X' ? 'O' : 'X';
+export function computeActiveSymbol(gameTurns, symbols = ['X', 'O']) {
+  const lastSymbol = gameTurns.at(-1)?.symbol ?? symbols.at(-1);
+  const currSymbolIndex = (symbols.indexOf(lastSymbol) + 1) % symbols.length;
+  const currSymbol = symbols[currSymbolIndex];
+  return currSymbol;
 }
 
 export function computeIsGameOver(gameTurns, gridSize = 3) {

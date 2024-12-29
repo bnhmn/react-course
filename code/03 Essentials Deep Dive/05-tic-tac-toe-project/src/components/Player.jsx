@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function Player({ defaultName, symbol, isActive = false }) {
+export function Player({ defaultName, symbol, isActive = false, onChangeName = (newName) => null }) {
   const [playerName, setPlayerName] = useState(defaultName);
   const [editMode, setEditMode] = useState(false);
 
@@ -16,6 +16,7 @@ export function Player({ defaultName, symbol, isActive = false }) {
   //
   const toggleEditMode = () => {
     setEditMode((isEditting) => !isEditting);
+    onChangeName(playerName);
   };
 
   return (
