@@ -1,0 +1,30 @@
+{
+  "name": "tic-tac-toe-backend",
+  "version": "1.0.0",
+  "description": "Tic-Tac-Toe game backend",
+  "private": true,
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon src/app.ts"
+  },
+  "author": "Benjamin Heimann",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "json-schema-to-ts": "^3.1.1",
+    "jsonschema": "^1.4.1",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "@types/ws": "^8.5.13",
+    "concurrently": "^9.1.1",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
