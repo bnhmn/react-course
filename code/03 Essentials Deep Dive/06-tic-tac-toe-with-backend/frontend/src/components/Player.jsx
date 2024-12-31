@@ -1,7 +1,7 @@
 export function Player({ name, symbol, isActive, isOwnPlayer }) {
-  const className = (isActive ? 'active ' : '') + (isOwnPlayer ? 'highlight ' : '');
+  const className = (isActive ? 'active ' : '') + (isOwnPlayer ? 'own' : 'other');
   return (
-    <li id={'player-' + symbol.toLowerCase()} className={className.trim()}>
+    <li className={className.trim()}>
       <span className="player">
         <span className="player-name">{name}</span>
         <span className="player-symbol">{symbol}</span>

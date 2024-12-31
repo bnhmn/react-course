@@ -70,14 +70,14 @@ body {
   border: 2px solid transparent;
 }
 
-#players li.active {
+#players li.active.own {
   border-color: #f6e35a;
-  animation: pulse 2s infinite ease-in-out;
+  animation: pulse-yellow 2s infinite ease-in-out;
 }
 
-#players li.active .player-name,
-#players li.active .player-symbol {
-  color: #f6e35a;
+#players li.active.other {
+  border-color: #a5a38e;
+  animation: pulse-grey 2s infinite ease-in-out;
 }
 
 #players button {
@@ -184,6 +184,10 @@ ol {
   cursor: pointer;
   font-family: 'Caprasimo', cursive;
   padding: 1rem;
+}
+
+#game-board button:disabled {
+  cursor: default;
 }
 
 #game-over {
@@ -316,7 +320,7 @@ ol {
   }
 }
 
-@keyframes pulse {
+@keyframes pulse-yellow {
   0% {
     border-color: #f6e35a;
     box-shadow: 0 0 0 0 rgba(246, 227, 90, 0.4);
@@ -327,6 +331,21 @@ ol {
   }
   100% {
     border-color: #f6e35a;
+    box-shadow: 0 0 0 0 rgba(246, 227, 90, 0);
+  }
+}
+
+@keyframes pulse-grey {
+  0% {
+    border-color: #c3c0ab;
+    box-shadow: 0 0 0 0 rgba(246, 227, 90, 0.4);
+  }
+  50% {
+    border-color: #9b937d;
+    box-shadow: 0 0 0 0.5rem rgba(248, 165, 49, 0);
+  }
+  100% {
+    border-color: #c3c0ab;
     box-shadow: 0 0 0 0 rgba(246, 227, 90, 0);
   }
 }
