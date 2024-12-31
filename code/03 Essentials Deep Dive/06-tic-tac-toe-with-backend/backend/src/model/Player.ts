@@ -1,10 +1,10 @@
 import { Validator } from 'jsonschema';
 import { WebSocket } from 'ws';
 
-import { PlayerResponse } from '../dto/GameInfoResponse';
-import { JoinGameRequest, joinGameRequestSchema } from '../dto/JoinGameRequest';
-import { RestartGameRequest, restartGameRequestSchema } from '../dto/RestartGameRequest';
-import { SelectSquareRequest, selectSquareRequestSchema } from '../dto/SelectSquareRequest';
+import { PlayerResponse } from '../api/GameResponse';
+import { JoinGameRequest, joinGameRequestSchema } from '../api/JoinGameRequest';
+import { RestartGameRequest, restartGameRequestSchema } from '../api/RestartGameRequest';
+import { SelectSquareRequest, selectSquareRequestSchema } from '../api/SelectSquareRequest';
 import { Game } from './Game';
 
 export function createPlayer(opts: { ws: WebSocket; game: Game }) {

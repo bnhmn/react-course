@@ -1,4 +1,4 @@
-import { GameTurnResponse } from '../dto/GameInfoResponse';
+import { GameTurnResponse } from '../api/GameResponse';
 
 export class GameTurn {
   constructor(public symbol: string, public rowNum: number, public colNum: number) {}
@@ -12,11 +12,15 @@ export class GameTurn {
   }
 }
 
-export function findWinner(gameTurns: GameTurn[], gridSize: number): { isGameOver: boolean; winner: string | null } {
+export function findWinner(
+  gameTurns: GameTurn[],
+  gridSize: number,
+): { isGameOver: boolean; winnerSymbol: string | null } {
   const grid = createGrid(gameTurns, gridSize);
-  const winner = findRowMatch(grid, gridSize) || findColumnMatch(grid, gridSize) || findDiagonalMatch(grid, gridSize);
-  const isGameOver = winner !== null || gameTurns.length >= gridSize ** 2;
-  return { isGameOver, winner };
+  const winnerSymbol =
+    findRowMatch(grid, gridSize) || findColumnMatch(grid, gridSize) || findDiagonalMatch(grid, gridSize);
+  const isGameOver = winnerSymbol !== null || gameTurns.length >= gridSize ** 2;
+  return { isGameOver, winnerSymbol };
 }
 
 function createGrid(gameTurns: GameTurn[], gridSize: number, defaultContent = null): string[][] {

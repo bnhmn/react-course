@@ -30,7 +30,7 @@ export function Game() {
         <GameBoard
           gameTurns={game.turns}
           onSelectSquare={(rowNum, colNum) => socket.sendJsonMessage({ command: 'select', rowNum, colNum })}
-          isActive={game.isRunning}
+          isActive={game.isRunning && game.activePlayerNumber === game.ownPlayerNumber}
         />
         {game.isGameOver && (
           <GameOver

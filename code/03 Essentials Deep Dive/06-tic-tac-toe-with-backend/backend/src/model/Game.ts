@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 
-import { GameInfoResponse } from '../dto/GameInfoResponse';
+import { GameResponse } from '../api/GameResponse';
 import { findWinner, GameTurn } from './GameTurn';
 import { Player } from './Player';
 
@@ -58,10 +58,10 @@ export class Game {
     if (this.state === 'running') {
       this.turns.push(new GameTurn(player.symbol, rowNum, colNum));
       this.activePlayer = (this.activePlayer + 1) % this.players.length;
-      const { isGameOver, winner } = findWinner(this.turns, this.gridSize);
+      const { isGameOver, winnerSymbol } = findWinner(this.turns, this.gridSize);
       if (isGameOver) {
         this.state = 'finished';
-        this.winner = winner ? this.findPlayer(winner) : null;
+        this.winner = winnerSymbol ? this.findPlayer(winnerSymbol) : null;
       }
       this.pushGameInfo();
     }
@@ -86,7 +86,7 @@ export class Game {
         ownPlayerNumber: player.number,
         activePlayerNumber: this.activePlayer,
         winnerPlayerNumber: this.winner?.number ?? null,
-      } satisfies GameInfoResponse),
+      } satisfies GameResponse),
     );
   }
 }

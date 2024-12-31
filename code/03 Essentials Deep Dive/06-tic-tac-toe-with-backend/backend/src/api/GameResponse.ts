@@ -21,7 +21,7 @@ const gameTurnSchema = {
   required: ['symbol', 'rowNum', 'colNum'],
 } as const satisfies JSONSchema;
 
-export const gameInfoSchema = {
+export const gameSchema = {
   type: 'object',
   properties: {
     state: { type: 'string', enum: ['matchmaking', 'lobby', 'running', 'cancelled', 'finished'] },
@@ -42,4 +42,4 @@ export const gameInfoSchema = {
 
 export type PlayerResponse = FromSchema<typeof playerSchema>;
 export type GameTurnResponse = FromSchema<typeof gameTurnSchema>;
-export type GameInfoResponse = FromSchema<typeof gameInfoSchema>;
+export type GameResponse = FromSchema<typeof gameSchema>;
