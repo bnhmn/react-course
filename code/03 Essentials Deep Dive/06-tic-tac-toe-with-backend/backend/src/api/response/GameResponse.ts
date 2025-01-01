@@ -6,9 +6,8 @@ const playerSchema = {
     number: { type: 'number' },
     name: { type: 'string' },
     symbol: { type: 'string', pattern: '[A-Z]', examples: ['X', 'O'] },
-    ready: { type: 'boolean' },
   },
-  required: ['number', 'name', 'symbol', 'ready'],
+  required: ['number', 'name', 'symbol'],
 } as const satisfies JSONSchema;
 
 const gameTurnSchema = {
@@ -24,20 +23,25 @@ const gameTurnSchema = {
 export const gameSchema = {
   type: 'object',
   properties: {
-    state: { type: 'string', enum: ['matchmaking', 'lobby', 'running', 'cancelled', 'finished'] },
-    players: {
-      type: 'array',
-      items: playerSchema,
-    },
-    turns: {
-      type: 'array',
-      items: gameTurnSchema,
-    },
+    type: { type: 'string', enum: ['game'] },
+    state: { type: 'string', enum: ['created', 'running', 'cancelled', 'finished'] },
+    players: { type: 'array', items: playerSchema },
+    turns: { type: 'array', items: gameTurnSchema },
+    gridSize: { type: 'integer', minimum: 3, maximum: 4, default: 3 },
     ownPlayerNumber: { type: 'number', description: `The client's player number.` },
     activePlayerNumber: { type: 'number' },
     winnerPlayerNumber: { type: ['number', 'null'] },
   },
-  required: ['state', 'players', 'turns', 'ownPlayerNumber', 'activePlayerNumber', 'winnerPlayerNumber'],
+  required: [
+    'type',
+    'state',
+    'players',
+    'turns',
+    'gridSize',
+    'ownPlayerNumber',
+    'activePlayerNumber',
+    'winnerPlayerNumber',
+  ],
 } as const satisfies JSONSchema;
 
 export type PlayerResponse = FromSchema<typeof playerSchema>;

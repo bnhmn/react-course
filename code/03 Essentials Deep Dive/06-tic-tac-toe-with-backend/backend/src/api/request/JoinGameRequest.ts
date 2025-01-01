@@ -6,8 +6,9 @@ export const joinGameRequestSchema = {
   properties: {
     command: { type: 'string', enum: [joinGameCommand] },
     name: { type: 'string' },
+    gridSize: { type: 'integer', minimum: 3, maximum: 4 },
   },
-  required: ['command', 'name'],
+  required: ['command', 'name', 'gridSize'],
 } as const satisfies JSONSchema;
 
 export type JoinGameRequest = FromSchema<typeof joinGameRequestSchema>;

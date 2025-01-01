@@ -1,80 +1,77 @@
-import { Validator } from 'jsonschema';
+import { createHash } from 'crypto';
+import { JSONSchema } from 'json-schema-to-ts';
+import { Schema, Validator } from 'jsonschema';
 import { WebSocket } from 'ws';
 
-import { PlayerResponse } from '../api/GameResponse';
-import { JoinGameRequest, joinGameRequestSchema } from '../api/JoinGameRequest';
-import { RestartGameRequest, restartGameRequestSchema } from '../api/RestartGameRequest';
-import { SelectSquareRequest, selectSquareRequestSchema } from '../api/SelectSquareRequest';
+import { JoinGameRequest, joinGameRequestSchema } from '../api/request/JoinGameRequest';
+import { RestartGameRequest, restartGameRequestSchema } from '../api/request/RestartGameRequest';
+import { SelectSquareRequest, selectSquareRequestSchema } from '../api/request/SelectSquareRequest';
+import { ConnectResponse } from '../api/response/ConnectResponse';
 import { Game } from './Game';
-
-export function createPlayer(opts: { ws: WebSocket; game: Game }) {
-  return new Player(opts.ws, opts.game);
-}
+import { findOpenLobby, Lobby } from './Lobby';
 
 export class Player {
-  number: number;
-  name: string;
-  symbol: string;
-  ready: boolean;
+  constructor(public name: string, public connection: PlayerConnection) {}
+}
 
-  constructor(private ws: WebSocket, private game: Game) {
-    const { number, symbol } = game.addPlayer(this);
-    this.number = number;
-    this.name = `Player ${number}`;
-    this.symbol = symbol;
-    this.ready = false;
+export class PlayerConnection {
+  private id: string;
+  private ws: WebSocket;
+  private lobby?: Lobby;
+  private game?: Game;
+
+  constructor(ws: WebSocket) {
+    this.id = createHash('sha1').update(new Date().toISOString()).digest('hex').substring(0, 10);
+    this.ws = ws;
     this.setupWebSocket();
   }
 
-  toResponse(): PlayerResponse {
-    return {
-      number: this.number,
-      name: this.name,
-      symbol: this.symbol,
-      ready: this.ready,
-    };
+  static create(ws: WebSocket) {
+    return new PlayerConnection(ws);
   }
 
   sendMessage(data: object) {
-    const json = JSON.stringify(data, null, 2);
-    // this.log(`sent: ${json}`);
-    this.ws.send(json);
+    this.ws.send(JSON.stringify(data, null, 2));
   }
 
   handleMessage(data: JoinGameRequest | SelectSquareRequest | RestartGameRequest) {
     switch (data?.command) {
       case 'join':
-        this.handleJoinGameRequest(data);
+        this.handleJoinGame(data);
         break;
       case 'select':
-        this.handleSelectSquareRequest(data);
+        this.handleSelectSquare(data);
         break;
       case 'restart':
-        this.handleRestartGameRequest(data);
+        this.handleRestartGame(data);
         break;
     }
   }
 
   @Valid(joinGameRequestSchema)
-  private handleJoinGameRequest(data: JoinGameRequest) {
-    if (!this.ready) {
-      this.name = data.name;
-      this.ready = true;
-      this.game.pushGameInfo();
-      this.game.start();
+  private handleJoinGame(data: JoinGameRequest) {
+    if (!this.lobby && !this.game) {
+      this.lobby = findOpenLobby({ gridSize: data.gridSize });
+      this.lobby.onUpdate((lobby) => this.sendMessage(lobby.toResponse()));
+      this.lobby.onGameStart((game) => {
+        this.lobby = undefined;
+        this.game = game;
+        this.game.onUpdate(() => this.sendMessage(game.toResponse(this)));
+      });
+      this.lobby.addPlayer(data.name, this);
     }
   }
 
   @Valid(selectSquareRequestSchema)
-  private handleSelectSquareRequest(data: SelectSquareRequest) {
-    if (this.game.isRunning() && this.game.isPlayerActive(this)) {
+  private handleSelectSquare(data: SelectSquareRequest) {
+    if (this.game) {
       this.game.addTurn(this, data.rowNum, data.colNum);
     }
   }
 
   @Valid(restartGameRequestSchema)
-  private handleRestartGameRequest(_: RestartGameRequest) {
-    if (this.game.isFinished()) {
+  private handleRestartGame(_: RestartGameRequest) {
+    if (this.game) {
       this.game.start();
     }
   }
@@ -94,36 +91,38 @@ export class Player {
     });
     this.ws.on('close', () => {
       this.log('disconnected');
-      this.game.cancel();
+      this.lobby?.removePlayer(this);
+      this.game?.cancel();
     });
-    this.game.pushGameInfo([this]);
+    this.sendMessage({ type: 'connected' } satisfies ConnectResponse);
   }
 
-  closeWebSocket() {
+  disconnect() {
     this.ws.close();
   }
 
   private log(message: any, opts = { error: false }) {
-    console.log(`Game ${this.game.id} player ${this.number}: ${opts.error ? 'error: ' : ''}${message}`);
+    console.log(
+      `Player ${this.id}${this.game ? ` Game ${this.game.id}` : ''}: ${opts.error ? 'error: ' : ''}${message}`,
+    );
   }
 }
-
-const validator = new Validator();
 
 /**
  * A class method decorator that validates that the method argument complies with the JSON schema.
  * Only executes the method if no validation errors occur.
  */
-function Valid(schema: object) {
+function Valid(jsonSchema: JSONSchema) {
   return (targetClass: any, key: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value;
+    const validator = new Validator();
 
     descriptor.value = function (...args: any[]) {
-      const result = validator.validate(args[0], schema);
+      const result = validator.validate(args[0], jsonSchema as Schema);
       if (result.valid) {
         return originalMethod.apply(this, args);
       } else {
-        (this as Player).sendMessage({ errors: result.errors.map((error) => error.message) });
+        (this as PlayerConnection).sendMessage({ errors: result.errors.map((error) => error.message) });
       }
     };
 

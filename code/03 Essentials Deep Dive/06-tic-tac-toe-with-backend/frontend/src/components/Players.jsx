@@ -1,6 +1,6 @@
 import { Player } from './Player';
 
-export function Players({ players = {}, ownPlayerNumber, activePlayerNumber }) {
+export function Players({ players = {}, activePlayerNumber, ownPlayerNumber }) {
   return (
     <>
       <ol id="players">
@@ -11,8 +11,8 @@ export function Players({ players = {}, ownPlayerNumber, activePlayerNumber }) {
               key={symbol}
               symbol={symbol}
               name={name}
-              isOwnPlayer={ownPlayerNumber === number}
               isActive={activePlayerNumber === number}
+              isOwnPlayer={ownPlayerNumber === number}
             />
           ))}
       </ol>

@@ -1,4 +1,4 @@
-import { GameTurnResponse } from '../api/GameResponse';
+import { GameTurnResponse } from '../api/response/GameResponse';
 
 export class GameTurn {
   constructor(public symbol: string, public rowNum: number, public colNum: number) {}

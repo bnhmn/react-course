@@ -1,105 +1,119 @@
 import { createHash } from 'crypto';
 
-import { GameResponse } from '../api/GameResponse';
+import { GameResponse } from '../api/response/GameResponse';
 import { findWinner, GameTurn } from './GameTurn';
-import { Player } from './Player';
+import { Player, PlayerConnection } from './Player';
 
-export type GameState = 'matchmaking' | 'lobby' | 'running' | 'finished' | 'cancelled';
-export type PlayerSymbol = 'X' | 'O';
+export type GameState = 'created' | 'running' | 'finished' | 'cancelled';
+export type GamePlayerSymbol = 'X' | 'O';
+export type GameUpdateListener = (game: Game) => void;
+
+export interface GamePlayer {
+  number: number;
+  name: string;
+  symbol: GamePlayerSymbol;
+  connection: PlayerConnection;
+}
 
 export class Game {
   constructor(
     public id = createHash('sha1').update(new Date().toISOString()).digest('hex').substring(0, 10),
-    public state: GameState = 'matchmaking',
-    public players: Player[] = [],
+    public state: GameState = 'created',
+    public gridSize: number = 3,
+    public players: GamePlayer[] = [],
     public turns: GameTurn[] = [],
     public activePlayer: number = 0,
-    public winner: Player | null = null,
-    public gridSize: number = 3,
+    public winner: number | null = null,
+    public round: number = -1,
+    private updateListeners: GameUpdateListener[] = [],
   ) {}
 
+  static create(opts: { players: Player[]; gridSize: number }): Game {
+    const game = new Game();
+    opts.players.forEach((player) => game.addPlayer(player));
+    game.gridSize = opts.gridSize;
+    return game;
+  }
+
   addPlayer(player: Player) {
-    const number = this.players.length;
-    const symbol = number === 0 ? 'X' : 'O';
-    this.players.push(player);
-    if (this.players.length == 2) {
-      this.state = 'lobby';
-    }
-    return { number, symbol };
+    this.players.push({
+      name: player.name,
+      connection: player.connection,
+      number: this.players.length,
+      symbol: this.players.length === 0 ? 'X' : 'O',
+    });
   }
 
-  findPlayer(symbol: string) {
-    return this.players.filter((player) => player.symbol === symbol)[0];
-  }
-
-  isRunning() {
-    return this.state === 'running';
-  }
-
-  isFinished() {
-    return this.state === 'finished';
-  }
-
-  isPlayerActive(player: Player) {
-    return player === this.players[this.activePlayer];
+  findPlayer(query: GamePlayerSymbol | PlayerConnection): GamePlayer {
+    return this.players.filter(
+      typeof query === 'string' ? (player) => player.symbol === query : (player) => player.connection === query,
+    )[0];
   }
 
   start() {
-    if ((this.state === 'lobby' || this.state === 'finished') && this.players.every((player) => player.ready)) {
+    if (this.state === 'created' || this.state === 'finished') {
       this.state = 'running';
       this.turns = [];
-      this.activePlayer = 0;
+      this.round += 1;
+      this.activePlayer = this.round % this.players.length;
       this.winner = null;
-      this.pushGameInfo();
+      this.handleUpdate();
     }
   }
 
-  addTurn(player: Player, rowNum: number, colNum: number) {
-    if (this.state === 'running') {
+  addTurn(playerConnection: PlayerConnection, rowNum: number, colNum: number) {
+    const player = this.findPlayer(playerConnection);
+    if (this.state === 'running' && player.number === this.activePlayer && this.withinBounds(rowNum, colNum)) {
       this.turns.push(new GameTurn(player.symbol, rowNum, colNum));
-      this.activePlayer = (this.activePlayer + 1) % this.players.length;
-      const { isGameOver, winnerSymbol } = findWinner(this.turns, this.gridSize);
-      if (isGameOver) {
-        this.state = 'finished';
-        this.winner = winnerSymbol ? this.findPlayer(winnerSymbol) : null;
-      }
-      this.pushGameInfo();
+      this.switchToNextPlayer();
+      this.computeWinner();
+      this.handleUpdate();
+    }
+  }
+
+  private withinBounds(rowNum: number, colNum: number) {
+    return rowNum < this.gridSize && colNum < this.gridSize;
+  }
+
+  private switchToNextPlayer() {
+    this.activePlayer = (this.activePlayer + 1) % this.players.length;
+  }
+
+  private computeWinner() {
+    const { isGameOver, winnerSymbol } = findWinner(this.turns, this.gridSize);
+    if (isGameOver) {
+      this.state = 'finished';
+      this.winner = winnerSymbol ? this.findPlayer(winnerSymbol as GamePlayerSymbol).number : null;
     }
   }
 
   cancel() {
-    this.state = 'cancelled';
-    this.pushGameInfo();
-    this.players.forEach((player) => player.closeWebSocket());
+    if (this.state === 'running') {
+      this.state = 'cancelled';
+      this.handleUpdate();
+    }
+    this.players.forEach((player) => player.connection.disconnect());
   }
 
-  /**
-   * Transmit the current game status to one or more players. By default, it will be transmitted to all players.
-   */
-  pushGameInfo(players = this.players) {
-    players.forEach((player) =>
-      player.sendMessage({
-        id: this.id,
-        state: this.state,
-        players: this.players.map((player) => player.toResponse()),
-        turns: this.turns.map((turn) => turn.toResponse()),
-        ownPlayerNumber: player.number,
-        activePlayerNumber: this.activePlayer,
-        winnerPlayerNumber: this.winner?.number ?? null,
-      } satisfies GameResponse),
-    );
+  toResponse(player: PlayerConnection): GameResponse {
+    return {
+      type: 'game',
+      id: this.id,
+      state: this.state,
+      players: this.players.map((player) => ({ number: player.number, name: player.name, symbol: player.symbol })),
+      turns: this.turns.map((turn) => turn.toResponse()),
+      gridSize: this.gridSize,
+      ownPlayerNumber: this.findPlayer(player)?.number,
+      activePlayerNumber: this.activePlayer,
+      winnerPlayerNumber: this.winner,
+    };
   }
-}
 
-const games: Game[] = [];
+  onUpdate(updateListener: GameUpdateListener) {
+    this.updateListeners.push(updateListener);
+  }
 
-export function findOpenGame(): Game {
-  const openGames = games.filter((game) => game.state === 'matchmaking');
-  if (openGames.length > 0) {
-    return openGames[0];
-  } else {
-    const newGame = new Game();
-    games.push(newGame);
-    return newGame;
+  private handleUpdate() {
+    this.updateListeners.forEach((handle) => handle(this));
   }
 }

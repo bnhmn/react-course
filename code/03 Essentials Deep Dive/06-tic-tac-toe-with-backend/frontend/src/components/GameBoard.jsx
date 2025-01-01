@@ -1,5 +1,5 @@
-export function GameBoard({ gameTurns = [], onSelectSquare = () => null, isActive = true }) {
-  const grid = createGrid(gameTurns);
+export function GameBoard({ gameTurns = [], gridSize = 3, onSelectSquare = () => null, isActive = true }) {
+  const grid = createGrid(gameTurns, gridSize);
   return (
     <ol id="game-board">
       {grid.map((row, rowNum) => (
@@ -17,7 +17,7 @@ export function GameBoard({ gameTurns = [], onSelectSquare = () => null, isActiv
   );
 }
 
-function createGrid(gameTurns, gridSize = 3, defaultContent = null) {
+function createGrid(gameTurns, gridSize, defaultContent = null) {
   const grid = new Array(gridSize);
   for (let row = 0; row < gridSize; row++) {
     grid[row] = Array(gridSize).fill(defaultContent);

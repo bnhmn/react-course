@@ -5,8 +5,8 @@ export const selectSquareRequestSchema = {
   type: 'object',
   properties: {
     command: { type: 'string', enum: [selectSquareCommand] },
-    rowNum: { type: 'integer', minimum: 0, maximum: 2 },
-    colNum: { type: 'integer', minimum: 0, maximum: 2 },
+    rowNum: { type: 'integer', minimum: 0, maximum: 3 },
+    colNum: { type: 'integer', minimum: 0, maximum: 3 },
   },
   required: ['command', 'rowNum', 'colNum'],
 } as const satisfies JSONSchema;
