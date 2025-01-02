@@ -79,7 +79,7 @@ export class PlayerConnection {
   private setupWebSocket() {
     this.log('connected');
     this.ws.on('message', (data) => {
-      this.log(`received: ${data}`);
+      this.log(`received ${data}`);
       try {
         this.handleMessage(JSON.parse(data.toString()));
       } catch (error) {
