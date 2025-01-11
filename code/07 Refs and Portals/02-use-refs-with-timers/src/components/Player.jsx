@@ -8,12 +8,8 @@ export default function Player() {
   // You can use it to reference and access HTML elements like the input field below.
   const playerNameInput = useRef();
 
-  // The value of the reference can be accessed using 'playerNameInput.current'.
-  // It is of type https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement.
   const handleSubmit = () => {
     setPlayerName(playerNameInput.current.value);
-    // You could also manipulate the DOM this way, but this is a bit against the declarative philosophy of React.
-    // playerNameInput.current.value = '';
   };
 
   return (
