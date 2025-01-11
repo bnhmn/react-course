@@ -4,6 +4,9 @@ import './Examples.css';
 import { TabButton } from './TabButton';
 
 export function Examples() {
+  // With the useState() hook, you can access and update stateful values.
+  // Whenever a state value is changed via its setter function, React will re-execute and rerender the component.
+
   const [selected, setSelected] = useState();
   const selectedExample = EXAMPLES[selected];
 
