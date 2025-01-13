@@ -1,13 +1,16 @@
-export function Menu({ projects, selected, onSelect }) {
+export function Sidebar({ projects, selected, onSelect, onNewProject }) {
   return (
-    <aside>
+    <menu>
       <h2 className="mb-7 uppercase text-stone-200 font-bold">Your Projects</h2>
-      <button className="mb-6 px-3 py-1.5 rounded-md text-xs text-stone-400 bg-stone-700 hover:bg-stone-600">
+      <button
+        className="mb-6 px-3 py-1.5 rounded-md text-xs text-stone-400 bg-stone-700 hover:bg-stone-600"
+        onClick={() => onNewProject()}
+      >
         + Add Project
       </button>
       <ul className="space-y-0">
         {projects.map((project, index) => (
-          <li>
+          <li key={index}>
             <button
               className={`w-full p-1.5 text-left text-sm text-stone-300 hover:bg-stone-800 ${
                 index === selected ? 'bg-stone-800' : ''
@@ -19,6 +22,6 @@ export function Menu({ projects, selected, onSelect }) {
           </li>
         ))}
       </ul>
-    </aside>
+    </menu>
   );
 }
