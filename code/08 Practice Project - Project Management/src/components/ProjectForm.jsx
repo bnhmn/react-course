@@ -23,8 +23,8 @@ export function ProjectForm({ onSubmit, onCancel }) {
           label="Description"
           onChange={setDescription}
           invalid={submitted && !description}
-          Tag="textarea"
           value={description}
+          textarea
         />
         <Input label="Due Date" onChange={setDueDate} invalid={submitted && !dueDate} type="date" value={dueDate} />
       </form>
@@ -47,9 +47,10 @@ function Buttons({ onSubmit, onCancel }) {
   );
 }
 
-function Input({ Tag = 'input', type = 'text', label, value, invalid = false, onChange }) {
-  let labelColor = invalid ? 'text-red-500' : 'text-stone-500';
-  let textFormat = invalid
+function Input({ type = 'text', label, value, textarea = false, invalid = false, onChange }) {
+  const InputElement = textarea ? 'textarea' : 'input';
+  const labelColor = invalid ? 'text-red-500' : 'text-stone-500';
+  const textFormat = invalid
     ? 'text-red-600 bg-stone-200 border-red-300 focus:border-red-600'
     : 'text-black-600 bg-stone-200  border-stone-300 focus:border-stone-600';
 
@@ -59,13 +60,13 @@ function Input({ Tag = 'input', type = 'text', label, value, invalid = false, on
         {label}
       </label>
       <br />
-      <Tag
+      <InputElement
         type={type}
         id={label}
         className={`w-full px-1 py-1 rounded-sm text-sm  border-b-2 focus:outline-none ${textFormat}`}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-      ></Tag>
+      ></InputElement>
     </div>
   );
 }

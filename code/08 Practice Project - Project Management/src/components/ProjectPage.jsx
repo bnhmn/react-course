@@ -13,14 +13,14 @@ export function ProjectPage({ title, dueDate, description, tasks, onDelete, onAd
 function ProjectDescription({ title, dueDate, description, onDelete }) {
   return (
     <div id="project-description">
-      <div className="flow-root">
-        <h1 className="float-left my-2 text-3xl text-stone-600 font-bold">{title}</h1>
-        <button className="float-right mt-5 text-sm hover:text-red-500" onClick={() => onDelete()}>
+      <div className="flex justify-between">
+        <h1 className="my-2 text-3xl text-stone-600 font-bold">{title}</h1>
+        <button className="text-sm hover:text-red-500" onClick={() => onDelete()}>
           Delete
         </button>
       </div>
       <p className="mb-4 text-stone-400">{dueDate}</p>
-      <p className="linebreaks">{description}</p>
+      <p className="whitespace-pre-line">{description}</p>
     </div>
   );
 }
@@ -44,7 +44,7 @@ function TaskInput({ onAddTask }) {
     }
   };
   return (
-    <div className="mb-5 space-x-4">
+    <div className="flex mb-5 gap-4">
       <input
         className="px-2 py-1 w-60 bg-stone-100"
         type="text"
@@ -64,9 +64,9 @@ function TaskList({ tasks, onDeleteTask }) {
   return (
     <ul className="px-4 py-5 space-y-3 bg-stone-100">
       {tasks.map((task, index) => (
-        <li key={index} className="flow-root space-x-3">
-          <p className="float-left">{task}</p>
-          <button className="float-right text-sm hover:text-red-500" onClick={() => onDeleteTask(index)}>
+        <li key={index} className="flex justify-between space-x-3">
+          <p>{task}</p>
+          <button className="text-sm hover:text-red-500" onClick={() => onDeleteTask(index)}>
             Clear
           </button>
         </li>
