@@ -37,24 +37,23 @@ function ProjectTasks({ tasks, onAddTask, onDeleteTask }) {
 
 function TaskInput({ onAddTask }) {
   const [newTask, setNewTask] = useState('');
+  const handleSubmit = () => {
+    if (newTask) {
+      onAddTask(newTask);
+      setNewTask('');
+    }
+  };
   return (
     <div className="mb-5 space-x-4">
       <input
+        className="px-2 py-1 w-60 bg-stone-100"
         type="text"
         placeholder="Please enter a task..."
         value={newTask}
         onChange={(event) => setNewTask(event.target.value)}
-        className="px-2 py-1 w-60 bg-stone-100"
+        onKeyUp={(event) => event.key === 'Enter' && handleSubmit()}
       />
-      <button
-        className="text-sm hover:text-amber-600"
-        onClick={() => {
-          if (newTask) {
-            onAddTask(newTask);
-            setNewTask('');
-          }
-        }}
-      >
+      <button className="text-sm hover:text-amber-600" onClick={handleSubmit}>
         Add Task
       </button>
     </div>
