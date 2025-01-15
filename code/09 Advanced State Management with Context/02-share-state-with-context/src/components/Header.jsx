@@ -1,10 +1,13 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { computeNumCartItems } from '../lib/carts';
+import { CartContext } from '../store/cart-context';
 import { CartModal } from './CartModal';
 
-export function Header({ cart, onChangeItemQuantity }) {
-  const modal = useRef();
+export function Header({}) {
+  // With the useContext hook we can access the shared context value.
+  const cart = useContext(CartContext);
   const numCartItems = computeNumCartItems(cart);
+  const modal = useRef();
   const handleOpenCart = () => modal.current.open();
 
   return (
@@ -21,8 +24,6 @@ export function Header({ cart, onChangeItemQuantity }) {
       <CartModal
         ref={modal}
         title="Your Cart"
-        cartItems={cart.items}
-        onChangeItemQuantity={onChangeItemQuantity}
         actions={
           numCartItems > 0 ? (
             <>

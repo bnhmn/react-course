@@ -30,6 +30,14 @@ export function computeNumCartItems(cart) {
   return cart.items.reduce((prev, curr) => prev + curr.quantity, 0);
 }
 
+export function computeTotalPrice(cart) {
+  return cart.items.reduce((prev, curr) => prev + curr.price * curr.quantity, 0);
+}
+
+export function formatPrice(price) {
+  return `$${price.toFixed(2)}`;
+}
+
 function findCartItemById(cart, productId) {
   const index = cart.items.findIndex((item) => item.id === productId);
   const item = cart.items[index];
