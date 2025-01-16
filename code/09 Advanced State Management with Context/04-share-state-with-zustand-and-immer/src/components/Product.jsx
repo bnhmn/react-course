@@ -2,7 +2,7 @@ import { useShoppingCartStore } from '../store/shoppingCart';
 
 export function Product({ id, image, title, price, description }) {
   // With the useCartStore hook we can access the shared state value.
-  const cart = useShoppingCartStore();
+  const addCartItem = useShoppingCartStore((cart) => cart.addCartItem);
   return (
     <article className="product">
       <img src={image} alt={title} />
@@ -13,7 +13,7 @@ export function Product({ id, image, title, price, description }) {
           <p>{description}</p>
         </div>
         <p className="product-actions">
-          <button onClick={() => cart.addCartItem(id)}>Add to Cart</button>
+          <button onClick={() => addCartItem(id)}>Add to Cart</button>
         </p>
       </div>
     </article>

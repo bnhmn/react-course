@@ -1,6 +1,6 @@
 import { useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { computeTotalPrice, formatPrice, useShoppingCartStore } from '../store/shoppingCart';
+import { formatPrice, useShoppingCartStore } from '../store/shoppingCart';
 
 export function CartModal({ ref, title, actions }) {
   // With the useCartStore hook we can access the shared state value.
@@ -14,7 +14,6 @@ export function CartModal({ ref, title, actions }) {
   // https://github.com/pmndrs/zustand?tab=readme-ov-file#selecting-multiple-state-slices
 
   const dialog = useRef();
-  const totalPrice = computeTotalPrice(cart);
 
   useImperativeHandle(ref, () => {
     return {
@@ -37,7 +36,7 @@ export function CartModal({ ref, title, actions }) {
           </ul>
         )}
         <p id="cart-total-price">
-          Cart Total: <strong>{formatPrice(totalPrice)}</strong>
+          Cart Total: <strong>{formatPrice(cart.getTotalPrice())}</strong>
         </p>
       </div>
       <form method="dialog" id="modal-actions">

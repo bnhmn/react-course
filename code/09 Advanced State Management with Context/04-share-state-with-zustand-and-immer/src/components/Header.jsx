@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { computeNumCartItems, useShoppingCartStore } from '../store/shoppingCart';
+import { useShoppingCartStore } from '../store/shoppingCart';
 import { CartModal } from './CartModal';
 
 export function Header({}) {
   // With the useCartStore hook we can access the shared state value.
-  const cart = useShoppingCartStore();
-  const numCartItems = computeNumCartItems(cart);
+  const numCartItems = useShoppingCartStore((cart) => cart.getNumItems());
   const modal = useRef();
+
   const handleOpenCart = () => modal.current.open();
 
   return (
