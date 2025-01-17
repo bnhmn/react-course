@@ -9,10 +9,10 @@ import { PLACES } from './lib/data.js';
 import { sortPlacesByDistance } from './lib/location.js';
 
 export default function App() {
-  const modal = useRef();
   const selectedPlace = useRef();
   const [userLocation, setUserLocation] = useState();
   const [pickedPlaces, setPickedPlaces] = useLocalStorageState('picked-places', { defaultValue: [] });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const allPlacesSorted = sortPlacesByDistance(PLACES, userLocation);
   const pickedPlacesSorted = sortPlacesByDistance(pickedPlaces, userLocation);
 
@@ -36,12 +36,12 @@ export default function App() {
   // the side effect only runs once when the component is rendered for the first time.
 
   function handleStartRemovePlace(id) {
-    modal.current.open();
+    setModalIsOpen(true);
     selectedPlace.current = id;
   }
 
   function handleStopRemovePlace() {
-    modal.current.close();
+    setModalIsOpen(false);
   }
 
   function handleSelectPlace(id) {
@@ -56,12 +56,12 @@ export default function App() {
 
   function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) => prevPickedPlaces.filter((place) => place.id !== selectedPlace.current));
-    modal.current.close();
+    setModalIsOpen(false);
   }
 
   return (
     <>
-      <Modal ref={modal}>
+      <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation onCancel={handleStopRemovePlace} onConfirm={handleRemovePlace} />
       </Modal>
 
