@@ -1,11 +1,8 @@
-export function sortPlacesByDistance(places = [], position) {
-  if (!position) {
-    return places;
-  }
+export function sortPlacesByDistance(places = [], position = null) {
   return structuredClone(places)
     .map((place) => ({
       ...place,
-      distance: calculateDistance([position.lat, position.lon], [place.lat, place.lon]),
+      distance: position ? calculateDistance([position.lat, position.lon], [place.lat, place.lon]) : null,
     }))
     .sort((a, b) => a.distance - b.distance);
 }

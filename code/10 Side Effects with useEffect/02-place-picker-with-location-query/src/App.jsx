@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import useLocalStorageState from 'use-local-storage-state';
 
 import logoImg from './assets/logo.png';
 import { DeleteConfirmation } from './components/DeleteConfirmation.jsx';
@@ -11,13 +12,16 @@ export default function App() {
   const modal = useRef();
   const selectedPlace = useRef();
   const [userLocation, setUserLocation] = useState();
-  const [pickedPlaces, setPickedPlaces] = useState([]);
-  const allPlaces = sortPlacesByDistance(PLACES, userLocation);
+  const [pickedPlaces, setPickedPlaces] = useLocalStorageState('picked-places', { defaultValue: [] });
+  const allPlacesSorted = sortPlacesByDistance(PLACES, userLocation);
+  const pickedPlacesSorted = sortPlacesByDistance(pickedPlaces, userLocation);
 
   // The useEffect hook should be used to synchronize React with external systems / to trigger side effects.
   // Examples: fetch data from backend, run browser API calls, control a non-React component based on React state.
   // In this case, we are fetching the user's location from the browser.
-  // https://react.dev/learn/synchronizing-with-effects
+  // Note that we don't need effects when calling external systems in response to a user event like a button click.
+  // We only need effects when we have to call external systems as a side effect of rendering itself.
+  // We should only use effects when they are required: https://react.dev/learn/synchronizing-with-effects
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -45,7 +49,7 @@ export default function App() {
       if (prevPickedPlaces.some((place) => place.id === id)) {
         return prevPickedPlaces;
       }
-      const place = allPlaces.find((place) => place.id === id);
+      const place = allPlacesSorted.find((place) => place.id === id);
       return [...prevPickedPlaces, place];
     });
   }
@@ -70,10 +74,10 @@ export default function App() {
         <Places
           title="I'd like to visit ..."
           fallbackText={'Select the places you would like to visit below.'}
-          places={pickedPlaces}
+          places={pickedPlacesSorted}
           onSelectPlace={handleStartRemovePlace}
         />
-        <Places title="Available Places" places={allPlaces} onSelectPlace={handleSelectPlace} />
+        <Places title="Available Places" places={allPlacesSorted} onSelectPlace={handleSelectPlace} />
       </main>
     </>
   );
