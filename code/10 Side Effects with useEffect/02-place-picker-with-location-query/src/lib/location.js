@@ -1,28 +1,35 @@
-export function sortPlacesByDistance(places, position) {
-  const { latitude, longitude } = position;
-  const sortedPlaces = [...places];
-  sortedPlaces.sort((a, b) => {
-    const distanceA = calculateDistance(latitude, longitude, a.lat, a.lon);
-    const distanceB = calculateDistance(latitude, longitude, b.lat, b.lon);
-    return distanceA - distanceB;
-  });
-  return sortedPlaces;
+export function sortPlacesByDistance(places = [], position) {
+  if (!position) {
+    return places;
+  }
+  return structuredClone(places)
+    .map((place) => ({
+      ...place,
+      distance: calculateDistance([position.lat, position.lon], [place.lat, place.lon]),
+    }))
+    .sort((a, b) => a.distance - b.distance);
 }
 
-function calculateDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lng2 - lng1);
-  const l1 = toRad(lat1);
-  const l2 = toRad(lat2);
-
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(l1) * Math.cos(l2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c;
+/**
+ *
+ * Calculates the distance between two points on the earth's surface using the "Haversine formula".
+ * @see https://stackoverflow.com/a/27943/6316545.
+ * @returns the distance in km.
+ */
+function calculateDistance(point1, point2) {
+  const [lat1, lon1] = point1;
+  const [lat2, lon2] = point2;
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
   return d;
 }
 
-function toRad(value) {
+function deg2rad(value) {
   return (value * Math.PI) / 180;
 }

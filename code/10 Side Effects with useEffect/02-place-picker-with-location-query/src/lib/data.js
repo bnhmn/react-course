@@ -27,6 +27,7 @@ export const PLACES = [
     },
     lat: 44.5588,
     lon: -80.344,
+    distance: null,
   },
   {
     id: 'p2',
@@ -37,6 +38,7 @@ export const PLACES = [
     },
     lat: 25.0,
     lon: 0.0,
+    distance: null,
   },
   {
     id: 'p3',
@@ -47,6 +49,7 @@ export const PLACES = [
     },
     lat: 27.9881,
     lon: 86.925,
+    distance: null,
   },
   {
     id: 'p4',
@@ -57,6 +60,7 @@ export const PLACES = [
     },
     lat: 18.2208,
     lon: -66.5901,
+    distance: null,
   },
   {
     id: 'p5',
@@ -67,6 +71,7 @@ export const PLACES = [
     },
     lat: 37.9715,
     lon: 23.7257,
+    distance: null,
   },
   {
     id: 'p6',
@@ -77,6 +82,7 @@ export const PLACES = [
     },
     lat: -3.4653,
     lon: -62.2159,
+    distance: null,
   },
   {
     id: 'p7',
@@ -87,6 +93,7 @@ export const PLACES = [
     },
     lat: 64.9631,
     lon: -19.0208,
+    distance: null,
   },
   {
     id: 'p8',
@@ -97,6 +104,7 @@ export const PLACES = [
     },
     lat: 34.9949,
     lon: 135.785,
+    distance: null,
   },
   {
     id: 'p9',
@@ -107,6 +115,7 @@ export const PLACES = [
     },
     lat: -18.2871,
     lon: 147.6992,
+    distance: null,
   },
   {
     id: 'p10',
@@ -117,6 +126,7 @@ export const PLACES = [
     },
     lat: 48.8566,
     lon: 2.3522,
+    distance: null,
   },
   {
     id: 'p11',
@@ -127,6 +137,7 @@ export const PLACES = [
     },
     lat: 36.1069,
     lon: -112.1129,
+    distance: null,
   },
   {
     id: 'p12',
@@ -137,6 +148,7 @@ export const PLACES = [
     },
     lat: 45.4408,
     lon: 12.3155,
+    distance: null,
   },
   {
     id: 'p13',
@@ -147,6 +159,7 @@ export const PLACES = [
     },
     lat: 27.1751,
     lon: 78.0421,
+    distance: null,
   },
   {
     id: 'p14',
@@ -157,6 +170,7 @@ export const PLACES = [
     },
     lat: 9.4981,
     lon: 76.3388,
+    distance: null,
   },
   {
     id: 'p15',
@@ -167,6 +181,7 @@ export const PLACES = [
     },
     lat: -2.153,
     lon: 34.6857,
+    distance: null,
   },
   {
     id: 'p16',
@@ -177,6 +192,7 @@ export const PLACES = [
     },
     lat: -17.9243,
     lon: 25.8572,
+    distance: null,
   },
   {
     id: 'p17',
@@ -187,6 +203,7 @@ export const PLACES = [
     },
     lat: -13.1631,
     lon: -72.545,
+    distance: null,
   },
   {
     id: 'p18',
@@ -197,5 +214,6 @@ export const PLACES = [
     },
     lat: -3.4653,
     lon: -58.38,
+    distance: null,
   },
 ];

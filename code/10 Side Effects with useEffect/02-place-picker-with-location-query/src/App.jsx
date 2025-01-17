@@ -10,16 +10,18 @@ import { sortPlacesByDistance } from './lib/location.js';
 export default function App() {
   const modal = useRef();
   const selectedPlace = useRef();
-  const [allPlaces, setAllPlaces] = useState(PLACES);
+  const [userLocation, setUserLocation] = useState();
   const [pickedPlaces, setPickedPlaces] = useState([]);
+  const allPlaces = sortPlacesByDistance(PLACES, userLocation);
 
   // The useEffect hook should be used to synchronize React with external systems / to trigger side effects.
   // Examples: fetch data from backend, run browser API calls, control a non-React component based on React state.
+  // In this case, we are fetching the user's location from the browser.
   // https://react.dev/learn/synchronizing-with-effects
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      setAllPlaces(sortPlacesByDistance(allPlaces, position.coords));
+      setUserLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
     });
   }, []);
 
@@ -43,8 +45,8 @@ export default function App() {
       if (prevPickedPlaces.some((place) => place.id === id)) {
         return prevPickedPlaces;
       }
-      const place = PLACES.find((place) => place.id === id);
-      return [place, ...prevPickedPlaces];
+      const place = allPlaces.find((place) => place.id === id);
+      return [...prevPickedPlaces, place];
     });
   }
 
