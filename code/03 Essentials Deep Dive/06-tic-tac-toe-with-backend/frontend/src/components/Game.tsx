@@ -1,6 +1,7 @@
-import { GameType } from '../types/Game';
+import { useEffect } from 'react';
+
+import { GameType } from '../backend/types/Game';
 import { GameBoard } from './GameBoard';
-import { GameLog } from './GameLog';
 import { GameOver } from './GameOver';
 import { Players } from './Players';
 
@@ -11,6 +12,12 @@ interface GameProps {
 }
 
 export function Game({ game, onSelectSquare, onRematch }: GameProps) {
+  useEffect(() => {
+    setTimeout(() => {
+      document.querySelector('#game-board')?.scrollIntoView({ behavior: 'smooth' });
+    }, 200);
+  }, []);
+
   return (
     <>
       <Players

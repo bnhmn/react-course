@@ -2,7 +2,8 @@
     "name": "tic-tac-toe-app",
     "private": true,
     "scripts": {
-        "dev": "concurrently -n backend,frontend -c blue,yellow \"npm run dev --workspace backend\" \"npm run dev --workspace frontend"
+        "dev": "concurrently -n backend,frontend -c blue,yellow \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+        "build": "npm run build --workspace backend && npm run build --workspace frontend"
     },
     "devDependencies": {
         "concurrently": "^9.1.2"

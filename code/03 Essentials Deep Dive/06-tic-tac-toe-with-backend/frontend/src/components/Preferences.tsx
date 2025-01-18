@@ -1,35 +1,30 @@
-import { useState } from 'react';
-import { useCookies } from 'react-cookie';
+import useLocalStorageState from 'use-local-storage-state';
 
 import {
-  Avatar,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightAddon,
-  Select,
-  Stack,
+	Avatar,
+	Button,
+	FormControl,
+	FormLabel,
+	Input,
+	InputGroup,
+	InputRightAddon,
+	Select,
+	Stack,
 } from '@chakra-ui/react';
 
 export function Preferences({ onJoinGame = () => null }: { onJoinGame: (name: string, gridSize: number) => void }) {
-  const [cookies, setCookie] = useCookies(['preferences']);
-  const preferences = { name: cookies.preferences?.name ?? '', size: cookies.preferences?.size ?? 3 };
-  const [name, setName] = useState(preferences.name);
-  const [size, setSize] = useState(preferences.size);
+  const [name, setName] = useLocalStorageState("todo.name", {defaultValue: ""});
+  const [size, setSize] = useLocalStorageState("todo.size", {defaultValue: 3});
 
   function handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
-    setCookie('preferences', { ...preferences, name: event.target.value });
   }
   function handleSizeChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSize(parseInt(event.target.value));
-    setCookie('preferences', { ...preferences, size: parseInt(event.target.value) });
   }
 
   return (
-    <Stack spacing={8} padding="2em">
+    <Stack spacing={8} padding="1rem">
       <FormControl>
         <FormLabel>Name</FormLabel>
         <InputGroup>
@@ -48,7 +43,9 @@ export function Preferences({ onJoinGame = () => null }: { onJoinGame: (name: st
         </Select>
       </FormControl>
 
-      <Button onClick={() => onJoinGame(name, size)}>Join Game</Button>
+      <Button onClick={() => onJoinGame(name, size)} disabled={name.trim() === ''}>
+        Join Game
+      </Button>
     </Stack>
   );
 }

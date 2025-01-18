@@ -9,19 +9,28 @@ header {
 }
 
 body {
-  background: radial-gradient(circle at center, rgba(241, 210, 70, 0.98), rgba(250, 176, 103, 0.87)),
-    url('bg-pattern-dark.png') !important;
+  background: radial-gradient(circle at center, rgba(241, 210, 70, 0.98), rgba(250, 176, 103, 0.87)) !important;
   background-repeat: repeat !important;
 }
 
 #game-container {
+  min-width: 30rem;
   max-width: 45rem;
-  margin: 3rem auto;
-  padding: 2rem;
+  margin: 3rem 0.5rem;
+  padding: 3rem;
   border-radius: 6px;
   background: linear-gradient(#383624, #282617);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  position: relative;
+  justify-self: center;
+  position: relative; /* required for #game-over overlay */
+}
+
+@media (max-width: 500px) {
+  #game-container {
+    min-width: calc(100% - 1rem);
+    max-width: calc(100% - 1rem);
+    padding: 2rem;
+  }
 }
 
 #players {
@@ -63,14 +72,15 @@ body {
   text-align: center;
 }
 
+.player-symbol {
+  color: #e1dec7;
+}
+
 #game-board {
-  display: 'flex';
   justify-content: center;
 }
 
 #game-board button {
-  height: 8rem;
-  width: 8rem;
   border-radius: 1px;
   background: #aca788;
   color: #3f3b00;
@@ -110,6 +120,15 @@ body {
 #game-over p {
   font-size: 2rem;
   color: #e1dec7;
+}
+
+@media (max-width: 500px) {
+  #game-over h2 {
+    font-size: 3rem;
+  }
+  #game-over p {
+    font-size: 1.5rem;
+  }
 }
 
 #game-over button {

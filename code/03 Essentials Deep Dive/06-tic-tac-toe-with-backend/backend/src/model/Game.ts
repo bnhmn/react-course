@@ -63,7 +63,7 @@ export class Game {
 
   addTurn(playerConnection: PlayerConnection, rowNum: number, colNum: number) {
     const player = this.findPlayer(playerConnection);
-    if (this.state === 'running' && player.number === this.activePlayer && this.withinBounds(rowNum, colNum)) {
+    if (this.isValidTurn(player, rowNum, colNum)) {
       this.turns.push(new GameTurn(player.symbol, rowNum, colNum));
       this.switchToNextPlayer();
       this.computeWinner();
@@ -71,8 +71,14 @@ export class Game {
     }
   }
 
-  private withinBounds(rowNum: number, colNum: number) {
-    return rowNum < this.gridSize && colNum < this.gridSize;
+  private isValidTurn(player: GamePlayer, rowNum: number, colNum: number): boolean {
+    return (
+      this.state === 'running' &&
+      this.activePlayer === player.number &&
+      rowNum < this.gridSize &&
+      colNum < this.gridSize &&
+      !this.turns.some((turn) => turn.rowNum === rowNum && turn.colNum === colNum)
+    );
   }
 
   private switchToNextPlayer() {

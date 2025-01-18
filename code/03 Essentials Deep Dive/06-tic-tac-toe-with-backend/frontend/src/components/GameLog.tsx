@@ -1,6 +1,6 @@
-import { GameType } from '../types/Game';
-import { GameTurnType } from '../types/GameTurn';
-import { PlayerType } from '../types/Player';
+import { GameType } from '../backend/types/Game';
+import { GameTurnType } from '../backend/types/GameTurn';
+import { PlayerType } from '../backend/types/Player';
 
 interface GameLogProps {
   game: GameType;

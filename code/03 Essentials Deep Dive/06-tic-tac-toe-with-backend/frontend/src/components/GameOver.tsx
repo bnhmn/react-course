@@ -1,6 +1,6 @@
 import { Heading, Text, VStack } from '@chakra-ui/react';
 
-import { PlayerType } from '../types/Player';
+import { PlayerType } from '../backend/types/Player';
 
 interface GameOverProps {
   winner: PlayerType | null;

@@ -1,6 +1,6 @@
 import { Avatar, Box, Heading, Progress, Spacer, VStack } from '@chakra-ui/react';
 
-import { LobbyType } from '../types/Lobby';
+import { LobbyType } from '../backend/types/Lobby';
 
 export function Lobby({ lobby }: { lobby: LobbyType }) {
   const title = lobby.state === 'ready' ? 'Game is starting...' : 'Waiting for opponent...';
