@@ -1,28 +1,38 @@
 import { useState } from 'react';
+import quizComplete from '../assets/quiz-complete.png';
 import { QUESTIONS } from '../data/questions';
 
 export function Quiz({ questions = QUESTIONS }) {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const activeQuestionIndex = selectedAnswers.length;
   const activeQuestion = questions[activeQuestionIndex];
-  const activeQuestionAnswers = shuffle(activeQuestion.answers);
 
   const handleSelectAnswer = (answer) => setSelectedAnswers((answers) => [...answers, answer]);
 
   return (
-    <div id="quiz">
-      <h2>{activeQuestion.text}</h2>
-      <ol id="answers">
-        {activeQuestionAnswers.map((answer, index) => (
-          <li key={answer} className="answer">
-            <button onClick={() => handleSelectAnswer(answer)}>
-              <span className="letter">{getAnswerLetter(index)}</span>
-              <span className="text">{answer}</span>
-            </button>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <>
+      {activeQuestion && (
+        <div id="quiz">
+          <h2>{activeQuestion.text}</h2>
+          <ol id="answers">
+            {shuffle(activeQuestion.answers).map((answer, index) => (
+              <li key={answer} className="answer">
+                <button onClick={() => handleSelectAnswer(answer)}>
+                  <span className="letter">{getAnswerLetter(index)}</span>
+                  <span className="text">{answer}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+      {!activeQuestion && (
+        <div id="summary">
+          <img src={quizComplete} alt="Trophy icon" />
+          <h2>Quiz Completed!</h2>
+        </div>
+      )}
+    </>
   );
 }
 
