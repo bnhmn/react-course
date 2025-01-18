@@ -18,7 +18,7 @@ export function Modal({ children, open = false, onClose }) {
 
   return createPortal(
     <dialog className="modal" ref={dialog} onClose={onClose}>
-      {children}
+      {open ? children : null}
     </dialog>,
     document.getElementById('modal'),
   );

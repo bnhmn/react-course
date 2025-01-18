@@ -9,12 +9,12 @@ import { PLACES } from './lib/data.js';
 import { sortPlacesByDistance } from './lib/location.js';
 
 export default function App() {
-  const selectedPlace = useRef();
   const [userLocation, setUserLocation] = useState();
   const [pickedPlaces, setPickedPlaces] = useLocalStorageState('picked-places', { defaultValue: [] });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const allPlacesSorted = sortPlacesByDistance(PLACES, userLocation);
   const pickedPlacesSorted = sortPlacesByDistance(pickedPlaces, userLocation);
+  const selectedPlace = useRef();
 
   // The useEffect hook should be used to synchronize React with external systems / to trigger side effects.
   // Examples: fetch data from backend, run browser API calls, control a non-React component based on React state.
