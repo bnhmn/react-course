@@ -1,19 +1,26 @@
 import { useState } from 'react';
 import quizComplete from '../assets/quiz-complete.png';
 import { QUESTIONS } from '../data/questions';
+import { QuizTimer } from './QuizTimer';
 
 export function Quiz({ questions = QUESTIONS }) {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const activeQuestionIndex = selectedAnswers.length;
   const activeQuestion = questions[activeQuestionIndex];
 
-  const handleSelectAnswer = (answer) => setSelectedAnswers((answers) => [...answers, answer]);
+  const handleSelectAnswer = (answer) => {
+    setSelectedAnswers((answers) => [...answers, answer]);
+  };
 
   return (
     <>
       {activeQuestion && (
         <div id="quiz">
-          <h2>{activeQuestion.text}</h2>
+          <div id="question">
+            {/* The key value ensures that the timer is restarted with each question */}
+            <QuizTimer key={activeQuestionIndex} timeoutSeconds={5} onTimeout={() => handleSelectAnswer(null)} />
+            <h2>{activeQuestion.text}</h2>
+          </div>
           <ol id="answers">
             {shuffle(activeQuestion.answers).map((answer, index) => (
               <li key={answer} className="answer">
