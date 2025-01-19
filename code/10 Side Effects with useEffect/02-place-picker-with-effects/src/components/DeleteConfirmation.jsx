@@ -13,14 +13,17 @@ export function DeleteConfirmation({ onConfirm, onCancel, autoConfirmSeconds = 3
     return () => clearInterval(timer);
   }, []);
 
-  // We need to wrap the onConfirm call with useEffect because else we would get this error:
+  // We need to wrap the 'onConfirm' call with useEffect because else we would get this error:
   // "Cannot update a component 'App' while rendering a different component 'DeleteConfirmation'"
+  //
+  // We need to add 'onConfirm' as a dependency and make sure it is wrapped with 'useCallback' on the caller side.
+  // https://react.dev/learn/lifecycle-of-reactive-effects#react-verifies-that-you-specified-every-reactive-value-as-a-dependency
 
   useEffect(() => {
     if (remainingSeconds === 0) {
       onConfirm();
     }
-  }, [remainingSeconds]);
+  }, [onConfirm, remainingSeconds]);
 
   return (
     <div id="delete-confirmation">
@@ -34,7 +37,6 @@ export function DeleteConfirmation({ onConfirm, onCancel, autoConfirmSeconds = 3
           Yes ({remainingSeconds})
         </button>
       </div>
-      <progress value={(autoConfirmSeconds - remainingSeconds) / autoConfirmSeconds} />
     </div>
   );
 }

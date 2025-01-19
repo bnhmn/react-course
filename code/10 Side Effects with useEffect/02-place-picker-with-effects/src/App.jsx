@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 
+import { useCallback } from 'react';
 import logoImg from './assets/logo.png';
 import { DeleteConfirmation } from './components/DeleteConfirmation.jsx';
 import { Modal } from './components/Modal.jsx';
@@ -54,10 +55,15 @@ export default function App() {
     });
   }
 
-  function handleRemovePlace() {
+  // You need to wrap your callback function with 'useCallback' when an effect depends on your function.
+  // It ensures that the function remains constant across render cycles if its dependencies do not change.
+  // See https://react.dev/reference/react/useCallback#preventing-an-effect-from-firing-too-often.
+  // Note: We don't need to add the state setters as dependencies here because React state setters are constant.
+
+  const handleRemovePlace = useCallback(() => {
     setPickedPlaces((prevPickedPlaces) => prevPickedPlaces.filter((place) => place.id !== selectedPlace.current));
     setModalIsOpen(false);
-  }
+  }, []);
 
   return (
     <>
