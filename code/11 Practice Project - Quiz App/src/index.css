@@ -164,13 +164,12 @@ header h1 {
   transition: all 0.2s ease-in-out;
 }
 
-.answer .letter {
-  float: left;
-  font-weight: bold;
+.answer button:disabled {
+  cursor: default;
 }
 
-.answer button:hover,
-.answer button:focus {
+.answer button:not(:disabled):hover,
+.answer button:not(:disabled):focus {
   /* background: linear-gradient(180deg, #bf48f6 0%, #9b50f2 100%); */
   background: #9d5af5;
   color: white;
@@ -193,6 +192,11 @@ header h1 {
   /* background: linear-gradient(180deg, #f96fb1 0%, #f52b8c 100%); */
   background: #f55a98;
   color: #2c203d;
+}
+
+.answer button .letter {
+  float: left;
+  font-weight: bold;
 }
 
 #skip-action {

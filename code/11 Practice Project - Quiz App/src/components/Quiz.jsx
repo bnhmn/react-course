@@ -1,36 +1,25 @@
 import { useState } from 'react';
 import quizComplete from '../assets/quiz-complete.png';
 import { QUESTIONS } from '../data/questions';
-import { QuizTimer } from './QuizTimer';
+import { Question } from './Question';
 
 export function Quiz({ questions = QUESTIONS }) {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const activeQuestionIndex = selectedAnswers.length;
   const activeQuestion = questions[activeQuestionIndex];
 
-  const handleSelectAnswer = (answer) => {
-    setSelectedAnswers((answers) => [...answers, answer]);
-  };
-
   return (
     <>
       {activeQuestion && (
         <div id="quiz">
-          <div id="question">
-            {/* The key value ensures that the timer is restarted with each question */}
-            <QuizTimer key={activeQuestionIndex} timeoutSeconds={15} onTimeout={() => handleSelectAnswer(null)} />
-            <h2>{activeQuestion.text}</h2>
-          </div>
-          <ol id="answers">
-            {shuffle(activeQuestion.answers).map((answer, index) => (
-              <li key={answer} className="answer">
-                <button onClick={() => handleSelectAnswer(answer)}>
-                  <span className="letter">{getAnswerLetter(index)}</span>
-                  <span className="text">{answer}</span>
-                </button>
-              </li>
-            ))}
-          </ol>
+          {/* The 'key' value ensures that the question timer is restarted with each question */}
+          {/* Note: We can use the key prop to force React to destroy and recreate a component */}
+          <Question
+            key={activeQuestionIndex}
+            question={activeQuestion.text}
+            answers={activeQuestion.answers}
+            onSelectAnswer={(answer) => setSelectedAnswers((answers) => [...answers, answer])}
+          />
         </div>
       )}
       {!activeQuestion && (
@@ -41,23 +30,4 @@ export function Quiz({ questions = QUESTIONS }) {
       )}
     </>
   );
-}
-
-/**
- * Shuffle an array using Durstenfeld algorithm.
- * @see https://stackoverflow.com/a/12646864/6316545.
- */
-function shuffle(array) {
-  array = structuredClone(array);
-  for (let i = array.length - 1; i >= 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-}
-
-function getAnswerLetter(answerIndex, letters = ['A', 'B', 'C', 'D']) {
-  return letters[answerIndex];
 }
