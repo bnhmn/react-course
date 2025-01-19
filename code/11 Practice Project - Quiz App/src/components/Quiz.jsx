@@ -18,7 +18,7 @@ export function Quiz({ questions = QUESTIONS }) {
         <div id="quiz">
           <div id="question">
             {/* The key value ensures that the timer is restarted with each question */}
-            <QuizTimer key={activeQuestionIndex} timeoutSeconds={5} onTimeout={() => handleSelectAnswer(null)} />
+            <QuizTimer key={activeQuestionIndex} timeoutSeconds={15} onTimeout={() => handleSelectAnswer(null)} />
             <h2>{activeQuestion.text}</h2>
           </div>
           <ol id="answers">
