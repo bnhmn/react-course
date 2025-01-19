@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { QuestionTimer } from './QuestionTimer';
 
-export function Question({ question, answers, onSelectAnswer }) {
+export function Question({ question, answers, onSelectAnswer, timeoutSeconds = 15, delaySeconds = 2 }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const hasSelectedAnswer = selectedAnswer !== null;
   // Store shuffled answers in a ref to prevent them from being reshuffled when the user selects an answer.
@@ -10,24 +10,30 @@ export function Question({ question, answers, onSelectAnswer }) {
   const handleSelectAnswer = (answer) => {
     if (answer !== null) {
       // Display whether the selected answer was correct or not before submitting it to the caller.
-      setSelectedAnswer(answer);
-      setTimeout(() => onSelectAnswer(answer), 2500);
+      const result = { text: answer, correct: isCorrectAnswer(answer, answers) };
+      setSelectedAnswer(result);
+      setTimeout(() => onSelectAnswer(result), delaySeconds * 1000);
     } else {
-      onSelectAnswer(null);
+      const result = { text: null, correct: false };
+      onSelectAnswer(result);
     }
   };
 
   return (
     <>
       <div id="question">
-        <QuestionTimer active={!hasSelectedAnswer} timeoutSeconds={15} onTimeout={() => handleSelectAnswer(null)} />
+        <QuestionTimer
+          active={!hasSelectedAnswer}
+          timeoutSeconds={timeoutSeconds}
+          onTimeout={() => handleSelectAnswer(null)}
+        />
         <h2>{question}</h2>
       </div>
       <ol id="answers">
         {shuffledAnswers.current.map((answer, index) => (
           <li key={answer} className="answer">
             <button
-              className={getButtonClass(answer, selectedAnswer, answers)}
+              className={answer === selectedAnswer?.text ? (selectedAnswer.correct ? 'correct' : 'wrong') : null}
               onClick={() => handleSelectAnswer(answer)}
               disabled={hasSelectedAnswer}
             >
@@ -60,10 +66,6 @@ function getAnswerLetter(answerIndex, letters = ['A', 'B', 'C', 'D']) {
   return letters[answerIndex];
 }
 
-function getButtonClass(answer, selectedAnswer, allAnswers) {
-  if (answer === selectedAnswer) {
-    const isCorrectAnswer = selectedAnswer === allAnswers[0];
-    return isCorrectAnswer ? 'correct' : 'wrong';
-  }
-  return null;
+function isCorrectAnswer(answer, allAnswers) {
+  return answer === allAnswers[0];
 }

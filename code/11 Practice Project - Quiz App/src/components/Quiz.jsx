@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import quizComplete from '../assets/quiz-complete.png';
+
 import { QUESTIONS } from '../data/questions';
 import { Question } from './Question';
+import { Summary } from './Summary';
 
 export function Quiz({ questions = QUESTIONS }) {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
@@ -22,12 +23,7 @@ export function Quiz({ questions = QUESTIONS }) {
           />
         </div>
       )}
-      {!activeQuestion && (
-        <div id="summary">
-          <img src={quizComplete} alt="Trophy icon" />
-          <h2>Quiz Completed!</h2>
-        </div>
-      )}
+      {!activeQuestion && <Summary questions={questions} selectedAnswers={selectedAnswers} />}
     </>
   );
 }
