@@ -15,6 +15,10 @@ import { IconPlus } from './IconPlus.jsx';
 // Note: We should not overuse memo! Applying memo to all components would be eager optimization.
 // Only use it when really necessary and when you can proof that it really improves the performance.
 // It is just applied here for demonstration purposes. In reality, it's not required for such small projects.
+//
+// Regardless of component executions, React will always check for necessary DOM updates via its 'Virtual DOM'.
+// If a component has been re-executed but the returned JSX code has not changed,
+// React will *not* update the Browser's DOM: https://legacy.reactjs.org/docs/faq-internals.html.
 
 export const Counter = memo(({ initialCount }) => {
   log('<Counter /> rendered', 1);
