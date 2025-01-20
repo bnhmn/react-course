@@ -2,10 +2,10 @@ import { useRef, useState } from 'react';
 import { QuestionTimer } from './QuestionTimer';
 
 export function Question({ question, answers, onSelectAnswer, timeoutSeconds = 15, delaySeconds = 2 }) {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const hasSelectedAnswer = selectedAnswer !== null;
   // Store shuffled answers in a ref to prevent them from being reshuffled when the user selects an answer.
   const shuffledAnswers = useRef(shuffle(answers));
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const hasSelectedAnswer = selectedAnswer !== null;
 
   const handleSelectAnswer = (answer) => {
     if (answer !== null) {

@@ -151,7 +151,10 @@ header h1 {
 }
 
 .answer button {
-  display: inline-block;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center; /* This will center the text and the letter */
+  position: relative; /* We need position 'relative' here so that the .text can be positioned in relation to it */
   width: 100%;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.9rem;
@@ -162,6 +165,16 @@ header h1 {
   background: #6cb7f5;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+}
+
+.answer button .letter {
+  font-weight: bold;
+}
+
+.answer button .text {
+  position: absolute; /* This positions the .text on top of the rest of the content */
+  left: 50%; /* This centers the .text */
+  transform: translateX(-50%); /* This shifts the .text to the left half of its width, truly centering it */
 }
 
 .answer button:disabled {
@@ -192,11 +205,6 @@ header h1 {
   /* background: linear-gradient(180deg, #f96fb1 0%, #f52b8c 100%); */
   background: #f55a98;
   color: #2c203d;
-}
-
-.answer button .letter {
-  float: left;
-  font-weight: bold;
 }
 
 #skip-action {
