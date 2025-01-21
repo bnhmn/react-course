@@ -3,7 +3,7 @@ export class BackendClient {
     this.baseUrl = baseUrl;
   }
 
-  async fetchAllPlaces() {
+  async fetchAvailablePlaces() {
     const response = await this.fetch({ method: 'GET', uri: `/places` });
     return response.places;
   }
