@@ -19,7 +19,7 @@ export default function App() {
   const handleRemovePlace = useCallback(() => {
     unselectPlace(selectedPlace.current);
     setModalIsOpen(false);
-  }, [selectedPlace.current]);
+  }, []);
 
   const handleStartRemovePlace = (place) => {
     selectedPlace.current = place;
