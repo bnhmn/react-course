@@ -7,7 +7,10 @@ import { Places } from './components/Places.jsx';
 import { usePlacesBackend } from './hooks/backend.js';
 
 export default function App() {
-  // You can create custom hooks like this to enhance readability and separation of concerns
+  // You can create custom hooks like 'usePlacesBackend' below to enhance readability and separation of concerns.
+  // Whenever you notice that a component orchestrates numerous hooks and functions, you should consider extracting
+  // the complex parts into a custom hook.
+
   const { isLoading, isError, places, selectedPlaces, selectPlace, unselectPlace } = usePlacesBackend();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const selectedPlace = useRef();
@@ -19,7 +22,7 @@ export default function App() {
   const handleRemovePlace = useCallback(() => {
     unselectPlace(selectedPlace.current);
     setModalIsOpen(false);
-  }, [selectedPlace.current]);
+  }, [unselectPlace]);
 
   const handleStartRemovePlace = (place) => {
     selectedPlace.current = place;
