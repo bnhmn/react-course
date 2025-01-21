@@ -7,7 +7,7 @@ import { Modal } from './components/Modal.jsx';
 import { Places } from './components/Places.jsx';
 
 export default function App() {
-  const [userPlaces, setUserPlaces] = useState([]);
+  const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const selectedPlace = useRef();
 
@@ -21,7 +21,7 @@ export default function App() {
   }
 
   function handleSelectPlace(selectedPlace) {
-    setUserPlaces((prevPickedPlaces) => {
+    setSelectedPlaces((prevPickedPlaces) => {
       if (!prevPickedPlaces) {
         prevPickedPlaces = [];
       }
@@ -33,9 +33,11 @@ export default function App() {
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
-    setUserPlaces((prevPickedPlaces) => prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id));
+    setSelectedPlaces((prevPickedPlaces) => prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id));
     setModalIsOpen(false);
   }, []);
+
+  // See AvailablePlaces.jsx. It show how to fetch data from the backend via HTTP requests.
 
   return (
     <>
@@ -49,7 +51,7 @@ export default function App() {
         <Places
           title="I'd like to visit ..."
           fallbackText="Select the places you would like to visit below."
-          places={userPlaces}
+          places={selectedPlaces}
           onSelectPlace={handleStartRemovePlace}
         />
         <AvailablePlaces onSelectPlace={handleSelectPlace} />

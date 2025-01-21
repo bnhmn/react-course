@@ -1,5 +1,4 @@
 export function Places({ title, places, fallbackText, onSelectPlace }) {
-  console.log(places);
   return (
     <section className="places-category">
       <h2>{title}</h2>
