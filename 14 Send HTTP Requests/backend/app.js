@@ -9,7 +9,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors());
-app.use(express.static('images'));
+app.use(express.static('public'));
 app.use(morgan('short')); // request logging https://www.npmjs.com/package/morgan
 app.use(express.json());
 
