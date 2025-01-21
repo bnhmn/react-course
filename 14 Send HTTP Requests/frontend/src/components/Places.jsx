@@ -10,7 +10,9 @@ export function Places({ title, places, fallbackText, onSelectPlace, isLoading =
             <li key={place.id} className="place-item">
               <button onClick={() => onSelectPlace(place)}>
                 <img src={`http://localhost:3000/${place.image.src}`} alt={place.image.alt} />
-                <h3>{place.title}</h3>
+                <h3>
+                  {place.title} {formatDistance(place)}
+                </h3>
               </button>
             </li>
           ))}
@@ -18,4 +20,11 @@ export function Places({ title, places, fallbackText, onSelectPlace, isLoading =
       )}
     </section>
   );
+}
+
+function formatDistance(place) {
+  if (typeof place.distance !== 'number') {
+    return null;
+  }
+  return place.distance.toFixed(0) + 'km';
 }

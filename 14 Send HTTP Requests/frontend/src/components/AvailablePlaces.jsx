@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BackendClient } from '../lib/backend.js';
+import { sortPlacesByUserDistance } from '../lib/location.js';
 import { Places } from './Places.jsx';
 
 export function AvailablePlaces({ onSelectPlace }) {
@@ -12,6 +13,7 @@ export function AvailablePlaces({ onSelectPlace }) {
   useEffect(() => {
     backend
       .fetchAllPlaces()
+      .then(sortPlacesByUserDistance)
       .then(setPlaces)
       .catch(() => setIsError(true))
       .finally(() => setIsLoading(false));
