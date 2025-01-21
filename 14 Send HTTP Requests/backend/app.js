@@ -13,6 +13,8 @@ app.use(express.static('public'));
 app.use(morgan('short')); // request logging https://www.npmjs.com/package/morgan
 app.use(express.json());
 
+const selectedPlaces = [];
+
 app.get('/places', async (req, res) => {
   const fileContent = await fs.readFile('./data/places.json');
   const places = JSON.parse(fileContent);
@@ -20,15 +22,14 @@ app.get('/places', async (req, res) => {
 });
 
 app.get('/places/selected', async (req, res) => {
-  const fileContent = await fs.readFile('./data/selected.json');
-  const places = JSON.parse(fileContent);
-  res.status(200).json({ places: places });
+  res.status(200).json({ places: selectedPlaces });
 });
 
 app.put('/places/selected', async (req, res) => {
   const places = req.body.places;
-  await fs.writeFile('./data/selected.json', JSON.stringify(places));
-  res.status(200).json({ message: 'User places updated!' });
+  selectedPlaces.length = 0;
+  selectedPlaces.push(...places);
+  res.status(200).json({ places: selectedPlaces });
 });
 
 app.listen(port, () => {

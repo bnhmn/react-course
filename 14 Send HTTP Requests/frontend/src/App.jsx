@@ -1,15 +1,29 @@
 import { useCallback, useRef, useState } from 'react';
 
+import { useEffect } from 'react';
 import logoImg from './assets/logo.png';
 import { AvailablePlaces } from './components/AvailablePlaces.jsx';
 import { DeleteConfirmation } from './components/DeleteConfirmation.jsx';
 import { Modal } from './components/Modal.jsx';
 import { Places } from './components/Places.jsx';
+import { BackendClient } from './lib/backend.js';
 
 export default function App() {
-  const [selectedPlaces, setSelectedPlaces] = useState([]);
+  const [selectedPlaces, setSelectedPlaces] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const selectedPlace = useRef();
+  const backend = useRef(new BackendClient());
+
+  // Use an effect to fetch data from the backend. Other than that, it's very simple: just use fetch!.
+  // See also AvailablePlaces.jsx for another example.
+
+  useEffect(() => {
+    if (selectedPlaces === null) {
+      backend.current.fetchSelectedPlaces().then(setSelectedPlaces);
+    } else {
+      backend.current.setSelectedPlaces(selectedPlaces);
+    }
+  }, [selectedPlaces]);
 
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
@@ -21,20 +35,15 @@ export default function App() {
   }
 
   function handleSelectPlace(selectedPlace) {
-    setSelectedPlaces((prevPickedPlaces) => {
-      if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
-        return prevPickedPlaces;
-      }
-      return [...prevPickedPlaces, selectedPlace];
-    });
+    setSelectedPlaces((places) =>
+      places.some((place) => place.id === selectedPlace.id) ? places : [...places, selectedPlace],
+    );
   }
 
   const handleRemovePlace = useCallback(async function handleRemovePlace() {
     setSelectedPlaces((prevPickedPlaces) => prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id));
     setModalIsOpen(false);
   }, []);
-
-  // See AvailablePlaces.jsx. It shows how to fetch data from the backend via HTTP requests.
 
   return (
     <>

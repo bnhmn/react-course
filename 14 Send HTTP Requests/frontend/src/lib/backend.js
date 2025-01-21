@@ -13,8 +13,9 @@ export class BackendClient {
     return response.places;
   }
 
-  async updateSelectedPlaces(selectedPlaces) {
-    await this.fetch({ method: 'PUT', uri: `/places/selected`, body: selectedPlaces });
+  async setSelectedPlaces(selectedPlaces) {
+    const response = this.fetch({ method: 'PUT', uri: `/places/selected`, body: { places: selectedPlaces } });
+    return response.places;
   }
 
   /**
@@ -24,6 +25,7 @@ export class BackendClient {
     request.url = `${this.baseUrl}${request.uri}`;
 
     if (request.body) {
+      request.headers = request.headers ?? {};
       request.headers['Content-Type'] = 'application/json';
       request.body = JSON.stringify(request.body);
     }
