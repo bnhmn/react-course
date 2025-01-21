@@ -22,13 +22,10 @@ export default function App() {
 
   function handleSelectPlace(selectedPlace) {
     setSelectedPlaces((prevPickedPlaces) => {
-      if (!prevPickedPlaces) {
-        prevPickedPlaces = [];
-      }
       if (prevPickedPlaces.some((place) => place.id === selectedPlace.id)) {
         return prevPickedPlaces;
       }
-      return [selectedPlace, ...prevPickedPlaces];
+      return [...prevPickedPlaces, selectedPlace];
     });
   }
 
