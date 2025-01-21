@@ -15,6 +15,7 @@ export function CounterHistory({ history }) {
   // and you select a history item, then increment the counter, the selected history item would magically switch.
   //
   // return <ol>{history.reverse().map((count, index) => <HistoryItem key={index} count={count} />)}</ol>;
+
   return <ol>{history.map((count, index) => <HistoryItem key={index} count={count} />).reverse()}</ol>;
 }
 

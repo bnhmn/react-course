@@ -1,9 +1,9 @@
-import { Users } from './components/Users';
+import { UserFinder } from './components/UserFinder';
 
 export default function App() {
   return (
-    <div>
-      <Users />
-    </div>
+    <main>
+      <UserFinder />
+    </main>
   );
 }

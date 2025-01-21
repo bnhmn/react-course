@@ -9,8 +9,20 @@ html {
 }
 
 body {
-  margin: 0;
   background-color: #3f3f3f;
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35rem;
+  margin-top: 5rem;
+  padding: 4rem;
+  background-color: white;
+  border-radius: 12px;
 }
 
 button {
@@ -27,4 +39,19 @@ button:hover,
 button:active {
   background-color: #630032;
   border-color: #630032;
+}
+
+.users {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.users ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user {
+  margin: 1rem;
 }
