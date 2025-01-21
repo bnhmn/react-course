@@ -37,7 +37,7 @@ export default function App() {
     setModalIsOpen(false);
   }, []);
 
-  // See AvailablePlaces.jsx. It show how to fetch data from the backend via HTTP requests.
+  // See AvailablePlaces.jsx. It shows how to fetch data from the backend via HTTP requests.
 
   return (
     <>
