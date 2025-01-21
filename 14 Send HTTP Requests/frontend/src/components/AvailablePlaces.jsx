@@ -9,7 +9,8 @@ export function AvailablePlaces({ onSelectPlace }) {
   const [isError, setIsError] = useState(false);
   const backend = useRef(new BackendClient());
 
-  // Use an effect to fetch data from the backend. Other than that, it's very simple: just use fetch!.
+  // You should use effects to fetch data from the backend.
+  // Apart from that, it's very simple to make HTTP requests: just use fetch.
   useEffect(() => {
     backend.current
       .fetchAllPlaces()

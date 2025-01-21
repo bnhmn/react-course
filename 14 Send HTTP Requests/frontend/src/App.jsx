@@ -14,7 +14,7 @@ export default function App() {
   const selectedPlace = useRef();
   const backend = useRef(new BackendClient());
 
-  // Use an effect to fetch data from the backend. Other than that, it's very simple: just use fetch!.
+  // You should use effects to fetch data from the backend.
   // See also AvailablePlaces.jsx for another example.
 
   useEffect(() => {
