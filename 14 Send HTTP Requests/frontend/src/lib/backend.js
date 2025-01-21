@@ -35,7 +35,9 @@ export class BackendClient {
       return responseBody;
     } else {
       const responseBody = await resp.text();
-      throw `<== Received error: ${resp.status} - ${resp.statusText}\n${responseBody}`;
+      const error = `<== Received error ${resp.status} (${resp.statusText})\n${responseBody}`;
+      console.error(error);
+      throw error;
     }
   }
 }
