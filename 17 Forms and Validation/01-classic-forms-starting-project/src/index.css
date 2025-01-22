@@ -76,15 +76,20 @@ main {
 
 .control,
 fieldset {
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+fieldset .control {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .control.big-margin {
-  margin-bottom: 2rem;
+  margin-bottom: 0.8rem;
 }
 
 .control.no-margin {
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .control label {
@@ -123,6 +128,7 @@ fieldset {
 .control:has(input[type='checkbox']) {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .control:has(input[type='checkbox']) label {
@@ -142,9 +148,9 @@ fieldset {
 
 .control-error {
   color: #ffca99;
-  font-size: 0.8rem;
-  height: 2rem;
-  padding: 0.5rem 0;
+  font-size: 0.7rem;
+  height: 0.3rem;
+  margin-top: 0.5rem;
 }
 
 .control-error p {

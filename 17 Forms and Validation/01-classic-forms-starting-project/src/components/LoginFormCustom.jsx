@@ -4,7 +4,7 @@ import { Success } from './Success';
 /**
  * A simple form example with two way binding (state <-> DOM) and validation on submit.
  */
-export function LoginCustom() {
+export function LoginFormCustom() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -39,13 +39,13 @@ export function LoginCustom() {
       <h2>Login</h2>
 
       <div className="control-row">
-        <div className="control no-margin">
+        <div className="control">
           <label htmlFor="email">Email</label>
           <input id="email" type="email" name="email" autoComplete="email" value={email} onChange={handleChangeEmail} />
           <div className="control-error">{submitClicked && !emailIsValid && 'Please enter a valid email address.'}</div>
         </div>
 
-        <div className="control no-margin">
+        <div className="control">
           <label htmlFor="password">Password</label>
           <input id="password" type="password" name="password" value={password} onChange={handleChangePassword} />
           <div className="control-error">{submitClicked && !passwordIsValid && 'Please enter a valid password.'}</div>

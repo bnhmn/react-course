@@ -1,20 +1,32 @@
 import { useState } from 'react';
+import { Success } from './Success';
 
 /**
- * A two way binding example with a single state value and generic handler functions.
+ * A complex form example with two way binding, single state value, generic handler functions, and validation on submit.
  */
-export function Signup() {
+export function SignupFormCustom() {
   const initialForm = {
     email: '',
     password: '',
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    role: '',
+    role: 'student',
     acquisition: [],
-    termsAndConditionsConsent: false,
+    tosConsent: false,
   };
   const [form, setForm] = useState(initialForm);
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const isValid = {
+    email: /\w{2,}@\w{2,}\.\w{2,}/.test(form.email),
+    password: form.password.length >= 6,
+    confirmPassword: form.password === form.confirmPassword,
+    firstName: form.firstName.length >= 1,
+    lastName: form.lastName.length >= 1,
+    tosConsent: form.tosConsent === true,
+  };
 
   /**
    * @param {keyof form} fieldName
@@ -29,28 +41,30 @@ export function Signup() {
   }
 
   function handleSubmit() {
-    console.log(JSON.stringify(form, null, 2));
-    /*
-    {
-        "email": "",
-        "password": "",
-        "confirmPassword": "",
-        "firstName": "",
-        "lastName": "",
-        "role": "",
-        "acquisition": ["google", "friend"],
-        "termsAndConditionsConsent": true
+    setSubmitClicked(true);
+    if (Object.values(isValid).every((valid) => valid)) {
+      console.log({
+        email: form.email,
+        password: form.password,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        role: form.role,
+        acquisition: form.acquisition,
+        tosConsent: form.tosConsent,
+      });
+      setSubmitted(true);
     }
-    */
   }
 
   function handleReset() {
     setForm(initialForm);
+    setSubmitClicked(false);
+    setSubmitted(false);
   }
 
   return (
     <form action={handleSubmit}>
-      <h2>Welcome on board!</h2>
+      <h2>Signup</h2>
       <p>We just need a little bit of data from you to get you started 🚀</p>
 
       <div className="control">
@@ -63,6 +77,7 @@ export function Signup() {
           value={form.email}
           onChange={handleChange('email')}
         />
+        <div className="control-error">{submitClicked && !isValid.email && 'Please enter a valid email address.'}</div>
       </div>
 
       <div className="control-row">
@@ -75,6 +90,7 @@ export function Signup() {
             value={form.password}
             onChange={handleChange('password')}
           />
+          <div className="control-error">{submitClicked && !isValid.password && 'Please enter a valid password.'}</div>
         </div>
 
         <div className="control">
@@ -86,10 +102,9 @@ export function Signup() {
             value={form.confirmPassword}
             onChange={handleChange('confirmPassword')}
           />
+          <div className="control-error">{submitClicked && !isValid.confirmPassword && 'Passwords do not match.'}</div>
         </div>
       </div>
-
-      <hr />
 
       <div className="control-row">
         <div className="control">
@@ -102,6 +117,7 @@ export function Signup() {
             value={form.firstName}
             onChange={handleChange('firstName')}
           />
+          <div className="control-error">{submitClicked && !isValid.firstName && 'Please enter a first name.'}</div>
         </div>
 
         <div className="control">
@@ -114,6 +130,7 @@ export function Signup() {
             value={form.lastName}
             onChange={handleChange('lastName')}
           />
+          <div className="control-error">{submitClicked && !isValid.lastName && 'Please enter a last name.'}</div>
         </div>
       </div>
 
@@ -173,12 +190,17 @@ export function Signup() {
             type="checkbox"
             id="terms-and-conditions"
             name="terms"
-            checked={form.termsAndConditionsConsent}
-            onChange={handleChange('termsAndConditionsConsent')}
+            checked={form.tosConsent}
+            onChange={handleChange('tosConsent')}
           />
           I agree to the terms and conditions
         </label>
+        <div className="control-error">
+          {submitClicked && !isValid.tosConsent && 'Please agree to the terms of service.'}
+        </div>
       </div>
+
+      {submitted && <Success />}
 
       <p className="form-actions">
         <button type="reset" className="button button-flat" onClick={handleReset}>

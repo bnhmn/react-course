@@ -2,9 +2,9 @@ import { useRef, useState } from 'react';
 import { Success } from './Success';
 
 /**
- * A simple form example using refs and Browser provided validation.
+ * A simple form example using Browser provided validation and refs.
  */
-export function LoginWithRef() {
+export function LoginFormNative() {
   const email = useRef();
   const password = useRef();
   const [submitted, setSubmitted] = useState(false);
