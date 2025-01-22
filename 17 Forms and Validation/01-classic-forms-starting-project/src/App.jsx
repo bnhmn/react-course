@@ -1,6 +1,6 @@
 import { Header } from './components/Header.jsx';
 import { Login } from './components/Login.jsx';
-import { SignupViaFormData } from './components/SignupViaFormData.jsx';
+import { Signup } from './components/SignupViaInputBinding.jsx';
 import { TabMenu } from './components/TabMenu.jsx';
 
 export default function App() {
@@ -9,11 +9,12 @@ export default function App() {
       <Header />
       <main>
         <TabMenu
-          buttons={['Signup', 'Login']}
+          buttons={['Login', 'Signup']}
+          defaultSelected="Login"
           content={(selected) => (
             <>
-              {selected === 'Signup' && <SignupViaFormData />}
               {selected === 'Login' && <Login />}
+              {selected === 'Signup' && <Signup />}
             </>
           )}
         />

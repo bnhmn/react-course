@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export function TabMenu({ buttons, content }) {
-  const [selectedButton, selectButton] = useState(buttons[0]);
+export function TabMenu({ buttons, content, defaultSelected }) {
+  const [selectedButton, selectButton] = useState(defaultSelected ?? buttons[0]);
   return (
     <div className="tabs">
       <menu>

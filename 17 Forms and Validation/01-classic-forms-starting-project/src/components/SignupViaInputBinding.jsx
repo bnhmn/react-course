@@ -3,7 +3,7 @@ import { useState } from 'react';
 /**
  * A two way binding example with a single state value and generic handler functions.
  */
-export function SignupViaInputBinding() {
+export function Signup() {
   const initialForm = {
     email: '',
     password: '',
