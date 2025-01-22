@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { Success } from './Success';
 
 /**
- * A simple form example with two way binding and validation on submit.
+ * A simple form example with two way binding (state <-> DOM) and validation on submit.
  */
-export function Login() {
+export function LoginCustom() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitClicked, setSubmitClicked] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const emailIsValid = /\w{2,}@\w{2,}\.\w{2,}/.test(email);
-  const passwordIsValid = password.trim().length > 0;
+  const passwordIsValid = password.length >= 6;
 
   const handleChangeEmail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
@@ -19,6 +19,10 @@ export function Login() {
   function handleSubmit() {
     setSubmitClicked(true);
     if (emailIsValid && passwordIsValid) {
+      console.log({
+        email,
+        password,
+      });
       setSubmitted(true);
     }
   }

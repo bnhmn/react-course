@@ -79,6 +79,10 @@ fieldset {
   margin-bottom: 1rem;
 }
 
+.control.big-margin {
+  margin-bottom: 2rem;
+}
+
 .control.no-margin {
   margin-bottom: 0;
 }
