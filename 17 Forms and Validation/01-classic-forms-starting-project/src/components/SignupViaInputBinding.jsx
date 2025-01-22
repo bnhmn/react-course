@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 /**
- * A complex form example with single state value and generic handler functions.
+ * A two way binding example with a single state value and generic handler functions.
  */
-export function Signup() {
+export function SignupViaInputBinding() {
   const initialForm = {
     email: '',
     password: '',
@@ -28,8 +28,20 @@ export function Signup() {
     };
   }
 
-  function handleSubmit(event) {
-    console.log('Submitted');
+  function handleSubmit() {
+    console.log(JSON.stringify(form, null, 2));
+    /*
+    {
+        "email": "",
+        "password": "",
+        "confirmPassword": "",
+        "firstName": "",
+        "lastName": "",
+        "role": "",
+        "acquisition": ["google", "friend"],
+        "termsAndConditionsConsent": true
+    }
+    */
   }
 
   function handleReset() {
