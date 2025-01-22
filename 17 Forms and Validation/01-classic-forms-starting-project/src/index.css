@@ -37,14 +37,41 @@ header h1 {
   color: #2f4444;
 }
 
-form {
+main {
   width: 90%;
   max-width: 40rem;
   margin: 3rem auto;
-  padding: 2rem;
+  padding: 1rem 2rem;
   background: linear-gradient(180deg, #253c3c, #1d4949);
   border-radius: 8px;
   box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.5);
+}
+
+.tabs menu {
+  display: flex;
+  padding: 0;
+  gap: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.tabs .content {
+  padding: 1rem;
+}
+
+.tabs menu button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.tabs menu button:hover,
+.tabs menu button.active {
+  background-color: #4e7b7b;
 }
 
 .control,
