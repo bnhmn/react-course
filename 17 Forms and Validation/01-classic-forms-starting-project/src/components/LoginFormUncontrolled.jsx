@@ -39,7 +39,7 @@ export function LoginFormUncontrolled() {
             type="password"
             name="password"
             minLength={6}
-            pattern="^[a-zA-Z0-9]+$"
+            pattern="^[a-zA-Z0-9\|()[{^$*+?./)]+$"
             required
           />
         </div>

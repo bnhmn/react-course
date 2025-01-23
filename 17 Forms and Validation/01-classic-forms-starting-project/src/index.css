@@ -85,7 +85,7 @@ fieldset .control {
 }
 
 .control.big-margin {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .control.no-margin {
@@ -104,7 +104,7 @@ fieldset .control {
 .control input {
   display: block;
   width: 100%;
-  max-width: 15rem;
+  max-width: 27.5rem;
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 4px;
@@ -116,7 +116,7 @@ fieldset .control {
 .control select {
   display: block;
   width: 100%;
-  max-width: 15rem;
+  max-width: 27.5rem;
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 4px;
