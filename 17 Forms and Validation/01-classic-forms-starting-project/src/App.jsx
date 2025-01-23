@@ -1,8 +1,9 @@
 import { Header } from './components/Header.jsx';
-import { LoginFormCustom } from './components/LoginFormCustom.jsx';
-import { LoginFormNative } from './components/LoginFormNative.jsx';
-import { SignupFormCustom } from './components/SignupFormCustom.jsx';
-import { SignupFormNative } from './components/SignupFormNative.jsx';
+import { LoginFormControlled } from './components/LoginFormControlled.jsx';
+import { LoginFormUncontrolled } from './components/LoginFormUncontrolled.jsx';
+import { SignupFormControlled } from './components/SignupFormControlled.jsx';
+import { SignupFormControlledRhf } from './components/SignupFormControlledRhf.jsx';
+import { SignupFormUncontrolled } from './components/SignupFormUncontrolled.jsx';
 import { TabMenu } from './components/TabMenu.jsx';
 
 export default function App() {
@@ -11,14 +12,15 @@ export default function App() {
       <Header />
       <main>
         <TabMenu
-          buttons={['Login [native]', 'Login [custom]', 'Signup [native]', 'Signup [custom]']}
+          buttons={['Login [u]', 'Login [c]', 'Signup [u]', 'Signup [c]', 'Signup [rhf]']}
           defaultSelected="Login [native]"
           content={(selected) => (
             <>
-              {selected === 'Login [native]' && <LoginFormNative />}
-              {selected === 'Login [custom]' && <LoginFormCustom />}
-              {selected === 'Signup [native]' && <SignupFormNative />}
-              {selected === 'Signup [custom]' && <SignupFormCustom />}
+              {selected === 'Login [u]' && <LoginFormUncontrolled />}
+              {selected === 'Login [c]' && <LoginFormControlled />}
+              {selected === 'Signup [u]' && <SignupFormUncontrolled />}
+              {selected === 'Signup [c]' && <SignupFormControlled />}
+              {selected === 'Signup [rhf]' && <SignupFormControlledRhf />}
             </>
           )}
         />

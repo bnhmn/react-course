@@ -128,11 +128,21 @@ fieldset .control {
 .control:has(input[type='checkbox']) {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
 }
 
 .control:has(input[type='checkbox']) label {
   margin: 0;
+}
+
+.control.checkbox > input {
+  order: 0;
+}
+.control.checkbox > label {
+  order: 1;
+}
+.control.checkbox > .control-error {
+  margin-left: 0.5rem;
+  order: 2;
 }
 
 .control input[type='checkbox'] {

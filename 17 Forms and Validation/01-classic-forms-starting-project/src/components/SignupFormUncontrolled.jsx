@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Success } from './Success';
 
 /**
- * A complex form example using Browser provided validation and the native FormData object.
+ * A complex form example using the native FormData object and Browser provided validation.
  * @see https://react.dev/reference/react-dom/components/form#handle-form-submission-on-the-client
  */
-export function SignupFormNative() {
+export function SignupFormUncontrolled() {
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(formData) {

@@ -4,7 +4,7 @@ import { Success } from './Success';
 /**
  * A simple form example with two way binding (state <-> DOM) and validation on submit.
  */
-export function LoginFormCustom() {
+export function LoginFormControlled() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitClicked, setSubmitClicked] = useState(false);

@@ -4,7 +4,7 @@ import { Success } from './Success';
 /**
  * A complex form example with two way binding, single state value, generic handler functions, and validation on submit.
  */
-export function SignupFormCustom() {
+export function SignupFormControlled() {
   const initialForm = {
     email: '',
     password: '',
@@ -63,7 +63,7 @@ export function SignupFormCustom() {
   }
 
   return (
-    <form action={handleSubmit}>
+    <form action={handleSubmit} noValidate>
       <h2>Signup</h2>
       <p>We just need a little bit of data from you to get you started 🚀</p>
 
@@ -184,17 +184,15 @@ export function SignupFormCustom() {
         </div>
       </fieldset>
 
-      <div className="control">
-        <label htmlFor="terms-and-conditions">
-          <input
-            type="checkbox"
-            id="terms-and-conditions"
-            name="terms"
-            checked={form.tosConsent}
-            onChange={handleChange('tosConsent')}
-          />
-          I agree to the terms and conditions
-        </label>
+      <div className="control checkbox">
+        <label htmlFor="terms-and-conditions">I agree to the terms and conditions</label>
+        <input
+          type="checkbox"
+          id="terms-and-conditions"
+          name="terms"
+          checked={form.tosConsent}
+          onChange={handleChange('tosConsent')}
+        />
         <div className="control-error">
           {submitClicked && !isValid.tosConsent && 'Please agree to the terms of service.'}
         </div>
