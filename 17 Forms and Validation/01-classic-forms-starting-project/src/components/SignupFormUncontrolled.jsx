@@ -40,12 +40,12 @@ export function SignupFormUncontrolled() {
       <div className="control-row">
         <div className="control big-margin">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" minLength={6} required />
+          <input id="password" type="password" name="password" autoComplete="new-password" minLength={6} required />
         </div>
 
         <div className="control big-margin">
           <label htmlFor="confirm-password">Confirm Password</label>
-          <input id="confirm-password" type="password" name="confirm-password" required />
+          <input id="confirm-password" type="password" autoComplete="new-password" name="confirm-password" required />
         </div>
       </div>
 

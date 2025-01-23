@@ -87,6 +87,7 @@ export function SignupFormControlled() {
             id="password"
             type="password"
             name="password"
+            autoComplete="new-password"
             value={form.password}
             onChange={handleChange('password')}
           />
@@ -99,6 +100,7 @@ export function SignupFormControlled() {
             id="confirm-password"
             type="password"
             name="confirm-password"
+            autoComplete="new-password"
             value={form.confirmPassword}
             onChange={handleChange('confirmPassword')}
           />
