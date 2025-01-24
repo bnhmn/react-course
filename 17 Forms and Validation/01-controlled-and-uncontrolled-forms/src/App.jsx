@@ -13,7 +13,7 @@ export default function App() {
       <main>
         <TabMenu
           buttons={['Login [u]', 'Login [c]', 'Signup [u]', 'Signup [c]', 'Signup [rhf]']}
-          defaultSelected="Login [native]"
+          defaultSelected="Login [u]"
           content={(selected) => (
             <>
               {selected === 'Login [u]' && <LoginFormUncontrolled />}

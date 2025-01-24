@@ -33,15 +33,7 @@ export function LoginFormUncontrolled() {
 
         <div className="control">
           <label htmlFor="password">Password</label>
-          <input
-            ref={password}
-            id="password"
-            type="password"
-            name="password"
-            minLength={6}
-            pattern="^[a-zA-Z0-9\|()[{^$*+?./)]+$"
-            required
-          />
+          <input ref={password} id="password" type="password" name="password" minLength={6} required />
         </div>
       </div>
 
