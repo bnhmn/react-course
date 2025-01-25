@@ -33,8 +33,11 @@ export class BackendClient {
     const resp = await fetch(request.url, request);
 
     if (resp.ok) {
-      const responseBody = await resp.json();
-      return responseBody;
+      if (resp.headers.get('Content-Type')?.includes('application/json')) {
+        return await resp.json();
+      } else {
+        return null;
+      }
     } else {
       const responseBody = await resp.text();
       const error = `<== Received error ${resp.status} (${resp.statusText})\n${responseBody}`;

@@ -5,7 +5,7 @@ const opinions = data.opinions;
 export async function saveOpinion(opinion, delaySeconds = 0) {
   await sleep(delaySeconds);
   const newOpinion = { id: new Date().getTime(), votes: 0, ...opinion };
-  opinions.push(newOpinion);
+  opinions.unshift(newOpinion);
   return newOpinion;
 }
 

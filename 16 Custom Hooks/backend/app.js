@@ -18,11 +18,11 @@ const selectedPlaces = [];
 app.get('/places', async (req, res) => {
   const fileContent = await fs.readFile('./data/places.json');
   const places = JSON.parse(fileContent);
-  res.status(200).json({ places: places });
+  setTimeout(() => res.status(200).json({ places: places }), 200);
 });
 
 app.get('/places/selected', async (req, res) => {
-  res.status(200).json({ places: selectedPlaces });
+  setTimeout(() => res.status(200).json({ places: selectedPlaces }), 200);
 });
 
 app.put('/places/selected', async (req, res) => {

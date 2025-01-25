@@ -1,4 +1,10 @@
+import { useContext } from 'react';
+import downvoteIcon from '../assets/downvote.svg';
+import upvoteIcon from '../assets/upvote.svg';
+import { OpinionsContext } from '../store/opinions-context';
+
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
+  const { upvoteOpinion, downvoteOpinion } = useContext(OpinionsContext);
   return (
     <article>
       <header>
@@ -6,45 +12,15 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
         <p>Shared by {userName}</p>
       </header>
       <p>{body}</p>
-      <form className="votes">
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect width="18" height="18" x="3" y="3" rx="2" />
-            <path d="m16 12-4-4-4 4" />
-            <path d="M12 16V8" />
-          </svg>
+      <div className="votes">
+        <button onClick={() => upvoteOpinion(id)}>
+          <img src={upvoteIcon} alt="upvote icon" />
         </button>
-
         <span>{votes}</span>
-
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect width="18" height="18" x="3" y="3" rx="2" />
-            <path d="M12 8v8" />
-            <path d="m8 12 4 4 4-4" />
-          </svg>
+        <button onClick={() => downvoteOpinion(id)}>
+          <img src={downvoteIcon} alt="downvote icon" />
         </button>
-      </form>
+      </div>
     </article>
   );
 }
