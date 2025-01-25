@@ -1,4 +1,4 @@
-import { useActionState, useContext } from 'react';
+import { useActionState, useContext, useOptimistic } from 'react';
 import { OpinionsContext } from '../store/opinions-context';
 
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
@@ -9,8 +9,24 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
   // Alternatively to the approach below, you could also use one of these hooks:
   // https://react.dev/reference/react-dom/hooks/useFormStatus#display-a-pending-state-during-form-submission
   // https://react.dev/reference/react/useTransition#displaying-a-pending-visual-state
-  const [, handleUpvote, upvotePending] = useActionState(() => upvoteOpinion(id));
-  const [, handleDownvote, downvotePending] = useActionState(() => downvoteOpinion(id));
+  const [, upvoteAction, upvotePending] = useActionState(handleUpvote);
+  const [, downvoteAction, downvotePending] = useActionState(handleDownvote);
+  const isPending = upvotePending || downvotePending;
+
+  // This hook allows to do optimistic updates (first update the UI, then update the backend, rollback the UI on error).
+  // It provides a temporary state that you can display to the user while the form action is pending.
+  // Upon completion, React resets it to the previous state or to the new state that you have set in your form action.
+  // Note: Not sure if this hook is stable, it can still cause flashes: https://github.com/facebook/react/issues/27617.
+  const [optimisticVotes, addOptimisticVotes] = useOptimistic(votes, (prev, delta) => prev + delta);
+
+  async function handleUpvote() {
+    addOptimisticVotes(1);
+    await upvoteOpinion(id);
+  }
+  async function handleDownvote() {
+    addOptimisticVotes(-1);
+    await downvoteOpinion(id);
+  }
 
   return (
     <article>
@@ -20,11 +36,11 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
       </header>
       <p>{body}</p>
       <form className="votes">
-        <button formAction={handleUpvote} disabled={upvotePending || downvotePending}>
+        <button formAction={upvoteAction} disabled={isPending}>
           <UpvoteIcon />
         </button>
-        <span>{votes}</span>
-        <button formAction={handleDownvote} disabled={upvotePending || downvotePending}>
+        <span>{optimisticVotes}</span>
+        <button formAction={downvoteAction} disabled={isPending}>
           <DownvoteIcon />
         </button>
       </form>

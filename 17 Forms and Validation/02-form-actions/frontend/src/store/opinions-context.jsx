@@ -15,21 +15,21 @@ export function OpinionsContextProvider({ children }) {
   }, []);
 
   async function addOpinion(enteredOpinionData) {
-    await fetchFromBackend({ method: 'POST', uri: '/opinions', body: enteredOpinionData }).then((addedOpinion) =>
-      setOpinions((prev) => [addedOpinion, ...prev]),
-    );
+    await fetchFromBackend({ method: 'POST', uri: '/opinions', body: enteredOpinionData })
+      .then((addedOpinion) => setOpinions((prev) => [addedOpinion, ...prev]))
+      .catch(() => null);
   }
 
   async function upvoteOpinion(id) {
-    await fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/upvote` }).then(() => {
-      changeOpinionVotes(id, 1);
-    });
+    await fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/upvote` })
+      .then(() => changeOpinionVotes(id, 1))
+      .catch(() => null);
   }
 
   async function downvoteOpinion(id) {
-    await fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/downvote` }).then(() => {
-      changeOpinionVotes(id, -1);
-    });
+    await fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/downvote` })
+      .then(() => changeOpinionVotes(id, -1))
+      .catch(() => null);
   }
 
   function changeOpinionVotes(opinionId, deltaVotes) {
