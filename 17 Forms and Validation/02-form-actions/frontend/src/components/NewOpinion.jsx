@@ -1,22 +1,18 @@
-import { useActionState, useContext, useTransition } from 'react';
+import { useActionState, useContext } from 'react';
 import { OpinionsContext } from '../store/opinions-context';
 
 /**
  * This form uses the useActionState hook with the FormData object.
  * @see https://react.dev/reference/react/useActionState.
- * @see https://developer.mozilla.org/en-US/docs/Web/API/FormData.
  */
 export function NewOpinion() {
-  // You can use the useActionState hook to update state based on the result of a form action.
-  const [formState, formAction] = useActionState(handleSubmit, { data: {}, errors: [] });
+  const [formState, formAction, isPending] = useActionState(handleSubmit, { data: {}, errors: [] });
   const { data, errors } = formState;
-
-  // You can use the useTransition hook to display a pending message while loading.
-  // https://react.dev/reference/react/useTransition
-  const [isPending, startTransition] = useTransition();
   const { addOpinion } = useContext(OpinionsContext);
 
-  function handleSubmit(prevState, formData) {
+  // You can pass an async function to useActionState. It will return isPending=true until your function has completed.
+  async function handleSubmit(prevState, formData) {
+    // See https://developer.mozilla.org/en-US/docs/Web/API/FormData
     const data = {
       userName: formData.get('userName').trim(),
       title: formData.get('title').trim(),
@@ -35,7 +31,7 @@ export function NewOpinion() {
     }
 
     if (errors.length === 0) {
-      startTransition(() => addOpinion(data));
+      await addOpinion(data);
       return { data: {}, errors };
     } else {
       return { data, errors };
