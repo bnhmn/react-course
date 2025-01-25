@@ -1,20 +1,27 @@
-import { useActionState, useContext } from 'react';
+import { useActionState, useContext, useTransition } from 'react';
 import { OpinionsContext } from '../store/opinions-context';
 
 /**
- * The useActionState is a Hook that allows you to update state based on the result of a form action.
- * @see https://react.dev/reference/react/useActionState#using-information-returned-by-a-form-action
+ * This form uses the useActionState hook with Browser provided validation and the FormData object.
  */
 export function NewOpinion() {
+  // You can use the useActionState hook to update state based on the result of a form action.
+  // https://react.dev/reference/react/useActionState
   const [formState, formAction] = useActionState(handleSubmit, { errors: null });
+
+  // You can use the useTransition hook to display a pending message while loading.
+  // https://react.dev/reference/react/useTransition
+  const [isPending, startTransition] = useTransition();
   const { addOpinion } = useContext(OpinionsContext);
 
   function handleSubmit(prevState, formData) {
-    addOpinion({
-      userName: formData.get('userName'),
-      title: formData.get('title'),
-      body: formData.get('body'),
-    });
+    startTransition(async () =>
+      addOpinion({
+        userName: formData.get('userName'),
+        title: formData.get('title'),
+        body: formData.get('body'),
+      }),
+    );
 
     return { data: {}, errors: null };
   }
@@ -40,7 +47,9 @@ export function NewOpinion() {
         </p>
 
         <p className="actions">
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={isPending}>
+            {isPending ? 'Loading...' : 'Submit'}
+          </button>
         </p>
       </form>
     </div>

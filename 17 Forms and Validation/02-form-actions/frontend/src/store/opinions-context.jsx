@@ -14,24 +14,24 @@ export function OpinionsContextProvider({ children }) {
     fetchFromBackend({ method: 'GET', uri: '/opinions' }).then(setOpinions);
   }, []);
 
-  function addOpinion(enteredOpinionData) {
-    fetchFromBackend({ method: 'POST', uri: '/opinions', body: enteredOpinionData }).then((addedOpinion) =>
+  async function addOpinion(enteredOpinionData) {
+    await fetchFromBackend({ method: 'POST', uri: '/opinions', body: enteredOpinionData }).then((addedOpinion) =>
       setOpinions((prev) => [addedOpinion, ...prev]),
     );
   }
 
-  function upvoteOpinion(id) {
+  async function upvoteOpinion(id) {
     // Optimistic update (first update the UI, then update the backend, rollback the UI on error)
     changeOpinionVotes(id, 1);
-    fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/upvote` }).catch(() => {
+    await fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/upvote` }).catch(() => {
       changeOpinionVotes(id, -1);
     });
   }
 
-  function downvoteOpinion(id) {
+  async function downvoteOpinion(id) {
     // Optimistic update (first update the UI, then update the backend, rollback the UI on error)
     changeOpinionVotes(id, -1);
-    fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/downvote` }).catch(() => {
+    await fetchFromBackend({ method: 'POST', uri: `/opinions/${id}/downvote` }).catch(() => {
       changeOpinionVotes(id, 1);
     });
   }
@@ -45,7 +45,7 @@ export function OpinionsContextProvider({ children }) {
   }
 
   const contextValue = {
-    opinions: opinions,
+    opinions,
     addOpinion,
     upvoteOpinion,
     downvoteOpinion,
