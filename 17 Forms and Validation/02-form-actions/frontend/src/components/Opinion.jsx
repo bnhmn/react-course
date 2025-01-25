@@ -1,8 +1,17 @@
-import { useContext } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useActionState, useContext } from 'react';
 import { OpinionsContext } from '../store/opinions-context';
 
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
+  const { upvoteOpinion, downvoteOpinion } = useContext(OpinionsContext);
+
+  // Note: You can assign different form actions to the buttons inside your form.
+  // In this component, this helps us with displaying the pending state to the user.
+  // Alternatively to the approach below, you could also use one of these hooks:
+  // https://react.dev/reference/react-dom/hooks/useFormStatus#display-a-pending-state-during-form-submission
+  // https://react.dev/reference/react/useTransition#displaying-a-pending-visual-state
+  const [, handleUpvote, upvotePending] = useActionState(() => upvoteOpinion(id));
+  const [, handleDownvote, downvotePending] = useActionState(() => downvoteOpinion(id));
+
   return (
     <article>
       <header>
@@ -11,30 +20,15 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
       </header>
       <p>{body}</p>
       <form className="votes">
-        <VoteButtons opinionId={id} votes={votes} />
+        <button formAction={handleUpvote} disabled={upvotePending || downvotePending}>
+          <UpvoteIcon />
+        </button>
+        <span>{votes}</span>
+        <button formAction={handleDownvote} disabled={upvotePending || downvotePending}>
+          <DownvoteIcon />
+        </button>
       </form>
     </article>
-  );
-}
-
-export function VoteButtons({ opinionId, votes }) {
-  const { upvoteOpinion, downvoteOpinion } = useContext(OpinionsContext);
-
-  // If your component is wrapped within a <form></form>, you can use the useFormStatus hook
-  // to get the current form state: https://react.dev/reference/react-dom/hooks/useFormStatus
-  const { pending } = useFormStatus();
-
-  // Note: You can assign different form actions to the buttons inside your form.
-  return (
-    <>
-      <button formAction={() => upvoteOpinion(opinionId)} disabled={pending}>
-        <UpvoteIcon />
-      </button>
-      <span>{votes}</span>
-      <button formAction={() => downvoteOpinion(opinionId)} disabled={pending}>
-        <DownvoteIcon />
-      </button>
-    </>
   );
 }
 
