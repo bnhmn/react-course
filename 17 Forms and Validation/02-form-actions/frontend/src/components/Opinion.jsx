@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 import { useFormStatus } from 'react-dom';
-import downvoteIcon from '../assets/downvote.svg';
-import upvoteIcon from '../assets/upvote.svg';
 import { OpinionsContext } from '../store/opinions-context';
 
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
@@ -30,12 +28,54 @@ export function VoteButtons({ opinionId, votes }) {
   return (
     <>
       <button formAction={() => upvoteOpinion(opinionId)} disabled={pending}>
-        <img src={upvoteIcon} alt="upvote icon" />
+        <UpvoteIcon />
       </button>
       <span>{votes}</span>
       <button formAction={() => downvoteOpinion(opinionId)} disabled={pending}>
-        <img src={downvoteIcon} alt="downvote icon" />
+        <DownvoteIcon />
       </button>
     </>
+  );
+}
+
+// We need to inline this SVG code here to be able to style the icons via CSS.
+// You can't style SVG images included via <img src="..." />.
+function UpvoteIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="m16 12-4-4-4 4" />
+      <path d="M12 16V8" />
+    </svg>
+  );
+}
+
+function DownvoteIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M12 8v8" />
+      <path d="m8 12 4 4 4-4" />
+    </svg>
   );
 }
