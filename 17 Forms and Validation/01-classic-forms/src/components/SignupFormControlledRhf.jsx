@@ -10,7 +10,7 @@ export function SignupFormControlledRhf() {
   const form = useForm();
   const { formState, getValues } = form;
 
-  const onSubmit = form.handleSubmit((data) => {
+  const handleSubmit = form.handleSubmit((data) => {
     console.log({
       email: data.email,
       password: data.password,
@@ -23,7 +23,7 @@ export function SignupFormControlledRhf() {
   });
 
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <form onSubmit={handleSubmit} noValidate>
       <h2>Signup</h2>
       <p>We just need a little bit of data from you to get you started 🚀</p>
 
