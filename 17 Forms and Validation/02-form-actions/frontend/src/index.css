@@ -84,6 +84,7 @@ form textarea {
   border: 1px solid #353331;
   background-color: #f9f7f3;
   color: #353331;
+  resize: vertical;
 }
 
 .actions {
@@ -91,10 +92,6 @@ form textarea {
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
-}
-
-.actions p {
-  margin: 0;
 }
 
 form button {
