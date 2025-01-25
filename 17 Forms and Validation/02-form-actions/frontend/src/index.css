@@ -111,7 +111,7 @@ form button:disabled,
 form button:disabled:hover {
   background-color: #869999;
   border-color: #869999;
-  cursor: not-allowed;
+  cursor: default;
 }
 
 form button:hover {
@@ -168,7 +168,8 @@ form button:hover {
   margin-bottom: 0.25rem;
   font-size: 1rem;
   color: #f97706;
-  font-weight: bold;
+  font-family: monospace;
+  font-weight: bolder;
 }
 
 .votes button {
@@ -187,8 +188,9 @@ form button:hover {
 
 .votes button:disabled,
 .votes button:disabled:hover {
-  color: #c2af93;
   background-color: transparent;
   border: none;
-  cursor: not-allowed;
+  cursor: default;
+  /* https://stackoverflow.com/questions/22252472/how-can-i-change-the-color-of-an-svg-element */
+  filter: contrast(20%);
 }
