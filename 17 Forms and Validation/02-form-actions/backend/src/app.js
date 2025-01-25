@@ -26,14 +26,14 @@ app.post(
   }),
   async (req, res) => {
     const { userName, title, body } = req.body;
-    const savedOpinion = await saveOpinion({ userName, title, body }, 1);
+    const savedOpinion = await saveOpinion({ userName, title, body }, 0.5);
     res.status(200).json(savedOpinion);
   },
 );
 
 app.post('/opinions/:id/upvote', async (req, res) => {
   const { id } = req.params;
-  const opinion = await upvoteOpinion(parseInt(id), 1);
+  const opinion = await upvoteOpinion(parseInt(id), 0.5);
   if (opinion) {
     res.status(204).send();
   } else {
@@ -43,7 +43,7 @@ app.post('/opinions/:id/upvote', async (req, res) => {
 
 app.post('/opinions/:id/downvote', async (req, res) => {
   const { id } = req.params;
-  const opinion = await downvoteOpinion(parseInt(id), 1);
+  const opinion = await downvoteOpinion(parseInt(id), 0.5);
   if (opinion) {
     res.status(204).send();
   } else {
