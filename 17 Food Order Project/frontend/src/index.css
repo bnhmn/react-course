@@ -149,13 +149,19 @@ h1 {
 }
 
 .cart-item p {
-  margin: 0;
+  margin: 0.3rem 0.6rem;
 }
 
 .cart-item-actions {
   display: flex;
   gap: 1rem;
   align-items: center;
+}
+
+.cart-item-actions span {
+  width: 1rem;
+  font-family: monospace;
+  font-size: large;
 }
 
 .cart-item-actions button {
@@ -221,6 +227,12 @@ h1 {
   color: #1f1a09;
 }
 
+.button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #1f1a09;
+}
+
 .text-button {
   font: inherit;
   cursor: pointer;
@@ -239,7 +251,7 @@ h1 {
   border-radius: 6px;
   border: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  padding: 1rem;
+  padding: 2.5rem 2rem;
   width: 80%;
   max-width: 40rem;
   animation: fade-slide-up 0.3s ease-out forwards;

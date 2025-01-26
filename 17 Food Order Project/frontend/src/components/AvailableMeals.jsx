@@ -14,7 +14,7 @@ export function AvailableMeals({ cart }) {
               <p className="meal-item-price">${meal.price}</p>
               <div className="meal-item-description">{meal.description}</div>
               <div className="meal-item-actions">
-                <button className="button" onClick={() => cart.addMeal(meal)}>
+                <button className="button" onClick={() => cart.addItem(meal)}>
                   Add to Cart
                 </button>
               </div>
