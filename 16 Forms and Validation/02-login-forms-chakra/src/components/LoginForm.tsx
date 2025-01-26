@@ -24,7 +24,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack direction="column" align="start" spacing="1rem">
+      <Stack direction="column" align="start" spacing="1.3rem">
         <Heading size="lg" mb="1rem">
           Login
         </Heading>

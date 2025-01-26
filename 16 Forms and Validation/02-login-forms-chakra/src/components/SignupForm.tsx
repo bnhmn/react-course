@@ -33,7 +33,7 @@ export function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <Stack direction="column" align="start" spacing="1rem">
+      <Stack direction="column" align="start" spacing="1.3rem">
         <Heading size="lg" mb="1rem">
           Signup
         </Heading>
