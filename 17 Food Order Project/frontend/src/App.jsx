@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AvailableMeals } from './components/AvailableMeals';
 import { Header } from './components/Header';
 import { ShoppingCartModal } from './components/ShoppingCartModal';
-import { useShoppingCartStore } from './hooks/shopping-cart';
+import { useShoppingCartStore } from './hooks/cart';
 
 export default function App() {
   const cart = useShoppingCartStore();
