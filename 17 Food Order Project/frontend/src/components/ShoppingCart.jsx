@@ -1,3 +1,5 @@
+import { ShoppingCartItem } from './ShoppingCartItem';
+
 export function ShoppingCart({ cart, onClose, onContinue }) {
   const hasItems = cart.items.length >= 1;
   return (
@@ -7,16 +9,14 @@ export function ShoppingCart({ cart, onClose, onContinue }) {
       {hasItems && (
         <div>
           {cart.items.map((item) => (
-            <li key={item.id} className="cart-item">
-              <p>
-                {item.name} - ${item.price}
-              </p>
-              <div className="cart-item-actions">
-                <button onClick={() => cart.decreaseAmount(item.id)}>-</button>
-                <span>{item.amount}</span>
-                <button onClick={() => cart.increaseAmount(item.id)}>+</button>
-              </div>
-            </li>
+            <ShoppingCartItem
+              key={item.id}
+              name={item.name}
+              amount={item.amount}
+              price={item.price}
+              onIncreaseAmount={() => cart.increaseAmount(item.id)}
+              onDecreaseAmount={() => cart.decreaseAmount(item.id)}
+            />
           ))}
         </div>
       )}
