@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { AvailableMeals } from './components/AvailableMeals';
 import { Header } from './components/Header';
-import { ShoppingCartModal } from './components/ShoppingCartModal';
+import { Modal } from './components/Modal';
 import { useShoppingCartStore } from './hooks/cart';
 
 export default function App() {
   const cart = useShoppingCartStore();
-  const [cartIsOpen, setCartIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
     <>
-      <Header cart={cart} onOpenCart={() => setCartIsOpen(true)} />
+      <Header cart={cart} onOpenCart={() => setModalIsOpen(true)} />
       <main>
         <AvailableMeals cart={cart} />
       </main>
-      <ShoppingCartModal cart={cart} open={cartIsOpen} onClose={() => setCartIsOpen(false)} />
+      <Modal cart={cart} open={modalIsOpen} onClose={() => setModalIsOpen(false)} />
     </>
   );
 }

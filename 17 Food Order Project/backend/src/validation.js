@@ -19,7 +19,11 @@ export function validationErrorHandler(error, req, res, next) {
   if (error instanceof ValidationError) {
     res.status(400).json({
       code: 'validation-error',
-      detail: error.validationErrors,
+      errors: error.validationErrors.body.map((error) => ({
+        location: 'body',
+        field: error.instancePath,
+        message: error.message,
+      })),
     });
   } else {
     console.error(error);

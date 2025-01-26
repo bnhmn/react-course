@@ -1,19 +1,7 @@
-import { useEffect, useRef } from 'react';
-
-export function ShoppingCartModal({ cart, open, onClose }) {
-  const dialog = useRef();
+export function ShoppingCart({ cart, onClose, onContinue }) {
   const hasItems = cart.items.length >= 1;
-
-  useEffect(() => {
-    if (open) {
-      dialog.current.showModal();
-    } else {
-      dialog.current.close();
-    }
-  }, [open]);
-
   return (
-    <dialog ref={dialog} className="modal" onClose={onClose}>
+    <div className="cart">
       <h2>Your Cart</h2>
       {!hasItems && <p>Your cart is empty!</p>}
       {hasItems && (
@@ -39,10 +27,10 @@ export function ShoppingCartModal({ cart, open, onClose }) {
         <button className="text-button" onClick={onClose}>
           Close
         </button>
-        <button className="button" onClick={() => null} disabled={!hasItems}>
+        <button className="button" onClick={onContinue} disabled={!hasItems}>
           Go to Checkout
         </button>
       </div>
-    </dialog>
+    </div>
   );
 }
