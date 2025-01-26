@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { Button, Heading, Stack, Text } from '@chakra-ui/react';
 
-import { FormCheckbox } from './form/FormCheckBox';
+import { FormCheckbox } from './form/FormCheckbox';
 import { FormInput } from './form/FormInput';
 import { FormRow } from './form/FormInputRow';
 import { FormSelect } from './form/FormSelect';
