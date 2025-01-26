@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { Button, Heading, Stack } from '@chakra-ui/react';
 
-import { FormInput } from './FormInput';
+import { FormInput } from './form/FormInput';
 import { Success } from './Success';
 
 /**
@@ -40,7 +40,7 @@ export function LoginForm() {
 
         <FormInput
           name="password"
-          type="password"
+          type="discoverable-password"
           label="Password"
           validations={{ required: true, minLength: 6 }}
           form={form}
