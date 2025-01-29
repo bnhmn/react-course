@@ -20,8 +20,8 @@ export default function App() {
           <Route index element={<HomePage />}></Route>
           <Route path="events" element={<ViewEventsPage />}></Route>
           <Route path="events/new" element={<CreateEventPage />}></Route>
-          <Route path="events/:id" element={<ViewEventPage />}></Route>
-          <Route path="events/:id/edit" element={<EditEventPage />}></Route>
+          <Route path="events/:eventId" element={<ViewEventPage />}></Route>
+          <Route path="events/:eventId/edit" element={<EditEventPage />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
