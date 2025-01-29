@@ -1,4 +1,6 @@
-import { Link } from 'react-router';
+import { Link as RouterLink } from 'react-router';
+
+import { Button, Heading, Text } from '@chakra-ui/react';
 
 interface ViewEventsProps {
   events?: {
@@ -30,11 +32,14 @@ const defaultEvents = [
 export function ViewEventsPage({ events = defaultEvents }: ViewEventsProps) {
   return (
     <>
-      <h1>Events</h1>
+      <Heading>Events</Heading>
+      <Text>Hello World!</Text>
       {events.map((event) => (
         <div key={event.id}>
           {/* This is a relative link: https://reactrouter.com/start/library/navigating#link */}
-          <Link to={event.id}>{event.title}</Link>
+          <Button as={RouterLink} to={event.id} variant="link">
+            {event.title}
+          </Button>
         </div>
       ))}
     </>

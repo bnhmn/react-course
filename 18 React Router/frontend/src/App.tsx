@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
 
-import { MainNavigation } from './components/MainNavigation';
+import { RootLayout } from './components/RootLayout';
 import { CreateEventPage } from './routes/events/CreateEventPage';
 import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
@@ -16,7 +16,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainNavigation links={{ Home: '/', Events: '/events' }} />}>
+        <Route path="/" element={<RootLayout links={{ Home: '/', Events: '/events' }} />}>
           <Route index element={<HomePage />}></Route>
           <Route path="events" element={<ViewEventsPage />}></Route>
           <Route path="events/new" element={<CreateEventPage />}></Route>

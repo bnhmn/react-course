@@ -1,11 +1,13 @@
 import { useParams } from 'react-router';
 
+import { Heading, Text } from '@chakra-ui/react';
+
 export function ViewEventPage({}) {
   const { id } = useParams();
   return (
     <>
-      <h1>Event Details</h1>
-      <p>{id}</p>
+      <Heading>Event Details</Heading>
+      <Text>{id}</Text>
     </>
   );
 }

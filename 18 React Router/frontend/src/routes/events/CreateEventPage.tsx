@@ -1,3 +1,5 @@
+import { Heading } from '@chakra-ui/react';
+
 export function CreateEventPage() {
-  return <h1>Create Event</h1>;
+  return <Heading>Create Event</Heading>;
 }
