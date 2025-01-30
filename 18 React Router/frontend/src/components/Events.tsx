@@ -1,3 +1,4 @@
+import * as CSS from 'csstype';
 import { Link as RouterLink } from 'react-router';
 
 import { Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
@@ -11,7 +12,7 @@ export function Events({ events }: { events: EventType[] }) {
   return (
     <SimpleGrid w="100%" h="100%" maxW="70rem" columns={{ base: 1, md: 2, lg: 3 }} spacing="40px" justifyItems="center">
       {events.map((event) => (
-        <Card key={event.id} width="100%" _hover={{ bg: 'whitesmoke' }}>
+        <Card key={event.id} width="100%" _hover={{ bg: 'ButtonHighlight' satisfies CSS.Property.Color }}>
           {/* This is a link to another page: https://reactrouter.com/start/library/navigating#link */}
           <CardBody as={RouterLink} to={event.id}>
             <Stack direction="column" gap="3">
