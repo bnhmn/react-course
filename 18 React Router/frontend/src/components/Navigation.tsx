@@ -16,7 +16,7 @@ export function Navigation({ links }: NavigationProps) {
   return (
     <Stack as="nav" direction="row" w="100%" h="100%" justifyContent="space-between" px="9" shadow="xl" bg={headerBg}>
       <DarkMode>
-        <Stack id="links" direction="row" justifyContent="center" alignItems="center" gap="0">
+        <Stack id="links" direction="row" justifyContent="center" alignItems="center" gap="1">
           {Object.entries(links).map(([label, uri]) => (
             /* Use NavLinks to link to other pages: https://reactrouter.com/start/library/navigating */
             <Button
