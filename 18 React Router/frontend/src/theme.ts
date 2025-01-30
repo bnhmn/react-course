@@ -1,10 +1,12 @@
+import * as CSS from 'csstype';
+
 import { ChakraTheme, extendTheme, withDefaultColorScheme } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
 
-// const theme = extendTheme(withDefaultColorScheme({ colorScheme: 'orange' }));
-
 export const headerBg = '#712cf9';
 export const headerTextColor = 'whitesmoke';
+
+// const theme = extendTheme(withDefaultColorScheme({ colorScheme: 'orange' }));
 
 export const theme = extendTheme(
   {
@@ -95,3 +97,10 @@ export const theme = extendTheme(
   } satisfies Partial<ChakraTheme>,
   withDefaultColorScheme({ colorScheme: 'purple' }),
 );
+
+/**
+ * Provides color auto completion.
+ */
+export function color(color: CSS.Property.Color): CSS.Property.Color {
+  return color;
+}
