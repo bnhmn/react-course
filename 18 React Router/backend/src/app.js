@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.get('/events', async (req, res) => {
   const events = await findAllEvents();
-  res.json({ events });
+  res.json(events);
 });
 
 app.get('/events/:id', async (req, res) => {

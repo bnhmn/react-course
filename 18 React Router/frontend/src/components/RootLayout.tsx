@@ -25,8 +25,8 @@ export function RootLayout({ links }: RootLayoutProps) {
       <GridItem area={'header'}>
         <Navigation links={links} />
       </GridItem>
-      <GridItem area={'main'} p="4">
-        <Flex as="main" direction="column" w="100%" p="10" alignItems="center">
+      <GridItem area={'main'}>
+        <Flex as="main" direction="column" w="100%" p={{ base: 5, sm: 10 }} alignItems="center">
           {/* Outlet is the place where React Router inserts the child content */}
           {/* https://reactrouter.com/start/library/routing#nested-routes */}
           <Outlet />

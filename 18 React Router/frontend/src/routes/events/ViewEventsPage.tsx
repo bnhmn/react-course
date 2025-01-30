@@ -1,47 +1,15 @@
-import { Link as RouterLink } from 'react-router';
+import { Heading, Spinner } from '@chakra-ui/react';
 
-import { Button, Heading, Text } from '@chakra-ui/react';
+import { Events } from '../../components/Events';
+import { useEventsBackend } from '../../lib/backend';
 
-interface ViewEventsProps {
-  events?: {
-    id: string;
-    title: string;
-    date: string;
-    image: string;
-    description: string;
-  }[];
-}
-
-const defaultEvents = [
-  {
-    id: 'e1',
-    title: 'A dummy event',
-    date: '2023-02-22',
-    image: 'https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg',
-    description: 'Join this amazing event and connect with fellow developers.',
-  },
-  {
-    id: 'e2',
-    title: 'Another dummy event',
-    date: '2023-02-22',
-    image: 'https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg',
-    description: 'Join this amazing event and connect with fellow developers.',
-  },
-];
-
-export function ViewEventsPage({ events = defaultEvents }: ViewEventsProps) {
+export function ViewEventsPage() {
+  const { events, isLoading } = useEventsBackend();
   return (
     <>
-      <Heading>Events</Heading>
-      <Text>Hello World!</Text>
-      {events.map((event) => (
-        <div key={event.id}>
-          {/* This is a relative link: https://reactrouter.com/start/library/navigating#link */}
-          <Button as={RouterLink} to={event.id} variant="link">
-            {event.title}
-          </Button>
-        </div>
-      ))}
+      <Heading mb="10">All Events</Heading>
+      {isLoading && <Spinner />}
+      {!isLoading && <Events events={events} />}
     </>
   );
 }

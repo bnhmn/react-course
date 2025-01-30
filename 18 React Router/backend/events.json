@@ -6,6 +6,41 @@
       "date": "2023-02-22",
       "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
       "description": "Join this amazing event and connect with fellow developers."
+    },
+    {
+      "id": "e2",
+      "title": "Another dummy event",
+      "date": "2023-03-15",
+      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
+      "description": "Get involved in this great event, perfect for networking with professionals."
+    },
+    {
+      "id": "e3",
+      "title": "Third dummy event",
+      "date": "2023-04-27",
+      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
+      "description": "Don't miss out on this exciting event! Meet and interact with exciting personalities."
+    },
+    {
+      "id": "e4",
+      "title": "Dummy event 4",
+      "date": "2023-05-12",
+      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
+      "description": "Experience this unforgettable event and enhance your professional skills."
+    },
+    {
+      "id": "e5",
+      "title": "The fifth dummy event",
+      "date": "2023-06-18",
+      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
+      "description": "Participate in this unique event and build lasting relationships with industry leaders."
+    },
+    {
+      "id": "e6",
+      "title": "Last dummy event",
+      "date": "2023-07-24",
+      "image": "https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg",
+      "description": "Join our final dummy event of the year for an enriching and engaging experience."
     }
   ]
 }
