@@ -12,7 +12,8 @@ export function ViewEventsPage() {
     <>
       <Heading mb="10">All Events</Heading>
       {isLoading && <Spinner />}
-      {!isLoading && <Events events={events} />}
+      {!isLoading && events.length >= 1 && <Events events={events} />}
+      {!isLoading && events.length === 0 && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
     </>
   );
 }
