@@ -29,23 +29,25 @@ export function LoginForm() {
           Login
         </Heading>
 
-        <FormInput
-          name="email"
-          type="email"
-          label="Email"
-          autoComplete="email"
-          validations={{ required: true, pattern: /\w{2,}@\w{2,}\.\w{2,}/ }}
-          form={form}
-        />
-
-        <FormInput
-          name="password"
-          type="discoverable-password"
-          label="Password"
-          validations={{ required: true, minLength: 6 }}
-          form={form}
-        />
-
+        {!isSuccess && (
+          <>
+            <FormInput
+              name="email"
+              type="email"
+              label="Email"
+              autoComplete="email"
+              validations={{ required: true, pattern: /\w{2,}@\w{2,}\.\w{2,}/ }}
+              form={form}
+            />
+            <FormInput
+              name="password"
+              type="discoverable-password"
+              label="Password"
+              validations={{ required: true, minLength: 6 }}
+              form={form}
+            />
+          </>
+        )}
         {isSuccess && <Success />}
 
         <Stack direction="row" gap="0.2rem" mt="1rem">
