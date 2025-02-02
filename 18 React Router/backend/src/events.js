@@ -6,7 +6,7 @@ const events = eventData.events;
 
 export async function findAllEvents(sleepSeconds = 0.5) {
   await sleep(sleepSeconds);
-  return events;
+  return [...events].sort((a, b) => a.date.localeCompare(b.date));
 }
 
 export async function findEventById(eventId, sleepSeconds = 0.5) {
