@@ -10,8 +10,8 @@ interface RootLayoutProps {
 }
 
 export function RootLayout({ links }: RootLayoutProps) {
-  // https://v2.chakra-ui.com/docs/components/grid#template-areas
   return (
+    // https://v2.chakra-ui.com/docs/components/grid#template-areas
     <Grid
       minHeight="100vh"
       minWidth="100vw"

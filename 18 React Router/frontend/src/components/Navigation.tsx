@@ -12,7 +12,6 @@ interface NavigationProps {
 export function Navigation({ links }: NavigationProps) {
   // https://v2.chakra-ui.com/docs/styled-system/color-mode
   const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <Stack as="nav" direction="row" w="100%" h="100%" justifyContent="space-between" px="9" shadow="xl" bg={headerBg}>
       <DarkMode>

@@ -63,7 +63,7 @@ app.patch(
   },
 );
 
-app.delete('/:id', async (req, res) => {
+app.delete('/events/:id', async (req, res) => {
   const deletedEvent = await deleteEventById(req.params.id);
   if (!deletedEvent) {
     res.status(404).send();

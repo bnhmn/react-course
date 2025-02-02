@@ -20,13 +20,16 @@ export function useEventsBackend() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const createEvent = useCallback((event: { title: string; description: string; date: string; image: string }) => {
-    setIsLoading(true);
-    fetchFromBackend({ method: 'POST', uri: '/events', body: event })
-      .then(() => setIsSuccess(true))
-      .catch(() => setIsError(true))
-      .finally(() => setIsLoading(false));
-  }, []);
+  const createEvent = useCallback(
+    async (event: { title: string; description: string; date: string; image: string }) => {
+      setIsLoading(true);
+      await fetchFromBackend({ method: 'POST', uri: '/events', body: event })
+        .then(() => setIsSuccess(true))
+        .catch(() => setIsError(true))
+        .finally(() => setIsLoading(false));
+    },
+    [],
+  );
 
   return { events, createEvent, isLoading, isSuccess, isError };
 }
@@ -45,9 +48,9 @@ export function useEventBackend(eventId: string) {
   }, [eventId]);
 
   const updateEvent = useCallback(
-    (event: { title: string; description: string; date: string; image: string }) => {
+    async (event: { title: string; description: string; date: string; image: string }) => {
       setIsLoading(true);
-      fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event })
+      await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event })
         .then(() => setIsSuccess(true))
         .catch(() => setIsError(true))
         .finally(() => setIsLoading(false));
@@ -56,6 +59,20 @@ export function useEventBackend(eventId: string) {
   );
 
   return { event, updateEvent, isLoading, isSuccess, isError };
+}
+
+export function useDeleteEventBackend(eventId: string) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const deleteEvent = useCallback(async () => {
+    setIsLoading(true);
+    await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` })
+      .then(() => setIsSuccess(true))
+      .finally(() => setIsLoading(false));
+  }, [eventId]);
+
+  return { deleteEvent, isLoading, isSuccess };
 }
 
 interface RequestType extends RequestInit {
