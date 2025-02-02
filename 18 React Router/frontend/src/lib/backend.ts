@@ -34,6 +34,7 @@ export function useEventsBackend() {
 export function useEventBackend(eventId: string) {
   const [event, setEvent] = useState<EventType>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -43,7 +44,18 @@ export function useEventBackend(eventId: string) {
       .finally(() => setIsLoading(false));
   }, [eventId]);
 
-  return { event, isLoading, isError };
+  const updateEvent = useCallback(
+    (event: { title: string; description: string; date: string; image: string }) => {
+      setIsLoading(true);
+      fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event })
+        .then(() => setIsSuccess(true))
+        .catch(() => setIsError(true))
+        .finally(() => setIsLoading(false));
+    },
+    [eventId],
+  );
+
+  return { event, updateEvent, isLoading, isSuccess, isError };
 }
 
 interface RequestType extends RequestInit {
