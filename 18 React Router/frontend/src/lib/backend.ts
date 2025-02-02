@@ -8,6 +8,13 @@ export interface EventType {
   image: string;
 }
 
+export interface EventUpdateType {
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+}
+
 export function useEventsBackend() {
   const [events, setEvents] = useState<EventType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,42 +44,31 @@ export function useEventsBackend() {
 export function useEventBackend(eventId: string) {
   const [event, setEvent] = useState<EventType>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isUpdatePending, setIsUpdatePending] = useState(false);
 
   useEffect(() => {
     fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` })
       .then(setEvent)
-      .catch(() => setIsError(true))
       .finally(() => setIsLoading(false));
   }, [eventId]);
 
   const updateEvent = useCallback(
-    async (event: { title: string; description: string; date: string; image: string }) => {
-      setIsLoading(true);
+    async (event: EventUpdateType) => {
+      console.log(event);
+      setIsUpdatePending(true);
       await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event })
-        .then(() => setIsSuccess(true))
-        .catch(() => setIsError(true))
-        .finally(() => setIsLoading(false));
+        .then(setEvent)
+        .finally(() => setIsUpdatePending(false));
     },
     [eventId],
   );
 
-  return { event, updateEvent, isLoading, isSuccess, isError };
-}
-
-export function useDeleteEventBackend(eventId: string) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-
   const deleteEvent = useCallback(async () => {
-    setIsLoading(true);
-    await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` })
-      .then(() => setIsSuccess(true))
-      .finally(() => setIsLoading(false));
+    setIsUpdatePending(true);
+    await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` }).finally(() => setIsUpdatePending(false));
   }, [eventId]);
 
-  return { deleteEvent, isLoading, isSuccess };
+  return { event, updateEvent, deleteEvent, isLoading, isUpdatePending };
 }
 
 interface RequestType extends RequestInit {

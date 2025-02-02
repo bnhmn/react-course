@@ -31,15 +31,14 @@ export async function deleteEventById(eventId, sleepSeconds = 0.5) {
   return event;
 }
 
-export async function replaceEvent(eventId, eventData, sleepSeconds = 0.5) {
+export async function replaceEvent(eventId, newEventData, sleepSeconds = 0.5) {
   await sleep(sleepSeconds);
   const [event, eventIndex] = findEvent(eventId);
   if (!event) {
     return null;
   }
-  const newEvent = createEvent(eventData);
-  events[eventIndex] = newEvent;
-  return newEvent;
+  events[eventIndex] = {...event, ...newEventData}
+  return events[eventIndex];
 }
 
 function createEvent(eventData) {

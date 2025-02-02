@@ -35,7 +35,9 @@ function Events({ events }: { events: EventType[] }) {
               <Heading size="md">{event.title}</Heading>
               <Text mb="3">{formatDate(event.date)}</Text>
               <Image src={event.image} alt={event.title} borderRadius="md" />
-              <Text mt="3">{event.description}</Text>
+              <Text mt="3" noOfLines={2}>
+                {event.description}
+              </Text>
             </Stack>
           </CardBody>
         </Card>

@@ -32,8 +32,12 @@ app.post(
     body: Joi.object({
       title: Joi.string().trim().required(),
       description: Joi.string().trim().required(),
-      date: Joi.string().isoDate().required(),
-      image: Joi.string().uri({ scheme: 'http' }).required(),
+      date: Joi.string()
+        .pattern(/\d{4}-\d{2}-\d{2}/)
+        .required(),
+      image: Joi.string()
+        .uri({ scheme: /https?/ })
+        .required(),
     }),
   }),
   async (req, res) => {
@@ -48,17 +52,22 @@ app.patch(
     body: Joi.object({
       title: Joi.string().trim().min(1).required(),
       description: Joi.string().trim().min(1).required(),
-      date: Joi.string().isoDate().required(),
-      image: Joi.string().uri({ scheme: 'http' }).required(),
+      date: Joi.string()
+        .pattern(/\d{4}-\d{2}-\d{2}/)
+        .required(),
+      image: Joi.string()
+        .uri({ scheme: /https?/ })
+        .required(),
     }),
   }),
   async (req, res) => {
+    console.log(req.body);
     const eventId = req.params.id;
     const newEvent = await replaceEvent(eventId, req.body);
     if (!newEvent) {
       res.status(404).send();
     } else {
-      res.status(200).json({ newEvent });
+      res.status(200).json(newEvent);
     }
   },
 );

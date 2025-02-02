@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { RootLayout } from './components/RootLayout';
 import { CreateEventPage } from './routes/events/CreateEventPage';
-import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
@@ -18,12 +17,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<RootLayout links={{ Home: '/', Events: '/events' }} />}>
-          <Route index element={<HomePage />}></Route>
+          <Route path="" element={<HomePage />}></Route>
           <Route path="events">
-            <Route index element={<ViewEventsPage />} />
+            <Route path="" element={<ViewEventsPage />} />
             <Route path="new" element={<CreateEventPage />} />
             <Route path=":eventId" element={<ViewEventPage />} />
-            <Route path=":eventId/edit" element={<EditEventPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
