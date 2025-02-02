@@ -1,20 +1,20 @@
 import useLocalStorageState from 'use-local-storage-state';
 
 import {
-	Avatar,
-	Button,
-	FormControl,
-	FormLabel,
-	Input,
-	InputGroup,
-	InputRightAddon,
-	Select,
-	Stack,
+  Avatar,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Select,
+  Stack,
 } from '@chakra-ui/react';
 
 export function Preferences({ onJoinGame = () => null }: { onJoinGame: (name: string, gridSize: number) => void }) {
-  const [name, setName] = useLocalStorageState("todo.name", {defaultValue: ""});
-  const [size, setSize] = useLocalStorageState("todo.size", {defaultValue: 3});
+  const [name, setName] = useLocalStorageState('todo.name', { defaultValue: '' });
+  const [size, setSize] = useLocalStorageState('todo.size', { defaultValue: 3 });
 
   function handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
