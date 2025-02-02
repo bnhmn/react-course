@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router';
+import { Link } from 'react-router';
 
 import { Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 
@@ -19,7 +19,7 @@ export function Events({ events }: { events: EventType[] }) {
           _hover={{ bg: color('ButtonHighlight'), transform: 'scale(1.05)' }}
         >
           {/* This is a link to another page: https://reactrouter.com/start/library/navigating#link */}
-          <CardBody as={RouterLink} to={event.id}>
+          <CardBody as={Link} to={event.id}>
             <Stack direction="column" gap="3">
               <Heading size="md">{event.title}</Heading>
               <Text mb="3">{formatDate(event.date)}</Text>

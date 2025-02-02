@@ -31,6 +31,21 @@ export function useEventsBackend() {
   return { events, createEvent, isLoading, isSuccess, isError };
 }
 
+export function useEventBackend(eventId: string) {
+  const [event, setEvent] = useState<EventType>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` })
+      .then(setEvent)
+      .catch(() => setIsError(true))
+      .finally(() => setIsLoading(false));
+  }, [eventId]);
+
+  return { event, isLoading, isError };
+}
+
 interface RequestType extends RequestInit {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   uri: string;
