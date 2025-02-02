@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router';
 import { EditIcon } from '@chakra-ui/icons';
 import { Heading, IconButton, Image, Spinner, Stack, Text } from '@chakra-ui/react';
 
-import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { useEventBackend } from '../../lib/backend';
 import { formatDate } from '../../lib/localization';
 
@@ -12,7 +11,6 @@ export function ViewEventPage() {
   const { event, isLoading } = useEventBackend(eventId!);
   return (
     <>
-      <Breadcrumbs />
       <Heading mb="10">Event Details</Heading>
       {isLoading && <Spinner />}
       {!isLoading && event && (
