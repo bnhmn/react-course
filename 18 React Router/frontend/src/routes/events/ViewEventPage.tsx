@@ -3,6 +3,7 @@ import { useLoaderData, useNavigate, useParams } from 'react-router';
 
 import { Box, Heading } from '@chakra-ui/react';
 
+import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { DeleteDialog } from '../../components/DeleteDialog';
 import { EventType, EventUpdateType, useEventBackend } from '../../lib/backend';
 import { EditEvent } from './EditEvent';
@@ -42,6 +43,7 @@ export function ViewEventPage() {
 
   return (
     <>
+      <Breadcrumbs />
       <Heading mb="10">Event Details</Heading>
       <Box w="100%" h="100%" maxW="45rem">
         {!isEditMode && <ViewEvent event={event} onEdit={handleStartEdit} onDelete={handleStartDelete} />}

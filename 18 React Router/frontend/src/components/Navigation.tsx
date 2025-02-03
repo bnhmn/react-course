@@ -12,23 +12,24 @@ import { headerBg, headerTextColor } from '../theme';
 
 interface NavigationProps {
   links: { [label: string]: string };
-  isLoading?: boolean;
 }
 
-export function Navigation({ links, isLoading }: NavigationProps) {
+export function Navigation({ links }: NavigationProps) {
   // https://v2.chakra-ui.com/docs/styled-system/color-mode
   const { colorMode, toggleColorMode } = useColorMode();
   const navigation = useNavigation();
-  const isPageLoading = isLoading || navigation.state === 'loading';
 
   // https://ricostacruz.com/nprogress https://www.npmjs.com/package/nprogress
   useEffect(() => {
-    if (isPageLoading) {
+    if (navigation.state === 'loading') {
       NProgress.start();
     } else {
       NProgress.done();
     }
-  }, [isPageLoading]);
+    return () => {
+      NProgress.done();
+    };
+  }, [navigation.state]);
 
   return (
     <Stack

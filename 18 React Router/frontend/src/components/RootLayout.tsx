@@ -2,7 +2,6 @@ import { Outlet } from 'react-router';
 
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
-import { Breadcrumbs } from './Breadcrumbs';
 import { Navigation } from './Navigation';
 
 interface RootLayoutProps {
@@ -28,7 +27,6 @@ export function RootLayout({ links }: RootLayoutProps) {
       </GridItem>
       <GridItem area={'main'}>
         <Flex as="main" direction="column" w="100%" p={{ base: 5, sm: 10 }} alignItems="center">
-          <Breadcrumbs />
           {/* Outlet is the place where React Router inserts the child content */}
           {/* https://reactrouter.com/start/library/routing#nested-routes */}
           <Outlet />

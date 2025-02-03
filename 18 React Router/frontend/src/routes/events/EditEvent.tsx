@@ -26,6 +26,7 @@ export function EditEvent({
     }),
   );
 
+  // TODO: Adapt to react-router form https://reactrouter.com/6.29.0/components/form
   return (
     <form onSubmit={handleSubmit} noValidate>
       <Stack direction="column" w="100%" align="start" spacing="1.3rem">

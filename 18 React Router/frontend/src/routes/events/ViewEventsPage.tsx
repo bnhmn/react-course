@@ -2,6 +2,7 @@ import { Link, useLoaderData } from 'react-router';
 
 import { Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 
+import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { EventType } from '../../lib/backend';
 import { formatDate } from '../../lib/localization';
 import { color } from '../../theme';
@@ -10,6 +11,7 @@ export function ViewEventsPage() {
   const events = useLoaderData<EventType[]>();
   return (
     <>
+      <Breadcrumbs />
       <Heading mb="10">All Events</Heading>
       {events.length && <Events events={events} />}
       {!events.length && <Text fontSize="larger">Currently, there are no events 🙁</Text>}

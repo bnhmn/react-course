@@ -1,16 +1,18 @@
 import { Link } from 'react-router';
 
-import { Button, Text } from '@chakra-ui/react';
+import { Button, Heading, Stack, Text } from '@chakra-ui/react';
 
 export function NotFoundPage() {
   return (
-    <>
-      <Text fontSize="larger" mb="8">
-        Page Not Found 🙁
+    <Stack maxW="30rem" mt="10" gap="10">
+      <Heading>UH OH! You're lost.</Heading>
+      <Text fontSize="larger">
+        The page you are looking for does not exist. How you got here is a mystery. But you can click the button below
+        to go back to the homepage.
       </Text>
-      <Button as={Link} to="..">
-        Go Back
+      <Button as={Link} to="/">
+        Home
       </Button>
-    </>
+    </Stack>
   );
 }

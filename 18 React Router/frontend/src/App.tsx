@@ -1,8 +1,10 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router';
 
-import { Navigation } from './components/Navigation';
+import { Spinner } from '@chakra-ui/react';
+
 import { RootLayout } from './components/RootLayout';
 import { fetchEvent, fetchEvents } from './lib/backend';
+import { ErrorPage } from './routes/ErrorPage';
 import { CreateEventPage } from './routes/events/CreateEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
@@ -19,18 +21,16 @@ export default function App() {
     <RouterProvider
       router={createBrowserRouter(
         createRoutesFromElements(
-          <Route
-            path="/"
-            element={<RootLayout links={navLinks} />}
-            hydrateFallbackElement={<Navigation links={navLinks} isLoading />}
-          >
-            <Route path="" element={<HomePage />}></Route>
-            <Route path="events">
-              <Route path="" element={<ViewEventsPage />} loader={fetchEvents} />
-              <Route path="new" element={<CreateEventPage />} />
-              <Route path=":eventId" element={<ViewEventPage />} loader={fetchEvent} />
+          <Route path="/" element={<RootLayout links={navLinks} />}>
+            <Route hydrateFallbackElement={<Spinner />} errorElement={<ErrorPage />}>
+              <Route path="" element={<HomePage />}></Route>
+              <Route path="events">
+                <Route path="" element={<ViewEventsPage />} loader={fetchEvents} />
+                <Route path="new" element={<CreateEventPage />} />
+                <Route path=":eventId" element={<ViewEventPage />} loader={fetchEvent} />
+              </Route>
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
-            <Route path="*" element={<NotFoundPage />} />
           </Route>,
         ),
       )}
