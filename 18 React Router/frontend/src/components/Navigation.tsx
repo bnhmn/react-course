@@ -28,9 +28,6 @@ export function Navigation({ links, isLoading }: NavigationProps) {
     } else {
       NProgress.done();
     }
-    return () => {
-      NProgress.done();
-    };
   }, [isPageLoading]);
 
   return (
