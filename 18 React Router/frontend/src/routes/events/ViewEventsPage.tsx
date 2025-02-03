@@ -1,19 +1,18 @@
-import { Link } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 
-import { Card, CardBody, Heading, Image, SimpleGrid, Spinner, Stack, Text } from '@chakra-ui/react';
+import { Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 
-import { EventType, useEventsBackend } from '../../lib/backend';
+import { EventType } from '../../lib/backend';
 import { formatDate } from '../../lib/localization';
 import { color } from '../../theme';
 
 export function ViewEventsPage() {
-  const { events, isLoading } = useEventsBackend();
+  const events = useLoaderData<EventType[]>();
   return (
     <>
       <Heading mb="10">All Events</Heading>
-      {isLoading && <Spinner />}
-      {!isLoading && events.length >= 1 && <Events events={events} />}
-      {!isLoading && events.length === 0 && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
+      {events.length && <Events events={events} />}
+      {!events.length && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
     </>
   );
 }

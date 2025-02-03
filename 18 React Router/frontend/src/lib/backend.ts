@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { LoaderFunctionArgs } from 'react-router';
 
 export interface EventType {
   id: string;
@@ -42,23 +43,20 @@ export function useEventsBackend() {
 }
 
 export function useEventBackend(eventId: string) {
-  const [event, setEvent] = useState<EventType>();
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdatePending, setIsUpdatePending] = useState(false);
 
   useEffect(() => {
-    fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` })
-      .then(setEvent)
-      .finally(() => setIsLoading(false));
+    fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` }).finally(() => setIsLoading(false));
   }, [eventId]);
 
   const updateEvent = useCallback(
     async (event: EventUpdateType) => {
       console.log(event);
       setIsUpdatePending(true);
-      await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event })
-        .then(setEvent)
-        .finally(() => setIsUpdatePending(false));
+      await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event }).finally(() =>
+        setIsUpdatePending(false),
+      );
     },
     [eventId],
   );
@@ -69,6 +67,15 @@ export function useEventBackend(eventId: string) {
   }, [eventId]);
 
   return { event, updateEvent, deleteEvent, isLoading, isUpdatePending };
+}
+
+export async function fetchEvents() {
+  return await fetchFromBackend({ method: 'GET', uri: '/events' });
+}
+
+export async function fetchEvent({ params }: LoaderFunctionArgs) {
+  const { eventId } = params;
+  return await fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` });
 }
 
 interface RequestType extends RequestInit {

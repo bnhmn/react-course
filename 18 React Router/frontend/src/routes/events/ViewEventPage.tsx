@@ -1,18 +1,20 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useLoaderData, useNavigate, useParams } from 'react-router';
 
-import { Box, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 
 import { DeleteDialog } from '../../components/DeleteDialog';
-import { EventUpdateType, useEventBackend } from '../../lib/backend';
+import { EventType, EventUpdateType, useEventBackend } from '../../lib/backend';
 import { EditEvent } from './EditEvent';
 import { ViewEvent } from './ViewEvent';
 
 export function ViewEventPage() {
-  const { eventId } = useParams();
-  const { event, isLoading, ...backend } = useEventBackend(eventId!);
+  const event = useLoaderData<EventType>();
+  const params = useParams();
+  const backend = useEventBackend(params.eventId!);
   const [isEditMode, setIsEditMode] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   // https://reactrouter.com/start/library/navigating
   const navigate = useNavigate();
 
@@ -41,10 +43,9 @@ export function ViewEventPage() {
   return (
     <>
       <Heading mb="10">Event Details</Heading>
-      {isLoading && <Spinner />}
       <Box w="100%" h="100%" maxW="45rem">
-        {event && !isEditMode && <ViewEvent event={event} onEdit={handleStartEdit} onDelete={handleStartDelete} />}
-        {event && isEditMode && <EditEvent event={event} onSubmit={handleSubmitEdit} onCancel={handleCancelEdit} />}
+        {!isEditMode && <ViewEvent event={event} onEdit={handleStartEdit} onDelete={handleStartDelete} />}
+        {isEditMode && <EditEvent event={event} onSubmit={handleSubmitEdit} onCancel={handleCancelEdit} />}
       </Box>
       <DeleteDialog
         label={`Delete "${event?.title}"`}

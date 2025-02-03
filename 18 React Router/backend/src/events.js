@@ -3,25 +3,26 @@ import eventData from '../events.json' with { type: "json" };
 import { randomUUID } from 'crypto';
 
 const events = eventData.events;
+const delaySeconds = 0.5;
 
-export async function findAllEvents(sleepSeconds = 0.5) {
+export async function findAllEvents(sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
   return [...events].sort((a, b) => a.date.localeCompare(b.date));
 }
 
-export async function findEventById(eventId, sleepSeconds = 0.5) {
+export async function findEventById(eventId, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
   return events.find((event) => event.id === eventId);
 }
 
-export async function addEvent(eventData, sleepSeconds = 0.5) {
+export async function addEvent(eventData, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
   const newEvent = createEvent(eventData);
   events.unshift(newEvent);
   return newEvent;
 }
 
-export async function deleteEventById(eventId, sleepSeconds = 0.5) {
+export async function deleteEventById(eventId, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
   const [event, eventIndex] = findEvent(eventId);
   if (!event) {
@@ -31,7 +32,7 @@ export async function deleteEventById(eventId, sleepSeconds = 0.5) {
   return event;
 }
 
-export async function replaceEvent(eventId, newEventData, sleepSeconds = 0.5) {
+export async function replaceEvent(eventId, newEventData, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
   const [event, eventIndex] = findEvent(eventId);
   if (!event) {

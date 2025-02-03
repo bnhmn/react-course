@@ -1,4 +1,9 @@
-import { NavLink } from 'react-router';
+import 'nprogress/nprogress.css';
+import './Navigation.css';
+
+import NProgress from 'nprogress';
+import { useEffect } from 'react';
+import { NavLink, useNavigation } from 'react-router';
 
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Button, DarkMode, IconButton, Stack, useColorMode } from '@chakra-ui/react';
@@ -7,13 +12,38 @@ import { headerBg, headerTextColor } from '../theme';
 
 interface NavigationProps {
   links: { [label: string]: string };
+  isLoading?: boolean;
 }
 
-export function Navigation({ links }: NavigationProps) {
+export function Navigation({ links, isLoading }: NavigationProps) {
   // https://v2.chakra-ui.com/docs/styled-system/color-mode
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigation = useNavigation();
+  const isPageLoading = isLoading || navigation.state === 'loading';
+
+  // https://ricostacruz.com/nprogress https://www.npmjs.com/package/nprogress
+  useEffect(() => {
+    if (isPageLoading) {
+      NProgress.start();
+    } else {
+      NProgress.done();
+    }
+    return () => {
+      NProgress.done();
+    };
+  }, [isPageLoading]);
+
   return (
-    <Stack as="nav" direction="row" w="100%" h="100%" justifyContent="space-between" px="9" shadow="xl" bg={headerBg}>
+    <Stack
+      as="nav"
+      direction="row"
+      w="100%"
+      h="70px"
+      justifyContent="space-between"
+      px={{ base: 6, md: 10 }}
+      shadow="xl"
+      bg={headerBg}
+    >
       <DarkMode>
         <Stack id="links" direction="row" justifyContent="center" alignItems="center" gap="1">
           {Object.entries(links).map(([label, uri]) => (
