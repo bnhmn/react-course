@@ -61,7 +61,6 @@ app.patch(
     }),
   }),
   async (req, res) => {
-    console.log(req.body);
     const eventId = req.params.id;
     const newEvent = await replaceEvent(eventId, req.body);
     if (!newEvent) {
