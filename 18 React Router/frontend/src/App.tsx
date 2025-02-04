@@ -4,6 +4,7 @@ import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
 import { ErrorPage } from './routes/ErrorPage';
+import { handleCreateEvent } from './routes/events/CreateEventHandler.ts';
 import { CreateEventPage } from './routes/events/CreateEventPage';
 import { handleEditEvent } from './routes/events/EditEventHandler';
 import { EditEventPage } from './routes/events/EditEventPage';
@@ -28,7 +29,7 @@ export default function App() {
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/events">
                 <Route path="" element={<ViewEventsPage />} loader={loadEvents} />
-                <Route path="new" element={<CreateEventPage />} />
+                <Route path="new" element={<CreateEventPage />} action={handleCreateEvent} />
                 <Route path=":eventId" id="event" loader={loadEvent}>
                   <Route path="" element={<ViewEventPage />} />
                   <Route path="edit" element={<EditEventPage />} action={handleEditEvent} />

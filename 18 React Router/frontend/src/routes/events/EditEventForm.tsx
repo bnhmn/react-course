@@ -1,37 +1,37 @@
 import { Form, useNavigation } from 'react-router';
 
-import { Button, Spinner, Stack } from '@chakra-ui/react';
+import { Spinner, Stack } from '@chakra-ui/react';
 
+import { FormButton } from '../../components/FormButton';
 import { FormInput } from '../../components/FormInput';
-import { EventType } from '../../lib/backend';
+import { NewEventType } from '../../lib/backend';
 
-export function EditEventForm({ event, onCancel }: { event: EventType; onCancel: () => void }) {
-  const { title, description, date, image } = event;
+export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCancel: () => void }) {
   const navigation = useNavigation();
-  const isPending = navigation.state !== 'idle';
+  const isSubmitting = navigation.state === 'submitting';
 
   return (
     //  https://reactrouter.com/6.29.0/components/form
     <Form method="post">
       <Stack direction="column" w="100%" align="start" spacing="1.3rem">
-        <FormInput name="title" type="text" label="Title" defaultValue={title} required />
+        <FormInput name="title" type="text" label="Title" defaultValue={event?.title} isRequired />
         <FormInput
           name="description"
           type="textarea"
           label="Description"
-          defaultValue={description}
+          defaultValue={event?.description}
           rows={6}
-          required
+          isRequired
         />
-        <FormInput name="date" type="date" label="Date" defaultValue={date} required />
-        <FormInput name="image" type="url" label="Image URL" defaultValue={image} required />
+        <FormInput name="date" type="date" label="Date" defaultValue={event?.date} isRequired />
+        <FormInput name="image" type="url" label="Image URL" defaultValue={event?.image} isRequired />
         <Stack direction="row" gap="0.3rem" mt="1rem">
-          <Button type="submit" variant="solid" isDisabled={isPending}>
-            {isPending ? <Spinner /> : 'Submit'}
-          </Button>
-          <Button type="button" variant="ghost" onClick={onCancel} isDisabled={isPending}>
+          <FormButton type="submit" variant="solid">
+            {isSubmitting ? <Spinner /> : 'Submit'}
+          </FormButton>
+          <FormButton type="button" variant="ghost" onClick={onCancel}>
             Cancel
-          </Button>
+          </FormButton>
         </Stack>
       </Stack>
     </Form>

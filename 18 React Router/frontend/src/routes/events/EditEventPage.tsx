@@ -13,7 +13,7 @@ export function EditEventPage() {
   return (
     <>
       <Breadcrumbs />
-      <Heading mb="10">Event Details</Heading>
+      <Heading mb="10">Edit Event Details</Heading>
       <Box w="100%" h="100%" maxW="45rem">
         <EditEventForm event={event!} onCancel={() => navigate('..')} />
       </Box>

@@ -1,56 +1,27 @@
-import { RegisterOptions, UseFormReturn } from 'react-hook-form';
 import { useNavigation } from 'react-router';
 
-import { FormControl, FormErrorMessage, FormLabel, Input, Textarea } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Input, InputProps, Textarea, TextareaProps } from '@chakra-ui/react';
 
-interface FormInputProps {
-  name: string;
-  type: React.HTMLInputTypeAttribute | 'textarea';
-  label: string;
-  autoComplete?: React.HTMLInputAutoCompleteAttribute;
-  placeholder?: string;
-  defaultValue?: string;
-  rows?: number;
-  form?: UseFormReturn<any, unknown, undefined>;
-  validations?: RegisterOptions;
-  required?: boolean;
-  errorMessage?: string;
-}
+type FormInputProps =
+  | ({
+      name: string;
+      type: 'date' | 'email' | 'file' | 'image' | 'number' | 'password' | 'range' | 'tel' | 'text' | 'time' | 'url';
+      label: string;
+      errorMessage?: string;
+    } & InputProps)
+  | ({ name: string; type: 'textarea'; label: string; errorMessage?: string } & TextareaProps);
 
-export function FormInput({
-  name,
-  type,
-  label,
-  autoComplete,
-  placeholder,
-  defaultValue,
-  rows,
-  form,
-  validations = {},
-  required,
-  errorMessage,
-}: FormInputProps) {
-  const InputType = type === 'textarea' ? Textarea : Input;
-  const isRequired = required || !!validations.required;
-  const isInvalid = false; // form.formState.errors[name] !== undefined;
+export function FormInput(props: FormInputProps) {
   const navigation = useNavigation();
   const isPending = navigation.state !== 'idle';
+  const placeholder = props.placeholder ?? `Your ${props.label.toLowerCase()}`;
+  const errorMessage = props.errorMessage ?? `Please enter a valid ${props.label.toLowerCase()}.`;
   return (
-    <FormControl isRequired={isRequired} isInvalid={isInvalid}>
-      <FormLabel>{label}</FormLabel>
-      <InputType
-        type={type}
-        id={name}
-        name={name}
-        rows={rows}
-        autoComplete={autoComplete}
-        placeholder={placeholder ?? `Your ${label.toLowerCase()}`}
-        defaultValue={defaultValue}
-        required={required}
-        disabled={isPending}
-        //{...form.register(name, validations)}
-      />
-      <FormErrorMessage>{errorMessage ?? `Please enter a valid ${label.toLowerCase()}.`}</FormErrorMessage>
+    <FormControl isRequired={props.isRequired} isInvalid={false}>
+      <FormLabel>{props.label}</FormLabel>
+      {props.type !== 'textarea' && <Input {...props} placeholder={placeholder} isDisabled={isPending} />}
+      {props.type === 'textarea' && <Textarea {...props} placeholder={placeholder} isDisabled={isPending} />}
+      <FormErrorMessage>{errorMessage}</FormErrorMessage>
     </FormControl>
   );
 }

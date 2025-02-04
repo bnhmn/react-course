@@ -1,8 +1,8 @@
 import eventData from '../events.json' with { type: "json" };
 
-import { randomUUID } from 'crypto';
 
 const events = eventData.events;
+let eventId = events.length;
 const delaySeconds = 0.5;
 
 export async function findAllEvents(sleepSeconds = delaySeconds) {
@@ -43,7 +43,7 @@ export async function replaceEvent(eventId, newEventData, sleepSeconds = delaySe
 }
 
 function createEvent(eventData) {
-  return { id: randomUUID(), ...eventData };
+  return { id: `e${++eventId}`, ...eventData };
 }
 
 function findEvent(eventId) {
