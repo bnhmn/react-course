@@ -1,5 +1,3 @@
-import { LoaderFunctionArgs } from 'react-router';
-
 export interface EventType {
   id: string;
   title: string;
@@ -19,8 +17,7 @@ export async function fetchEvents() {
   return await fetchFromBackend({ method: 'GET', uri: '/events' });
 }
 
-export async function fetchEvent({ params }: LoaderFunctionArgs) {
-  const { eventId } = params;
+export async function fetchEvent(eventId: string) {
   return await fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` });
 }
 

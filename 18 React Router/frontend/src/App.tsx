@@ -3,10 +3,11 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
-import { fetchEvent, fetchEvents } from './lib/backend';
 import { ErrorPage } from './routes/ErrorPage';
 import { CreateEventPage } from './routes/events/CreateEventPage';
+import { handleEditEvent } from './routes/events/EditEventHandler';
 import { EditEventPage } from './routes/events/EditEventPage';
+import { loadEvent, loadEvents } from './routes/events/ViewEventLoader.ts';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
@@ -26,11 +27,11 @@ export default function App() {
             <Route hydrateFallbackElement={<Spinner />} errorElement={<ErrorPage />}>
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/events">
-                <Route path="" element={<ViewEventsPage />} loader={fetchEvents} />
+                <Route path="" element={<ViewEventsPage />} loader={loadEvents} />
                 <Route path="new" element={<CreateEventPage />} />
-                <Route path=":eventId" id="event" loader={fetchEvent}>
+                <Route path=":eventId" id="event" loader={loadEvent}>
                   <Route path="" element={<ViewEventPage />} />
-                  <Route path="edit" element={<EditEventPage />} />
+                  <Route path="edit" element={<EditEventPage />} action={handleEditEvent} />
                 </Route>
               </Route>
               <Route path="*" element={<NotFoundPage />} />
