@@ -43,12 +43,7 @@ export function useEventsBackend() {
 }
 
 export function useEventBackend(eventId: string) {
-  const [isLoading, setIsLoading] = useState(true);
   const [isUpdatePending, setIsUpdatePending] = useState(false);
-
-  useEffect(() => {
-    fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` }).finally(() => setIsLoading(false));
-  }, [eventId]);
 
   const updateEvent = useCallback(
     async (event: EventUpdateType) => {
@@ -66,7 +61,7 @@ export function useEventBackend(eventId: string) {
     await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` }).finally(() => setIsUpdatePending(false));
   }, [eventId]);
 
-  return { event, updateEvent, deleteEvent, isLoading, isUpdatePending };
+  return { event, updateEvent, deleteEvent, isUpdatePending };
 }
 
 export async function fetchEvents() {

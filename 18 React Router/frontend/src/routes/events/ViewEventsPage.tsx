@@ -13,8 +13,8 @@ export function ViewEventsPage() {
     <>
       <Breadcrumbs />
       <Heading mb="10">All Events</Heading>
-      {events.length && <Events events={events} />}
-      {!events.length && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
+      {events.length > 0 && <Events events={events} />}
+      {events.length === 0 && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
     </>
   );
 }
