@@ -6,6 +6,7 @@ import { RootLayout } from './components/RootLayout';
 import { fetchEvent, fetchEvents } from './lib/backend';
 import { ErrorPage } from './routes/ErrorPage';
 import { CreateEventPage } from './routes/events/CreateEventPage';
+import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
@@ -21,13 +22,16 @@ export default function App() {
     <RouterProvider
       router={createBrowserRouter(
         createRoutesFromElements(
-          <Route path="/" element={<RootLayout links={navLinks} />}>
+          <Route element={<RootLayout links={navLinks} />}>
             <Route hydrateFallbackElement={<Spinner />} errorElement={<ErrorPage />}>
-              <Route path="" element={<HomePage />}></Route>
-              <Route path="events">
+              <Route path="/" element={<HomePage />}></Route>
+              <Route path="/events">
                 <Route path="" element={<ViewEventsPage />} loader={fetchEvents} />
                 <Route path="new" element={<CreateEventPage />} />
-                <Route path=":eventId" element={<ViewEventPage />} loader={fetchEvent} />
+                <Route path=":eventId" id="event" loader={fetchEvent}>
+                  <Route path="" element={<ViewEventPage />} />
+                  <Route path="edit" element={<EditEventPage />} />
+                </Route>
               </Route>
               <Route path="*" element={<NotFoundPage />} />
             </Route>

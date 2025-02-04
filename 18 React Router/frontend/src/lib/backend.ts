@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from 'react';
 import { LoaderFunctionArgs } from 'react-router';
 
 export interface EventType {
@@ -9,59 +8,11 @@ export interface EventType {
   image: string;
 }
 
-export interface EventUpdateType {
+export interface NewEventType {
   title: string;
   description: string;
   date: string;
   image: string;
-}
-
-export function useEventsBackend() {
-  const [events, setEvents] = useState<EventType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    fetchFromBackend({ method: 'GET', uri: '/events' })
-      .then(setEvents)
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  const createEvent = useCallback(
-    async (event: { title: string; description: string; date: string; image: string }) => {
-      setIsLoading(true);
-      await fetchFromBackend({ method: 'POST', uri: '/events', body: event })
-        .then(() => setIsSuccess(true))
-        .catch(() => setIsError(true))
-        .finally(() => setIsLoading(false));
-    },
-    [],
-  );
-
-  return { events, createEvent, isLoading, isSuccess, isError };
-}
-
-export function useEventBackend(eventId: string) {
-  const [isUpdatePending, setIsUpdatePending] = useState(false);
-
-  const updateEvent = useCallback(
-    async (event: EventUpdateType) => {
-      console.log(event);
-      setIsUpdatePending(true);
-      await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event }).finally(() =>
-        setIsUpdatePending(false),
-      );
-    },
-    [eventId],
-  );
-
-  const deleteEvent = useCallback(async () => {
-    setIsUpdatePending(true);
-    await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` }).finally(() => setIsUpdatePending(false));
-  }, [eventId]);
-
-  return { event, updateEvent, deleteEvent, isUpdatePending };
 }
 
 export async function fetchEvents() {
@@ -71,6 +22,18 @@ export async function fetchEvents() {
 export async function fetchEvent({ params }: LoaderFunctionArgs) {
   const { eventId } = params;
   return await fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` });
+}
+
+export async function createEvent(event: NewEventType) {
+  return await fetchFromBackend({ method: 'POST', uri: '/events', body: event });
+}
+
+export async function updateEvent(eventId: string, event: NewEventType) {
+  return await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event });
+}
+
+export async function deleteEvent(eventId: string) {
+  await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` });
 }
 
 interface RequestType extends RequestInit {

@@ -1,17 +1,39 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate, useParams, useRouteLoaderData } from 'react-router';
 
-import { Button, Spinner, Stack } from '@chakra-ui/react';
+import { Box, Button, Heading, Spinner, Stack } from '@chakra-ui/react';
 
+import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { FormInput } from '../../components/FormInput';
-import { EventType, EventUpdateType } from '../../lib/backend';
+import { EventType, NewEventType, updateEvent } from '../../lib/backend';
 
-export function EditEvent({
+export function EditEventPage() {
+  const { eventId } = useParams();
+  const navigate = useNavigate();
+  const event = useRouteLoaderData<EventType>('event');
+
+  return (
+    <>
+      <Breadcrumbs />
+      <Heading mb="10">Event Details</Heading>
+      <Box w="100%" h="100%" maxW="45rem">
+        <EventForm
+          event={event!}
+          onSubmit={(event) => updateEvent(eventId!, event).then(() => navigate('..'))}
+          onCancel={() => navigate('..')}
+        />
+      </Box>
+    </>
+  );
+}
+
+function EventForm({
   event,
   onSubmit,
   onCancel,
 }: {
   event: EventType;
-  onSubmit: (event: EventUpdateType) => void;
+  onSubmit: (event: NewEventType) => void;
   onCancel: () => void;
 }) {
   const form = useForm<EventType>({ defaultValues: event });
