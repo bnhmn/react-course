@@ -3,12 +3,13 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
+import { fetchEvents } from './lib/backend.ts';
 import { ErrorPage } from './routes/ErrorPage';
 import { handleCreateEvent } from './routes/events/CreateEventHandler.ts';
 import { CreateEventPage } from './routes/events/CreateEventPage';
+import { handleDeleteEvent } from './routes/events/DeleteEventHandler.ts';
 import { handleEditEvent } from './routes/events/EditEventHandler';
 import { EditEventPage } from './routes/events/EditEventPage';
-import { loadEvent, loadEvents } from './routes/events/ViewEventLoader.ts';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
@@ -27,13 +28,11 @@ export default function App() {
           <Route element={<RootLayout links={navLinks} />}>
             <Route hydrateFallbackElement={<Spinner />} errorElement={<ErrorPage />}>
               <Route path="/" element={<HomePage />}></Route>
-              <Route path="/events">
-                <Route path="" element={<ViewEventsPage />} loader={loadEvents} />
+              <Route path="/events" id="events" loader={fetchEvents}>
+                <Route path="" element={<ViewEventsPage />} />
                 <Route path="new" element={<CreateEventPage />} action={handleCreateEvent} />
-                <Route path=":eventId" id="event" loader={loadEvent}>
-                  <Route path="" element={<ViewEventPage />} />
-                  <Route path="edit" element={<EditEventPage />} action={handleEditEvent} />
-                </Route>
+                <Route path=":eventId" element={<ViewEventPage />} action={handleDeleteEvent} />
+                <Route path=":eventId/edit" element={<EditEventPage />} action={handleEditEvent} />
               </Route>
               <Route path="*" element={<NotFoundPage />} />
             </Route>

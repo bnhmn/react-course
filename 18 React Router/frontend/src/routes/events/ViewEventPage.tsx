@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { useNavigate, useParams, useRouteLoaderData } from 'react-router';
+import { useNavigate, useParams, useRouteLoaderData, useSubmit } from 'react-router';
 
 import { Box, Heading } from '@chakra-ui/react';
 
 import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { DeleteDialog } from '../../components/DeleteDialog';
-import { deleteEvent, EventType } from '../../lib/backend';
+import { EventType } from '../../lib/backend';
 import { ViewEvent } from './ViewEvent';
 
 export function ViewEventPage() {
   const { eventId } = useParams();
   const navigate = useNavigate();
-  const event = useRouteLoaderData<EventType>('event');
+  const submit = useSubmit();
+  const events = useRouteLoaderData<EventType[]>('events')!;
+  const event = events.filter((event) => event.id === eventId)[0];
   const [deleteDialogOpen, setDeleteOpen] = useState(false);
 
   return (
@@ -24,7 +26,7 @@ export function ViewEventPage() {
       <DeleteDialog
         label={`Delete "${event?.title}"`}
         open={deleteDialogOpen}
-        onSubmit={() => deleteEvent(eventId!).then(() => navigate('..'))}
+        onSubmit={() => submit(null, { method: 'DELETE' })}
         onCancel={() => setDeleteOpen(false)}
       />
     </>

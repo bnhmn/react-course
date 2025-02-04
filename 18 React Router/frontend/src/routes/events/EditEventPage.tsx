@@ -1,4 +1,4 @@
-import { useNavigate, useRouteLoaderData } from 'react-router';
+import { useNavigate, useParams, useRouteLoaderData } from 'react-router';
 
 import { Box, Heading } from '@chakra-ui/react';
 
@@ -7,8 +7,10 @@ import { EventType } from '../../lib/backend';
 import { EditEventForm } from './EditEventForm';
 
 export function EditEventPage() {
+  const { eventId } = useParams();
   const navigate = useNavigate();
-  const event = useRouteLoaderData<EventType>('event');
+  const events = useRouteLoaderData<EventType[]>('events')!;
+  const event = events.filter((event) => event.id === eventId)[0];
 
   return (
     <>

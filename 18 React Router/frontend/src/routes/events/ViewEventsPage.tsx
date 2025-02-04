@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from 'react-router';
+import { useNavigate, useRouteLoaderData } from 'react-router';
 
 import { AddIcon } from '@chakra-ui/icons';
 import { Flex, Heading, IconButton, Text } from '@chakra-ui/react';
@@ -8,7 +8,7 @@ import { ViewEvents } from './ViewEvents';
 
 export function ViewEventsPage() {
   const navigate = useNavigate();
-  const events = useLoaderData<EventType[]>();
+  const events = useRouteLoaderData<EventType[]>('events')!;
 
   return (
     <>
