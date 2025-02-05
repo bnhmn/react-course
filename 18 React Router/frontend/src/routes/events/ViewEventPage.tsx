@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { useFetcher, useNavigate, useParams, useRouteLoaderData } from 'react-router';
+import {
+	useFetcher,
+	useNavigate,
+	useParams,
+	useRouteLoaderData,
+} from 'react-router';
 
 import { Box, Heading } from '@chakra-ui/react';
 
@@ -11,10 +16,12 @@ import { ViewEvent } from './ViewEvent';
 export function ViewEventPage() {
   const { eventId } = useParams();
   const navigate = useNavigate();
-  const fetcher = useFetcher();
   const events = useRouteLoaderData<EventType[]>('events')!;
   const event = events.filter((event) => event.id === eventId)[0];
   const [deleteDialogOpen, setDeleteOpen] = useState(false);
+
+  // https://reactrouter.com/en/6.29.0/start/tutorial#mutations-without-navigation
+  const fetcher = useFetcher();
 
   // Optimistic update: https://reactrouter.com/en/6.29.0/start/tutorial#optimistic-ui
   const watching = fetcher.formData ? fetcher.formData.get('command') === 'watch' : event.watching;
