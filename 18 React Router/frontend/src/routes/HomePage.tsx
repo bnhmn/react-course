@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router';
+import { Link } from 'react-router';
 
 import { Button, Container, Heading, List, ListItem, Stack, Text } from '@chakra-ui/react';
 
@@ -29,7 +29,7 @@ export function HomePage({ accentColor = color('blue.500') }) {
         </Stack>
 
         <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
-          <Button as={NavLink} to="/events" rounded="full" px={6}>
+          <Button as={Link} to="/events" rounded="full" px={6}>
             Get Started
           </Button>
         </Stack>

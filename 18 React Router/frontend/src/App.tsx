@@ -4,7 +4,7 @@ import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
 import { fetchEvents } from './lib/backend.ts';
-import { ErrorPage } from './routes/ErrorPage';
+import { GenericErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
 import { handleCreateEvent } from './routes/events/CreateEventHandler.ts';
 import { CreateEventPage } from './routes/events/CreateEventPage';
 import { handleDeleteEvent } from './routes/events/DeleteEventHandler.ts';
@@ -13,7 +13,6 @@ import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
-import { NotFoundPage } from './routes/NotFoundPage';
 
 // Using react-router, you can simulate a multi-page application with React.
 // You can create multiple routes between which the user can navigate back and forth.
@@ -26,7 +25,7 @@ export default function App() {
       router={createBrowserRouter(
         createRoutesFromElements(
           <Route element={<RootLayout links={navLinks} />}>
-            <Route hydrateFallbackElement={<Spinner />} errorElement={<ErrorPage />}>
+            <Route hydrateFallbackElement={<Spinner />} errorElement={<GenericErrorPage />}>
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/events" id="events" loader={fetchEvents}>
                 <Route path="" element={<ViewEventsPage />} />
