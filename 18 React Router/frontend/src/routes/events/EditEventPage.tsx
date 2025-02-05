@@ -17,7 +17,7 @@ export function EditEventPage() {
       <Breadcrumbs />
       <Heading mb="10">Edit Event Details</Heading>
       <Box w="100%" h="100%" maxW="45rem">
-        <EditEventForm event={event!} onCancel={() => navigate('..')} />
+        <EditEventForm event={event!} onCancel={() => navigate(`/events/${eventId}`)} />
       </Box>
     </>
   );
