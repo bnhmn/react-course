@@ -4,7 +4,7 @@ import { Button, Heading, Stack, Text } from '@chakra-ui/react';
 
 export function ErrorPage() {
   return (
-    <Stack maxW="30rem" mt="10" gap="10">
+    <Stack direction="column" height="100%" maxW="30rem" position="relative" top="20%" gap="12">
       <Heading>Something went wrong.</Heading>
       <Text fontSize="larger">
         Sorry, we couldn't load the page you asked for 😕 <br />

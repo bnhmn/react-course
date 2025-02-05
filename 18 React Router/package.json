@@ -1,5 +1,5 @@
 {
-  "name": "food-order-app",
+  "name": "event-management-app",
   "private": true,
   "scripts": {
     "dev": "concurrently -n backend,frontend -c blue,yellow \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",

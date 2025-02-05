@@ -4,7 +4,7 @@ import { Button, Heading, Stack, Text } from '@chakra-ui/react';
 
 export function NotFoundPage() {
   return (
-    <Stack maxW="30rem" mt="10" gap="10">
+    <Stack direction="column" height="100%" maxW="30rem" position="relative" top="20%" gap="12">
       <Heading>UH OH! You're lost.</Heading>
       <Text fontSize="larger">
         The page you are looking for does not exist. How you got here is a mystery. But you can click the button below
