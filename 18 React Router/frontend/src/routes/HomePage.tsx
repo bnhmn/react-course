@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import { Button, Container, Heading, List, ListItem, Stack, Text } from '@chakra-ui/react';
+import { Button, Container, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { color } from '../theme';
 
@@ -20,12 +20,7 @@ export function HomePage({ accentColor = color('blue.500') }) {
             Your go-to platform for discovering and managing exciting events! Whether you're looking for concerts,
             workshops, sports events, or local meetups, we’ve got you covered.
           </Text>
-          <List>
-            <ListItem>✨ Explore upcoming events.</ListItem>
-            <ListItem> ✏️ Manage and edit events.</ListItem>
-            <ListItem>📅 Stay organized with reminders.</ListItem>
-            <ListItem mt="6">Join now and never miss out on an amazing experience again!</ListItem>
-          </List>
+          <Text>Join now and never miss out on an amazing experience again!</Text>
         </Stack>
 
         <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
