@@ -24,7 +24,14 @@ export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCan
           isRequired
         />
         <FormInput name="date" type="date" label="Date" defaultValue={event?.date} isRequired />
-        <FormInput name="image" type="url" label="Image URL" defaultValue={event?.image} isRequired />
+        <FormInput
+          name="image"
+          type="url"
+          label="Image URL"
+          defaultValue={event?.image}
+          pattern="https?://.*"
+          isRequired
+        />
         <Stack direction="row" gap="0.3rem" mt="1rem">
           <FormButton type="submit" variant="solid">
             {isSubmitting ? <Spinner /> : 'Submit'}
