@@ -1,18 +1,39 @@
-import { Heading, Image, Link, Text, useColorMode } from '@chakra-ui/react';
+import { NavLink } from 'react-router';
 
-export function HomePage() {
-  const { colorMode } = useColorMode();
+import { Button, Container, Heading, List, ListItem, Stack, Text } from '@chakra-ui/react';
+
+import { color } from '../theme';
+
+export function HomePage({ accentColor = color('blue.500') }) {
+  // https://chakra-templates.vercel.app/page-sections/hero
   return (
-    <>
-      <Heading mb="16">Homepage</Heading>
-      <Link href="https://reactrouter.com/en/6.29.0" target="_blank">
-        <Image mb="16" maxW="25rem" src={`react-router-${colorMode}.svg`} alt="React logo" />
-      </Link>
-      <Text mb="16" maxW="50rem" fontSize="larger">
-        Using react-router, you can simulate a multi-page application with React. <br />
-        You can create multiple routes between which the user can navigate back and forth. <br />
-        Click a link in the top menu to explore the content!
-      </Text>
-    </>
+    <Container maxW="3xl">
+      <Stack textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 20, md: 36 }}>
+        <Heading fontWeight={600} fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }} lineHeight="110%">
+          Discover & Manage <br />
+          <Text as="span" color={accentColor}>
+            Amazing Events
+          </Text>
+        </Heading>
+        <Stack spacing="6">
+          <Text>
+            Your go-to platform for discovering and managing exciting events! Whether you're looking for concerts,
+            workshops, sports events, or local meetups, we’ve got you covered.
+          </Text>
+          <List>
+            <ListItem>✨ Explore upcoming events.</ListItem>
+            <ListItem> ✏️ Manage and edit events.</ListItem>
+            <ListItem>📅 Stay organized with reminders.</ListItem>
+            <ListItem mt="6">Join now and never miss out on an amazing experience again!</ListItem>
+          </List>
+        </Stack>
+
+        <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
+          <Button as={NavLink} to="/events" rounded="full" px={6}>
+            Get Started
+          </Button>
+        </Stack>
+      </Stack>
+    </Container>
   );
 }

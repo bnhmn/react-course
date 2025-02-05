@@ -5,16 +5,12 @@ import NProgress from 'nprogress';
 import { useEffect } from 'react';
 import { NavLink, useNavigation } from 'react-router';
 
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Button, DarkMode, IconButton, Stack, useColorMode } from '@chakra-ui/react';
+import { MoonIcon, StarIcon, SunIcon } from '@chakra-ui/icons';
+import { Button, DarkMode, IconButton, Stack, Tooltip, useColorMode } from '@chakra-ui/react';
 
 import { headerBg, headerTextColor } from '../theme';
 
-interface NavigationProps {
-  links: { [label: string]: string };
-}
-
-export function Navigation({ links }: NavigationProps) {
+export function Navigation({ links }: { links: { [label: string]: string } }) {
   // https://v2.chakra-ui.com/docs/styled-system/color-mode
   const { colorMode, toggleColorMode } = useColorMode();
   const navigation = useNavigation();
@@ -59,13 +55,25 @@ export function Navigation({ links }: NavigationProps) {
           ))}
         </Stack>
         <Stack id="tools" direction="row" justifyContent="center" alignItems="center" gap="5">
-          <IconButton
-            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-            variant="ghost"
-            onClick={toggleColorMode}
-            aria-label="Toggle dark mode"
-            color={headerTextColor}
-          />
+          <Tooltip label="Watchlist">
+            <IconButton
+              icon={<StarIcon />}
+              variant="ghost"
+              as={NavLink}
+              to="/watchlist"
+              aria-label="View watchlist"
+              color={headerTextColor}
+            />
+          </Tooltip>
+          <Tooltip label="Toggle Dark Mode">
+            <IconButton
+              icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              variant="ghost"
+              onClick={toggleColorMode}
+              aria-label="Toggle dark mode"
+              color={headerTextColor}
+            />
+          </Tooltip>
         </Stack>
       </DarkMode>
     </Stack>
