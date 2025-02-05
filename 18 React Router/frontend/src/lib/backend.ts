@@ -13,24 +13,40 @@ export interface NewEventType {
   image: string;
 }
 
-export async function fetchEvents() {
+export async function fetchEvents(): Promise<EventType[]> {
   return await fetchFromBackend({ method: 'GET', uri: '/events' });
 }
 
-export async function fetchEvent(eventId: string) {
+export async function fetchEvent(eventId: string): Promise<EventType> {
   return await fetchFromBackend({ method: 'GET', uri: `/events/${eventId}` });
 }
 
-export async function createEvent(event: NewEventType) {
+export async function createEvent(event: NewEventType): Promise<EventType> {
   return await fetchFromBackend({ method: 'POST', uri: '/events', body: event });
 }
 
-export async function updateEvent(eventId: string, event: NewEventType) {
+export async function updateEvent(eventId: string, event: NewEventType): Promise<EventType> {
   return await fetchFromBackend({ method: 'PATCH', uri: `/events/${eventId}`, body: event });
 }
 
 export async function deleteEvent(eventId: string) {
   await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` });
+}
+
+export async function fetchWatchlist(): Promise<EventType[]> {
+  const [events, watchlist] = await Promise.all([
+    fetchEvents(),
+    fetchFromBackend({ method: 'GET', uri: '/watchlist/items' }),
+  ]);
+  return events.filter((event) => watchlist.includes(event.id));
+}
+
+export async function addEventToWatchlist(eventId: string) {
+  await fetchFromBackend({ method: 'POST', uri: '/watchlist/items', body: { eventId } });
+}
+
+export async function removeEventFromWatchlist(eventId: string) {
+  await fetchFromBackend({ method: 'DELETE', uri: `/watchlist/items/${eventId}` });
 }
 
 interface RequestType extends RequestInit {

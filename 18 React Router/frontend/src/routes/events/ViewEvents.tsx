@@ -19,7 +19,7 @@ export function ViewEvents({ events }: { events: EventType[] }) {
           _hover={{ bg: color('ButtonHighlight'), transform: 'scale(1.05)' }}
         >
           {/* This is a link to another page: https://reactrouter.com/start/library/navigating#link */}
-          <CardBody as={Link} to={event.id}>
+          <CardBody as={Link} to={`/events/${event.id}`}>
             <Stack direction="column" gap="3">
               <Heading size="md">{event.title}</Heading>
               <Text mb="3">{formatDate(event.date)}</Text>

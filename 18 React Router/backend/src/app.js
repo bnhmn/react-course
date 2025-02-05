@@ -4,6 +4,7 @@ import 'express-async-errors';
 import morgan from 'morgan';
 import { addEvent, deleteEventById, findAllEvents, findEventById, replaceEvent } from './events.js';
 import { Joi, validate, validationErrorHandler } from './validation.js';
+import { addToWatchlist, findAllWatchlistItems, removeFromWatchlist } from './watchlist.js';
 
 const app = express();
 const port = 8888;
@@ -78,6 +79,27 @@ app.delete('/events/:id', async (req, res) => {
   } else {
     res.status(204).send();
   }
+});
+
+app.get('/watchlist/items', async (req, res) => {
+  const items = await findAllWatchlistItems();
+  res.json(items);
+});
+
+app.post(
+  '/watchlist/items',
+  validate({
+    body: Joi.object({
+      eventId: Joi.string().trim().pattern(/e\d+/).required(),
+    }),
+  }),
+  async (req, res) => {
+    await addToWatchlist(req.body.eventId);
+  },
+);
+
+app.delete('/watchlist/items/:eventId', async (req, res) => {
+  await removeFromWatchlist(req.params.eventId);
 });
 
 app.listen(8080);
