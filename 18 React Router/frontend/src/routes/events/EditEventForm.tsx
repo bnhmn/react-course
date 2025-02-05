@@ -33,7 +33,7 @@ export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCan
           isRequired
         />
         <Stack direction="row" gap="0.3rem" mt="1rem">
-          <FormButton type="submit" variant="solid">
+          <FormButton type="submit" name="command" value="edit" variant="solid">
             {isSubmitting ? <Spinner /> : 'Submit'}
           </FormButton>
           <FormButton type="button" variant="ghost" onClick={onCancel}>

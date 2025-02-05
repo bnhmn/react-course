@@ -4,6 +4,7 @@ export interface EventType {
   description: string;
   date: string;
   image: string;
+  watching?: boolean;
 }
 
 export interface NewEventType {
@@ -14,7 +15,16 @@ export interface NewEventType {
 }
 
 export async function fetchEvents(): Promise<EventType[]> {
-  return await fetchFromBackend({ method: 'GET', uri: '/events' });
+  const [events, watchlist] = await Promise.all([
+    fetchFromBackend({ method: 'GET', uri: '/events' }) as Promise<EventType[]>,
+    fetchFromBackend({ method: 'GET', uri: '/watchlist/items' }) as Promise<string>,
+  ]);
+  return events.map((event) => ({ ...event, watching: watchlist.includes(event.id) }));
+}
+
+export async function fetchWatchingEvents(): Promise<EventType[]> {
+  const events = await fetchEvents();
+  return events.filter((event) => event.watching);
 }
 
 export async function fetchEvent(eventId: string): Promise<EventType> {
@@ -31,14 +41,6 @@ export async function updateEvent(eventId: string, event: NewEventType): Promise
 
 export async function deleteEvent(eventId: string) {
   await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` });
-}
-
-export async function fetchWatchlist(): Promise<EventType[]> {
-  const [events, watchlist] = await Promise.all([
-    fetchEvents(),
-    fetchFromBackend({ method: 'GET', uri: '/watchlist/items' }),
-  ]);
-  return events.filter((event) => watchlist.includes(event.id));
 }
 
 export async function addEventToWatchlist(eventId: string) {

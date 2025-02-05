@@ -3,12 +3,11 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
-import { fetchEvents, fetchWatchlist } from './lib/backend.ts';
+import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
 import { GenericErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
 import { handleCreateEvent } from './routes/events/CreateEventHandler.ts';
 import { CreateEventPage } from './routes/events/CreateEventPage';
-import { handleDeleteEvent } from './routes/events/DeleteEventHandler.ts';
-import { handleEditEvent } from './routes/events/EditEventHandler';
+import { handleChangeEvent } from './routes/events/EditEventHandler.ts';
 import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
@@ -31,10 +30,10 @@ export default function App() {
               <Route path="/events" id="events" loader={fetchEvents}>
                 <Route path="" element={<ViewEventsPage />} />
                 <Route path="new" element={<CreateEventPage />} action={handleCreateEvent} />
-                <Route path=":eventId" element={<ViewEventPage />} action={handleDeleteEvent} />
-                <Route path=":eventId/edit" element={<EditEventPage />} action={handleEditEvent} />
+                <Route path=":eventId" element={<ViewEventPage />} action={handleChangeEvent} />
+                <Route path=":eventId/edit" element={<EditEventPage />} action={handleChangeEvent} />
               </Route>
-              <Route path="/watchlist" element={<ViewWatchlistPage />} loader={fetchWatchlist} />
+              <Route path="/watchlist" element={<ViewWatchlistPage />} loader={fetchWatchingEvents} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Route>,

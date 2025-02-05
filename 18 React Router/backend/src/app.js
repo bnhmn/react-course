@@ -95,11 +95,13 @@ app.post(
   }),
   async (req, res) => {
     await addToWatchlist(req.body.eventId);
+    res.status(204).send();
   },
 );
 
 app.delete('/watchlist/items/:eventId', async (req, res) => {
   await removeFromWatchlist(req.params.eventId);
+  res.status(204).send();
 });
 
 app.listen(8080);

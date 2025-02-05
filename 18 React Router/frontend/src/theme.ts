@@ -1,9 +1,10 @@
 import * as CSS from 'csstype';
 
-import { ChakraTheme, extendTheme, withDefaultColorScheme } from '@chakra-ui/react';
+import { ChakraTheme, extendTheme, ThemingProps, withDefaultColorScheme } from '@chakra-ui/react';
 
 export const headerBg = '#0180CC';
 export const headerTextColor = 'whitesmoke';
+export const colorScheme: ThemingProps['colorScheme'] = 'blue';
 
 export const theme = extendTheme(
   {
@@ -12,7 +13,7 @@ export const theme = extendTheme(
       useSystemColorMode: true,
     },
   } satisfies Partial<ChakraTheme>,
-  withDefaultColorScheme({ colorScheme: 'blue' }),
+  withDefaultColorScheme({ colorScheme }),
 );
 
 /**
