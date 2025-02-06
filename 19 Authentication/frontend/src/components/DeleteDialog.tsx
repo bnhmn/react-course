@@ -8,7 +8,6 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-  Spinner,
   useDisclosure,
 } from '@chakra-ui/react';
 
@@ -55,11 +54,11 @@ export function DeleteDialog({
           <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button colorScheme="gray" variant="ghost" ref={cancelRef} onClick={handleClose} disabled={isPending}>
+            <Button colorScheme="gray" variant="ghost" ref={cancelRef} onClick={handleClose} isDisabled={isPending}>
               Cancel
             </Button>
-            <Button colorScheme="red" variant="solid" onClick={handleSubmit} ml={3} disabled={isPending}>
-              {isPending ? <Spinner /> : 'Delete'}
+            <Button colorScheme="red" variant="solid" onClick={handleSubmit} ml={3} isLoading={isPending}>
+              Delete
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
