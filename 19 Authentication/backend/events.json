@@ -1,0 +1,46 @@
+{
+  "events": [
+    {
+      "id": "e1",
+      "title": "Developer Conference",
+      "date": "2023-02-22",
+      "image": "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
+      "description": "Connect, learn, and innovate! Join top developers and tech leaders to explore the latest trends, tools, and breakthroughs in software development."
+    },
+    {
+      "id": "e2",
+      "title": "The Art of Product Design",
+      "date": "2023-03-15",
+      "image": "https://images.pexels.com/photos/716276/pexels-photo-716276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
+      "description": "Discover the perfect blend of creativity and functionality! Explore how innovative design transforms everyday products into masterpieces of form and function."
+    },
+    {
+      "id": "e3",
+      "title": "React Masterclass",
+      "date": "2023-04-27",
+      "image": "https://images.pexels.com/photos/301987/pexels-photo-301987.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
+      "description": "Master modern web development with React! Learn best practices, advanced techniques, and build dynamic, high-performance applications with ease."
+    },
+    {
+      "id": "e4",
+      "title": "Warm Up Party",
+      "date": "2023-05-12",
+      "image": "https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
+      "description": "Start the night with great music, cool drinks, and good vibes - let's get the party going!"
+    },
+    {
+      "id": "e5",
+      "title": "Rock im Revier",
+      "date": "2023-06-18",
+      "image": "https://images.pexels.com/photos/167478/pexels-photo-167478.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
+      "description": "Experience pure rock energy at Rock im Revier! A festival packed with legendary bands, electrifying live acts, and an unforgettable atmosphere!"
+    },
+    {
+      "id": "e6",
+      "title": "Japan Festival",
+      "date": "2023-07-24",
+      "image": "https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
+      "description": "Get ready to kick off the night in style! Join us for high-energy beats, great vibes, and the perfect start to an unforgettable event."
+    }
+  ]
+}
