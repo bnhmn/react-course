@@ -4,11 +4,7 @@ import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
 import { Navigation } from './Navigation';
 
-interface RootLayoutProps {
-  links: { [label: string]: string };
-}
-
-export function RootLayout({ links }: RootLayoutProps) {
+export function RootLayout({ links }: { links: { [label: string]: string } }) {
   return (
     // https://v2.chakra-ui.com/docs/components/grid#template-areas
     <Grid

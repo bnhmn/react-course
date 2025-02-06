@@ -1,10 +1,13 @@
-import * as CSS from 'csstype';
-
 import { ChakraTheme, extendTheme, ThemingProps, withDefaultColorScheme } from '@chakra-ui/react';
+import { ColorProps } from '@chakra-ui/styled-system';
 
-export const headerBg = '#0180CC';
-export const headerTextColor = 'whitesmoke';
+// Colors: https://v2.chakra-ui.com/docs/styled-system/theme#alphas
+
 export const colorScheme: ThemingProps['colorScheme'] = 'blue';
+export const headerBg = color('#0180CC');
+export const headerTextColor = color('whitesmoke');
+export const headerHiglight = color('rgba(144, 205, 244, 0.12)');
+export const headerActive = color('whiteAlpha.300');
 
 export const theme = extendTheme(
   {
@@ -19,6 +22,6 @@ export const theme = extendTheme(
 /**
  * Provides color auto completion.
  */
-export function color(color: CSS.Property.Color): CSS.Property.Color {
+export function color(color: ColorProps['color']): ColorProps['color'] {
   return color;
 }
