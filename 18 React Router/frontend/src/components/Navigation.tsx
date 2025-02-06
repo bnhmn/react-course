@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { NavLink, useNavigation } from 'react-router';
 
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Button, DarkMode, IconButton, Stack, Tooltip, useColorMode } from '@chakra-ui/react';
+import { Button, DarkMode, IconButton, Stack, useColorMode } from '@chakra-ui/react';
 
 import { headerBg, headerTextColor } from '../theme';
 
@@ -55,15 +55,13 @@ export function Navigation({ links }: { links: { [label: string]: string } }) {
           ))}
         </Stack>
         <Stack id="tools" direction="row" justifyContent="center" alignItems="center" gap="5">
-          <Tooltip label="Toggle Dark Mode">
-            <IconButton
-              icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              variant="ghost"
-              onClick={toggleColorMode}
-              aria-label="Toggle dark mode"
-              color={headerTextColor}
-            />
-          </Tooltip>
+          <IconButton
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            variant="ghost"
+            onClick={toggleColorMode}
+            aria-label="Toggle dark mode"
+            color={headerTextColor}
+          />
         </Stack>
       </DarkMode>
     </Stack>
