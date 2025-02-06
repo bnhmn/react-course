@@ -4,6 +4,7 @@ import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
 import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
+import { ViewAccountPage } from './routes/account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './routes/account/ViewWatchlistPage.tsx';
 import { GenericErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
 import { handleCreateEvent } from './routes/events/CreateEventHandler.ts';
@@ -33,6 +34,7 @@ export default function App() {
                 <Route path=":eventId" element={<ViewEventPage />} action={handleChangeEvent} />
                 <Route path=":eventId/edit" element={<EditEventPage />} action={handleChangeEvent} />
               </Route>
+              <Route path="/account" element={<ViewAccountPage />} />
               <Route path="/account/watchlist" element={<ViewWatchlistPage />} loader={fetchWatchingEvents} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>

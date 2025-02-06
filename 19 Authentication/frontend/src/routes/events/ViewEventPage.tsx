@@ -1,15 +1,10 @@
 import { useState } from 'react';
-import {
-	useFetcher,
-	useNavigate,
-	useParams,
-	useRouteLoaderData,
-} from 'react-router';
+import { useFetcher, useNavigate, useParams, useRouteLoaderData } from 'react-router';
 
 import { Box, Heading } from '@chakra-ui/react';
 
-import { Breadcrumbs } from '../../components/Breadcrumbs';
 import { DeleteDialog } from '../../components/DeleteDialog';
+import { Breadcrumbs } from '../../components/navigation/Breadcrumbs';
 import { EventType } from '../../lib/backend';
 import { ViewEvent } from './ViewEvent';
 

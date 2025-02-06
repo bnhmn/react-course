@@ -2,7 +2,7 @@ import { Outlet } from 'react-router';
 
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
-import { Navigation } from './Navigation';
+import { Navigation } from './navigation/Navigation';
 
 export function RootLayout({ links }: { links: { [label: string]: string } }) {
   return (

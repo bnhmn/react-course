@@ -1,10 +1,10 @@
 import { ChakraTheme, extendTheme, ThemingProps, withDefaultColorScheme } from '@chakra-ui/react';
 import { ColorProps } from '@chakra-ui/styled-system';
 
-// Colors: https://v2.chakra-ui.com/docs/styled-system/theme#alphas
+// Default color schemes: https://v2.chakra-ui.com/docs/styled-system/theme#alphas
 
 export const colorScheme: ThemingProps['colorScheme'] = 'blue';
-export const headerBg = color('#0180CC');
+export const headerBackground = color('#0180CC');
 export const headerTextColor = color('whitesmoke');
 export const headerHiglight = color('rgba(144, 205, 244, 0.12)');
 export const headerActive = color('whiteAlpha.300');

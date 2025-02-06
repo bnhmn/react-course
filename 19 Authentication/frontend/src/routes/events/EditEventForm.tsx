@@ -1,9 +1,9 @@
 import { Form, useNavigation } from 'react-router';
 
-import { Spinner, Stack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 
-import { FormButton } from '../../components/FormButton';
-import { FormInput } from '../../components/FormInput';
+import { FormButton } from '../../components/form/FormButton';
+import { FormInput } from '../../components/form/FormInput';
 import { NewEventType } from '../../lib/backend';
 
 export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCancel: () => void }) {
@@ -33,8 +33,8 @@ export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCan
           isRequired
         />
         <Stack direction="row" gap="0.3rem" mt="1rem">
-          <FormButton type="submit" name="command" value="edit" variant="solid">
-            {isSubmitting ? <Spinner /> : 'Submit'}
+          <FormButton type="submit" name="command" value="edit" variant="solid" isLoading={isSubmitting}>
+            Submit
           </FormButton>
           <FormButton type="button" variant="ghost" onClick={onCancel}>
             Cancel

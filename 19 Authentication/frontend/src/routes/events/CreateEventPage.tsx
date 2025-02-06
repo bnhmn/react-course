@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 
 import { Box, Heading } from '@chakra-ui/react';
 
-import { Breadcrumbs } from '../../components/Breadcrumbs';
+import { Breadcrumbs } from '../../components/navigation/Breadcrumbs';
 import { EditEventForm } from './EditEventForm';
 
 export function CreateEventPage() {
