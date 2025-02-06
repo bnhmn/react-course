@@ -1,13 +1,15 @@
 import eventData from '../events.json' with { type: "json" };
 
-
 const events = eventData.events;
+const watchlist = new Set(['e1', 'e3']);
 let eventId = events.length;
 const delaySeconds = 0.5;
 
 export async function findAllEvents(sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
-  return [...events].sort((a, b) => a.date.localeCompare(b.date));
+  return events
+    .map((event) => ({ ...event, watching: watchlist.has(event.id) }))
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 export async function findEventById(eventId, sleepSeconds = delaySeconds) {
@@ -38,8 +40,18 @@ export async function replaceEvent(eventId, newEventData, sleepSeconds = delaySe
   if (!event) {
     return null;
   }
-  events[eventIndex] = {...event, ...newEventData}
+  events[eventIndex] = { ...event, ...newEventData };
   return events[eventIndex];
+}
+
+export async function addToWatchlist(eventId) {
+    await sleep(delaySeconds);
+    watchlist.add(eventId);
+}
+
+export async function removeFromWatchlist(eventId) {
+    await sleep(delaySeconds);
+    watchlist.delete(eventId);
 }
 
 function createEvent(eventData) {

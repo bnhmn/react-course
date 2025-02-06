@@ -15,11 +15,7 @@ export interface NewEventType {
 }
 
 export async function fetchEvents(): Promise<EventType[]> {
-  const [events, watchlist] = await Promise.all([
-    fetchFromBackend({ method: 'GET', uri: '/events' }) as Promise<EventType[]>,
-    fetchFromBackend({ method: 'GET', uri: '/watchlist/items' }) as Promise<string>,
-  ]);
-  return events.map((event) => ({ ...event, watching: watchlist.includes(event.id) }));
+  return await fetchFromBackend({ method: 'GET', uri: '/events' });
 }
 
 export async function fetchWatchingEvents(): Promise<EventType[]> {

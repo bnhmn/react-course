@@ -2,9 +2,16 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
-import { addEvent, deleteEventById, findAllEvents, findEventById, replaceEvent } from './events.js';
+import {
+  addEvent,
+  addToWatchlist,
+  deleteEventById,
+  findAllEvents,
+  findEventById,
+  removeFromWatchlist,
+  replaceEvent,
+} from './events.js';
 import { Joi, validate, validationErrorHandler } from './validation.js';
-import { addToWatchlist, findAllWatchlistItems, removeFromWatchlist } from './watchlist.js';
 
 const app = express();
 const port = 8888;
@@ -79,11 +86,6 @@ app.delete('/events/:id', async (req, res) => {
   } else {
     res.status(204).send();
   }
-});
-
-app.get('/watchlist/items', async (req, res) => {
-  const items = await findAllWatchlistItems();
-  res.json(items);
 });
 
 app.post(
