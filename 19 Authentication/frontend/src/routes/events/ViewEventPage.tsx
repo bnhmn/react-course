@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useFetcher, useNavigate, useParams, useRouteLoaderData } from 'react-router';
 
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Heading } from '@chakra-ui/react';
 
 import { DeleteDialog } from '../../components/DeleteDialog';
@@ -21,6 +22,8 @@ export function ViewEventPage() {
   // Optimistic update: https://reactrouter.com/en/6.29.0/start/tutorial#optimistic-ui
   const watching = fetcher.formData ? fetcher.formData.get('command') === 'watch' : event.watching;
 
+  const { isAuthenticated } = useAuth0();
+
   return (
     <>
       <Breadcrumbs />
@@ -28,6 +31,7 @@ export function ViewEventPage() {
       <Box w="100%" h="100%" maxW="45rem">
         <ViewEvent
           event={{ ...event, watching }}
+          canModify={isAuthenticated}
           onWatch={() => fetcher.submit({ command: event.watching ? 'unwatch' : 'watch' }, { method: 'POST' })}
           onEdit={() => navigate('edit')}
           onDelete={() => setDeleteOpen(true)}
