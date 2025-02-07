@@ -12,13 +12,13 @@ import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
  * If the token is valid, the JWT payload can be accessed at req.auth.payload in the request handler.
  */
 export const requiresAuth = auth({
-  audience: 'https://bnhmn.de',
+  audience: 'https://event-management-api.local',
   issuerBaseURL: 'https://bnhmn.eu.auth0.com/',
   tokenSigningAlg: 'RS256',
 });
 
 export const optionalAuth = auth({
-  audience: 'https://bnhmn.de',
+  audience: 'https://event-management-api.local',
   issuerBaseURL: 'https://bnhmn.eu.auth0.com/',
   tokenSigningAlg: 'RS256',
   authRequired: false,

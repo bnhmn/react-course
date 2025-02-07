@@ -3,17 +3,19 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
+import { finishLoginAction } from './lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
 import { ViewAccountPage } from './routes/account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './routes/account/ViewWatchlistPage.tsx';
 import { GenericErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
-import { handleCreateEvent } from './routes/events/CreateEventHandler.ts';
+import { createEventAction } from './routes/events/CreateEventHandler.ts';
 import { CreateEventPage } from './routes/events/CreateEventPage';
-import { handleChangeEvent } from './routes/events/EditEventHandler.ts';
+import { changeEventAction } from './routes/events/EditEventHandler.ts';
 import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
+import { LoginPage } from './routes/LoginPage.tsx';
 
 // Using react-router, you can simulate a multi-page application with React.
 // You can create multiple routes between which the user can navigate back and forth.
@@ -30,12 +32,16 @@ export default function App() {
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/events" id="events" loader={fetchEvents}>
                 <Route path="" element={<ViewEventsPage />} />
-                <Route path="new" element={<CreateEventPage />} action={handleCreateEvent} />
-                <Route path=":eventId" element={<ViewEventPage />} action={handleChangeEvent} />
-                <Route path=":eventId/edit" element={<EditEventPage />} action={handleChangeEvent} />
+                <Route path="new" element={<CreateEventPage />} action={createEventAction} />
+                <Route path=":eventId" element={<ViewEventPage />} action={changeEventAction} />
+                <Route path=":eventId/edit" element={<EditEventPage />} action={changeEventAction} />
               </Route>
-              <Route path="/account" element={<ViewAccountPage />} />
-              <Route path="/account/watchlist" element={<ViewWatchlistPage />} loader={fetchWatchingEvents} />
+              <Route path="/account">
+                <Route path="" element={<ViewAccountPage />} />
+                <Route path="watchlist" element={<ViewWatchlistPage />} loader={fetchWatchingEvents} />
+              </Route>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login/finish" loader={finishLoginAction} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Route>,
