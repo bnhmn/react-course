@@ -1,14 +1,15 @@
 import eventData from '../events.json' with { type: "json" };
+import { findWatchlist } from './watchlist.js';
 
 const events = eventData.events;
-const watchlist = new Set(['e1', 'e3']);
 let eventId = events.length;
 const delaySeconds = 0.5;
 
-export async function findAllEvents(sleepSeconds = delaySeconds) {
+export async function findAllEvents(userId, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
+  const watchlist = await findWatchlist(userId);
   return events
-    .map((event) => ({ ...event, watching: watchlist.has(event.id) }))
+    .map((event) => ({ ...event, watching: watchlist?.has(event.id) }))
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
@@ -19,7 +20,7 @@ export async function findEventById(eventId, sleepSeconds = delaySeconds) {
 
 export async function addEvent(eventData, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
-  const newEvent = createEvent(eventData);
+  const newEvent = { id: `e${++eventId}`, ...eventData };
   events.unshift(newEvent);
   return newEvent;
 }
@@ -42,20 +43,6 @@ export async function replaceEvent(eventId, newEventData, sleepSeconds = delaySe
   }
   events[eventIndex] = { ...event, ...newEventData };
   return events[eventIndex];
-}
-
-export async function addToWatchlist(eventId) {
-    await sleep(delaySeconds);
-    watchlist.add(eventId);
-}
-
-export async function removeFromWatchlist(eventId) {
-    await sleep(delaySeconds);
-    watchlist.delete(eventId);
-}
-
-function createEvent(eventData) {
-  return { id: `e${++eventId}`, ...eventData };
 }
 
 function findEvent(eventId) {

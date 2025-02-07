@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useFetcher, useNavigate, useParams, useRouteLoaderData } from 'react-router';
 
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Heading } from '@chakra-ui/react';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { Box, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 
 import { DeleteDialog } from '../../components/DeleteDialog';
 import { Breadcrumbs } from '../../components/navigation/Breadcrumbs';
 import { EventType } from '../../lib/backend';
-import { ViewEvent } from './ViewEvent';
+import { formatDate } from '../../lib/localization';
 
 export function ViewEventPage() {
   const { eventId } = useParams();
@@ -29,13 +31,45 @@ export function ViewEventPage() {
       <Breadcrumbs />
       <Heading mb="10">Event Details</Heading>
       <Box w="100%" h="100%" maxW="45rem">
-        <ViewEvent
-          event={{ ...event, watching }}
-          canModify={isAuthenticated}
-          onWatch={() => fetcher.submit({ command: event.watching ? 'unwatch' : 'watch' }, { method: 'POST' })}
-          onEdit={() => navigate('edit')}
-          onDelete={() => setDeleteOpen(true)}
-        />
+        <Stack direction="column" gap="3">
+          <Stack
+            direction={{ base: 'column', md: 'row' }}
+            alignItems={{ base: 'unset', md: 'center' }}
+            justifyContent="space-between"
+          >
+            <Heading size="md">{event.title}</Heading>
+            {isAuthenticated && (
+              <Box>
+                <IconButton
+                  icon={watching ? <FaStar /> : <FaRegStar />}
+                  size="lg"
+                  variant="ghost"
+                  aria-label="Watch event"
+                  onClick={() => fetcher.submit({ command: event.watching ? 'unwatch' : 'watch' }, { method: 'POST' })}
+                />
+                <IconButton
+                  icon={<EditIcon />}
+                  size="lg"
+                  variant="ghost"
+                  aria-label="Edit event"
+                  onClick={() => navigate('edit')}
+                />
+                <IconButton
+                  icon={<DeleteIcon />}
+                  size="lg"
+                  variant="ghost"
+                  aria-label="Delete event"
+                  onClick={() => setDeleteOpen(true)}
+                />
+              </Box>
+            )}
+          </Stack>
+          <Text mb="3">{formatDate(event.date)}</Text>
+          <Image src={event.image} alt={event.title} />
+          <Text mt="3" whiteSpace="pre-line">
+            {event.description}
+          </Text>
+        </Stack>
       </Box>
       <DeleteDialog
         label={`Delete "${event?.title}"`}

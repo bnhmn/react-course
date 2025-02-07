@@ -2,16 +2,10 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
-import {
-  addEvent,
-  addToWatchlist,
-  deleteEventById,
-  findAllEvents,
-  findEventById,
-  removeFromWatchlist,
-  replaceEvent,
-} from './events.js';
+import { optionalAuth, requiresAdminScope, requiresAuth } from './auth.js';
+import { addEvent, deleteEventById, findAllEvents, findEventById, replaceEvent } from './events.js';
 import { Joi, validate, validationErrorHandler } from './validation.js';
+import { addToWatchlist, removeFromWatchlist } from './watchlist.js';
 
 const app = express();
 const port = 8888;
@@ -20,8 +14,9 @@ app.use(cors());
 app.use(morgan('short')); // request logging https://www.npmjs.com/package/morgan
 app.use(express.json());
 
-app.get('/events', async (req, res) => {
-  const events = await findAllEvents();
+app.get('/events', optionalAuth, async (req, res) => {
+  const userId = req.auth?.payload?.sub;
+  const events = await findAllEvents(userId);
   res.json(events);
 });
 
@@ -36,6 +31,8 @@ app.get('/events/:id', async (req, res) => {
 
 app.post(
   '/events',
+  requiresAuth,
+  requiresAdminScope,
   validate({
     body: Joi.object({
       title: Joi.string().trim().required(),
@@ -56,6 +53,8 @@ app.post(
 
 app.patch(
   '/events/:id',
+  requiresAuth,
+  requiresAdminScope,
   validate({
     body: Joi.object({
       title: Joi.string().trim().min(1).required(),
@@ -79,7 +78,7 @@ app.patch(
   },
 );
 
-app.delete('/events/:id', async (req, res) => {
+app.delete('/events/:id', requiresAuth, requiresAdminScope, async (req, res) => {
   const deletedEvent = await deleteEventById(req.params.id);
   if (!deletedEvent) {
     res.status(404).send();
@@ -90,19 +89,24 @@ app.delete('/events/:id', async (req, res) => {
 
 app.post(
   '/watchlist/items',
+  requiresAuth,
   validate({
     body: Joi.object({
       eventId: Joi.string().trim().pattern(/e\d+/).required(),
     }),
   }),
   async (req, res) => {
-    await addToWatchlist(req.body.eventId);
+    const userId = req.auth.payload.sub;
+    const eventId = req.body.eventId;
+    await addToWatchlist(userId, eventId);
     res.status(204).send();
   },
 );
 
-app.delete('/watchlist/items/:eventId', async (req, res) => {
-  await removeFromWatchlist(req.params.eventId);
+app.delete('/watchlist/items/:eventId', requiresAuth, async (req, res) => {
+  const userId = req.auth.payload.sub;
+  const eventId = req.params.eventId;
+  await removeFromWatchlist(userId, eventId);
   res.status(204).send();
 });
 

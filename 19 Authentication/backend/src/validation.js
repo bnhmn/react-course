@@ -23,6 +23,6 @@ export function validationErrorHandler(error, req, res, next) {
     res.status(400).json(error);
   } else {
     console.error(error);
-    res.status(500).json({ name: 'InternalServerError' });
+    res.status(error.status ?? 500).json({ code: error.code ?? 'internal_server_error' });
   }
 }
