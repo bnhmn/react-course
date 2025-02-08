@@ -20,19 +20,17 @@ export function UserMenu() {
         isActive={location.pathname.startsWith('/account')}
       />
       <MenuList>
-        {!isAuthenticated ||
-          // TODO: REMOVE
-          (true && (
-            <>
-              <UserMenuItem label="Login" icon={<FaSignInAlt />} onClick={() => authProvider.login()} />
-            </>
-          ))}
+        {!isAuthenticated && (
+          <>
+            <UserMenuItem label="Login" icon={<FaSignInAlt />} onClick={() => authProvider.startLogin()} />
+          </>
+        )}
         {isAuthenticated && (
           <>
             <UserMenuItem label="My Account" icon={<FaUser />} uri="/account" />
             <UserMenuItem label="Watchlist" icon={<FaStar />} uri="/account/watchlist" />
             <MenuDivider />
-            <UserMenuItem label="Logout" icon={<FaSignOutAlt />} onClick={() => authProvider.logout()} />
+            <UserMenuItem label="Logout" icon={<FaSignOutAlt />} onClick={() => authProvider.startLogout()} />
           </>
         )}
       </MenuList>

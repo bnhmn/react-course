@@ -16,11 +16,11 @@ export function HomePage({ accentColor = color('blue.500') }) {
           </Text>
         </Heading>
         <Stack spacing="6">
-          <Text>
+          <Text fontSize="lg">
             Your go-to platform for discovering and managing exciting events! Whether you're looking for concerts,
             workshops, sports events, or local meetups, we’ve got you covered.
           </Text>
-          <Text>Join now and never miss out on an amazing experience again!</Text>
+          <Text fontSize="lg">Join now and never miss out on an amazing experience again!</Text>
         </Stack>
 
         <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">

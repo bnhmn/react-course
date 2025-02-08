@@ -30,12 +30,12 @@ interface AuthProvider {
   isAuthenticated(): Promise<boolean>;
   getUser(): Promise<User | undefined>;
   getAccessToken(scope?: string): Promise<string>;
-  login(returnTo?: string): Promise<void>;
-  logout(): Promise<void>;
+  startLogin(returnTo?: string): Promise<void>;
+  startLogout(): Promise<void>;
   /**
    * Saves the authorization code after successful login
    */
-  handleLoginRedirect(): Promise<void>;
+  finishLogin(): Promise<boolean>;
 }
 
 let client: Auth0Client;
@@ -77,31 +77,39 @@ export const authProvider: AuthProvider = {
     });
   },
 
-  login: async (returnTo) => {
+  startLogin: async (returnTo) => {
     const authClient = await getAuthClient();
     const currentHost = window.location.origin;
     const returnToUri = returnTo ?? new URL(window.location.href).pathname;
     await authClient.loginWithRedirect({
       authorizationParams: {
-        redirect_uri: `${currentHost}/login/finish?returnTo=${encodeURIComponent(returnToUri)}`,
+        redirect_uri: `${currentHost}/login/callback?returnTo=${encodeURIComponent(returnToUri)}`,
       },
     });
   },
 
-  handleLoginRedirect: async () => {
+  finishLogin: async () => {
     // Saves the authorization code after successful login
     const queryParams = new URLSearchParams(window.location.search);
     if (queryParams.has('code') && queryParams.has('state')) {
       const authClient = await getAuthClient();
       await authClient.handleRedirectCallback();
+      const isAuthenticated = await authClient.isAuthenticated();
+      return isAuthenticated;
     }
+    return false;
   },
 
-  logout: async () => {
+  startLogout: async () => {
     const authClient = await getAuthClient();
     await authClient.logout();
   },
 };
+
+export function extractReturnToUrl(input: Request | Pick<Location, 'search'>) {
+  const searchParams = 'search' in input ? new URLSearchParams(input.search) : new URL(input.url).searchParams;
+  return searchParams.get('returnTo') || '/';
+}
 
 // https://reactrouter.com/6.29.0/route/action
 // https://reactrouter.com/6.29.0/route/loader#returning-responses
@@ -114,8 +122,8 @@ export const authProvider: AuthProvider = {
 export async function requireUserLogin({ request }: LoaderFunctionArgs) {
   const isAuthenticated = await authProvider.isAuthenticated();
   if (!isAuthenticated) {
-    const returnTo = new URL(request.url).pathname;
-    await authProvider.login(returnTo);
+    const returnToUri = new URL(request.url).pathname;
+    return redirect(`/login?returnTo=${encodeURIComponent(returnToUri)}`);
   }
   return null;
 }
@@ -123,28 +131,17 @@ export async function requireUserLogin({ request }: LoaderFunctionArgs) {
 /**
  * An action that handles the login callback and redirects to the initial page if the login is successful.
  */
-export async function finishLoginAction({ request }: LoaderFunctionArgs) {
-  let isAuthenticated = await authProvider.isAuthenticated();
+export async function loginCallbackAction({ request }: LoaderFunctionArgs) {
+  // Exit early if already authenticated
+  const isAuthenticated = await authProvider.isAuthenticated();
   if (isAuthenticated) {
-    await authProvider.handleLoginRedirect();
-    return redirect(getReturnToUrl(request));
-  } else {
-    await authProvider.handleLoginRedirect();
-    isAuthenticated = await authProvider.isAuthenticated();
-    if (isAuthenticated) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return redirect(getReturnToUrl(request));
-    }
-    throw Error('Error logging in');
+    return redirect(extractReturnToUrl(request));
   }
-}
-
-function getReturnToUrl(request: Request) {
-  const searchParams = new URL(request.url).searchParams;
-  return searchParams.get('returnTo') || '/';
-}
-
-export function getReturnToUrlFromLocation(location: Pick<Location, 'search'>) {
-  const searchParams = new URLSearchParams(location.search);
-  return searchParams.get('returnTo') || '/';
+  // Finish the login
+  const success = await authProvider.finishLogin();
+  if (success) {
+    return redirect(extractReturnToUrl(request));
+  }
+  // Return error response
+  return null;
 }

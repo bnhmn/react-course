@@ -11,7 +11,9 @@ export function ErrorPage({ title, description }: { title: string; description: 
           {title}
         </Heading>
         <Stack spacing="6">
-          <Text whiteSpace="pre-line">{description.trim()}</Text>
+          <Text fontSize="lg" whiteSpace="pre-line">
+            {description.trim()}
+          </Text>
         </Stack>
         <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
           <Button as={Link} to="/" rounded="full" px={6}>

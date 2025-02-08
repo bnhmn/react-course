@@ -3,11 +3,11 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
-import { finishLoginAction } from './lib/auth.ts';
+import { loginCallbackAction, requireUserLogin } from './lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
 import { ViewAccountPage } from './routes/account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './routes/account/ViewWatchlistPage.tsx';
-import { GenericErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
+import { GenericErrorPage, LoginErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
 import { createEventAction } from './routes/events/CreateEventHandler.ts';
 import { CreateEventPage } from './routes/events/CreateEventPage';
 import { changeEventAction } from './routes/events/EditEventHandler.ts';
@@ -36,12 +36,12 @@ export default function App() {
                 <Route path=":eventId" element={<ViewEventPage />} action={changeEventAction} />
                 <Route path=":eventId/edit" element={<EditEventPage />} action={changeEventAction} />
               </Route>
-              <Route path="/account">
+              <Route path="/account" loader={requireUserLogin}>
                 <Route path="" element={<ViewAccountPage />} />
                 <Route path="watchlist" element={<ViewWatchlistPage />} loader={fetchWatchingEvents} />
               </Route>
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/login/finish" loader={finishLoginAction} />
+              <Route path="/login/callback" element={<LoginErrorPage />} loader={loginCallbackAction} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Route>,

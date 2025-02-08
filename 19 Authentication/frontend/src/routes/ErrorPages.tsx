@@ -21,3 +21,14 @@ export function NotFoundPage() {
     />
   );
 }
+
+export function LoginErrorPage() {
+  return (
+    <ErrorPage
+      title="Login failed"
+      description={`
+        Sorry, we couldn't log you in 😕
+        Please try again later.`}
+    />
+  );
+}
