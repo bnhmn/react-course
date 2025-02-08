@@ -22,7 +22,7 @@ Be sure to pay attention to the following features in this example:
 - The use of a `<fetcher.Form>` and an `action` to perform the logout
 */
 
-import { LoaderFunctionArgs, redirect } from 'react-router';
+import { LoaderFunctionArgs, redirect, useRouteLoaderData } from 'react-router';
 
 import { Auth0Client, createAuth0Client, User } from '@auth0/auth0-spa-js';
 
@@ -144,4 +144,15 @@ export async function loginCallbackAction({ request }: LoaderFunctionArgs) {
   }
   // Return error response
   return null;
+}
+
+export async function authContextLoader() {
+  return {
+    isAuthenticated: await authProvider.isAuthenticated(),
+    user: await authProvider.getUser(),
+  };
+}
+
+export function useAuthContext() {
+  return useRouteLoaderData('auth');
 }

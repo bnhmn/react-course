@@ -3,7 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { Spinner } from '@chakra-ui/react';
 
 import { RootLayout } from './components/RootLayout';
-import { loginCallbackAction, requireUserLogin } from './lib/auth.ts';
+import { authContextLoader, loginCallbackAction, requireUserLogin } from './lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
 import { ViewAccountPage } from './routes/account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './routes/account/ViewWatchlistPage.tsx';
@@ -15,6 +15,7 @@ import { EditEventPage } from './routes/events/EditEventPage';
 import { ViewEventPage } from './routes/events/ViewEventPage';
 import { ViewEventsPage } from './routes/events/ViewEventsPage';
 import { HomePage } from './routes/HomePage';
+import { LoadingPage } from './routes/LoadingPage.tsx';
 import { LoginPage } from './routes/LoginPage.tsx';
 
 // Using react-router, you can simulate a multi-page application with React.
@@ -27,7 +28,12 @@ export default function App() {
     <RouterProvider
       router={createBrowserRouter(
         createRoutesFromElements(
-          <Route element={<RootLayout links={navLinks} />}>
+          <Route
+            element={<RootLayout links={navLinks} />}
+            id="auth"
+            loader={authContextLoader}
+            hydrateFallbackElement={<LoadingPage />}
+          >
             <Route hydrateFallbackElement={<Spinner />} errorElement={<GenericErrorPage />}>
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/events" id="events" loader={fetchEvents}>

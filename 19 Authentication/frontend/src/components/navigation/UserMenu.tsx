@@ -2,14 +2,12 @@ import { FaSignInAlt, FaSignOutAlt, FaStar, FaUser } from 'react-icons/fa';
 
 import { IconButton, Menu, MenuDivider, MenuList } from '@chakra-ui/react';
 
-import { authProvider } from '../../lib/auth';
+import { authProvider, useAuthContext } from '../../lib/auth';
 import { NavigationMenuButton } from './NavigationButtons';
 import { UserMenuItem } from './UserMenuItem';
 
 export function UserMenu() {
-  // Auth0 is an identity provider: https://auth0.com/pricing
-  //   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const isAuthenticated = true;
+  const { isAuthenticated } = useAuthContext();
 
   return (
     <Menu>

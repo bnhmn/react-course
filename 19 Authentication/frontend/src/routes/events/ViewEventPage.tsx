@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { useFetcher, useNavigate, useParams, useRouteLoaderData } from 'react-router';
 
-import { useAuth0 } from '@auth0/auth0-react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 
 import { DeleteDialog } from '../../components/DeleteDialog';
 import { Breadcrumbs } from '../../components/navigation/Breadcrumbs';
+import { useAuthContext } from '../../lib/auth';
 import { EventType } from '../../lib/backend';
 import { formatDate } from '../../lib/localization';
 
@@ -24,7 +24,7 @@ export function ViewEventPage() {
   // Optimistic update: https://reactrouter.com/en/6.29.0/start/tutorial#optimistic-ui
   const watching = fetcher.formData ? fetcher.formData.get('command') === 'watch' : event.watching;
 
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuthContext();
 
   return (
     <>

@@ -1,3 +1,5 @@
+import { authProvider } from './auth';
+
 export interface EventType {
   id: string;
   title: string;
@@ -57,6 +59,12 @@ interface RequestType extends RequestInit {
 async function fetchFromBackend(request: RequestType, baseUrl = 'http://localhost:8888') {
   const requestUrl = `${baseUrl}${request.uri}`;
 
+  const isAuthenticated = await authProvider.isAuthenticated();
+  if (isAuthenticated) {
+    const token = await authProvider.getAccessToken();
+    request.headers = request.headers ?? {};
+    request.headers['Authorization'] = `Bearer ${token}`;
+  }
   if (request.body) {
     request.headers = request.headers ?? {};
     request.headers['Content-Type'] = 'application/json';
