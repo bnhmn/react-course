@@ -2,9 +2,9 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
-import { optionalAuth, requiresAdminScope, requiresAuth } from './auth.js';
+import { authErrorHandler, optionalAuth, requiresAdminScope, requiresAuth } from './auth.js';
 import { addEvent, deleteEventById, findAllEvents, findEventById, replaceEvent } from './events.js';
-import { Joi, validate, validationErrorHandler } from './validation.js';
+import { internalServerErrorHandler, Joi, validate, validationErrorHandler } from './validation.js';
 import { addToWatchlist, removeFromWatchlist } from './watchlist.js';
 
 const app = express();
@@ -112,7 +112,9 @@ app.delete('/watchlist/items/:eventId', requiresAuth, async (req, res) => {
 
 app.listen(8080);
 
+app.use(authErrorHandler);
 app.use(validationErrorHandler);
+app.use(internalServerErrorHandler);
 
 app.listen(port, () => {
   console.log(`Server is listening on http://localhost:${port}`);

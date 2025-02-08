@@ -1,4 +1,4 @@
-import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
+import { auth, requiredScopes, UnauthorizedError } from 'express-oauth2-jwt-bearer';
 
 // There are two express jwt middlewares. We are using the latter one:
 // https://www.npmjs.com/package/express-jwt (old one by auth0, but still supported)
@@ -30,3 +30,14 @@ export const optionalAuth = auth({
  * If the permission is missing, the user will receive a 403 Authorization error and cannot access the endpoint.
  */
 export const requiresAdminScope = requiredScopes('admin');
+
+/**
+ * Converts auth errors into client response.
+ */
+export function authErrorHandler(error, req, res, next) {
+  if (error instanceof UnauthorizedError) {
+    res.status(error.status).json({ code: error.code ?? 'invalid_request' });
+  } else {
+    next(error);
+  }
+}
