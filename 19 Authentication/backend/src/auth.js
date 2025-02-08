@@ -1,4 +1,4 @@
-import { auth, requiredScopes, UnauthorizedError } from 'express-oauth2-jwt-bearer';
+import { auth, UnauthorizedError } from 'express-oauth2-jwt-bearer';
 
 // There are two express jwt middlewares. We are using the latter one:
 // https://www.npmjs.com/package/express-jwt (old one by auth0, but still supported)
@@ -26,10 +26,16 @@ export const optionalAuth = auth({
 
 /**
  * The Authorization middleware (to be placed after the authentication middleware).
- * When used, it checks checks that the user has the admin permission scope.
+ * When used, it checks checks that the user has the admin permission.
  * If the permission is missing, the user will receive a 403 Authorization error and cannot access the endpoint.
  */
-export const requiresAdminScope = requiredScopes('admin');
+export const requiresAdminPermission = (req, res, next) => {
+  if (req.auth.payload.permissions?.includes?.('admin')) {
+    next();
+  } else {
+    res.status(403).json({ code: 'insufficient_permissions' });
+  }
+};
 
 /**
  * Converts auth errors into client response.

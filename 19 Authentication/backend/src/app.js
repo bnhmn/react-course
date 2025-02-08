@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
-import { authErrorHandler, optionalAuth, requiresAdminScope, requiresAuth } from './auth.js';
+import { authErrorHandler, optionalAuth, requiresAdminPermission, requiresAuth } from './auth.js';
 import { addEvent, deleteEventById, findAllEvents, findEventById, replaceEvent } from './events.js';
 import { internalServerErrorHandler, Joi, validate, validationErrorHandler } from './validation.js';
 import { addToWatchlist, removeFromWatchlist } from './watchlist.js';
@@ -32,7 +32,7 @@ app.get('/events/:id', async (req, res) => {
 app.post(
   '/events',
   requiresAuth,
-  requiresAdminScope,
+  requiresAdminPermission,
   validate({
     body: Joi.object({
       title: Joi.string().trim().required(),
@@ -54,7 +54,7 @@ app.post(
 app.patch(
   '/events/:id',
   requiresAuth,
-  requiresAdminScope,
+  requiresAdminPermission,
   validate({
     body: Joi.object({
       title: Joi.string().trim().min(1).required(),
@@ -78,7 +78,7 @@ app.patch(
   },
 );
 
-app.delete('/events/:id', requiresAuth, requiresAdminScope, async (req, res) => {
+app.delete('/events/:id', requiresAuth, requiresAdminPermission, async (req, res) => {
   const deletedEvent = await deleteEventById(req.params.id);
   if (!deletedEvent) {
     res.status(404).send();
