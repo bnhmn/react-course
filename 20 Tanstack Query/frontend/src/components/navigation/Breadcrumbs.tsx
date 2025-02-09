@@ -3,7 +3,8 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import { Link } from '@tanstack/react-router';
 
 export function Breadcrumbs() {
-  const breadcrumbs = [{ key: '/events', breadcrumb: 'Events' }]; // dummy data
+  // TODO: dummy data
+  const breadcrumbs = [{ key: '/events', breadcrumb: 'Events' }];
 
   return (
     // https://v2.chakra-ui.com/docs/components/breadcrumb

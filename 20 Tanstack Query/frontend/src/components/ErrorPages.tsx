@@ -1,6 +1,5 @@
-import { Link } from 'react-router';
-
 import { Button, Container, Heading, Stack, Text } from '@chakra-ui/react';
+import { Link } from '@tanstack/react-router';
 
 export function GenericErrorPage() {
   return (

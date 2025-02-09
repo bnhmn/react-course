@@ -2,18 +2,18 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 
 import { Spinner } from '@chakra-ui/react';
 
-import { LoadingSpinner } from '../components/LoadingSpinner.tsx';
+import { GenericErrorPage, LoginErrorPage, NotFoundPage } from '../components/ErrorPages.tsx';
+import { LoadingSpinner } from '../components/navigation/LoadingSpinner.tsx';
 import { authContextLoader, loginCallbackAction, requireUserLogin } from '../lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from '../lib/backend.ts';
+import { ViewEventPage } from '../routes/events.$eventId.tsx';
+import { ViewEventsPage } from '../routes/events.index.tsx';
 import { ViewAccountPage } from './account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './account/ViewWatchlistPage.tsx';
-import { GenericErrorPage, LoginErrorPage, NotFoundPage } from './ErrorPages.tsx';
 import { createEventAction } from './events/CreateEventHandler.ts';
 import { CreateEventPage } from './events/CreateEventPage.tsx';
 import { changeEventAction } from './events/EditEventHandler.ts';
 import { EditEventPage } from './events/EditEventPage.tsx';
-import { ViewEventPage } from './events/ViewEventPage.tsx';
-import { ViewEventsPage } from './events/ViewEventsPage.tsx';
 import { LoginPage } from './LoginPage.tsx';
 
 // Using react-router, you can simulate a multi-page application with React.

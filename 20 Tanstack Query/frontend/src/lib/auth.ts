@@ -104,11 +104,6 @@ export const authProvider: AuthProvider = {
   },
 };
 
-export function extractReturnToUrl(input: Request | Pick<Location, 'search'>) {
-  const searchParams = 'search' in input ? new URLSearchParams(input.search) : new URL(input.url).searchParams;
-  return searchParams.get('returnTo') || '/';
-}
-
 // https://reactrouter.com/6.29.0/route/action
 // https://reactrouter.com/6.29.0/route/loader#returning-responses
 
@@ -144,6 +139,12 @@ export async function loginCallbackAction({ request }: LoaderFunctionArgs) {
   return null;
 }
 
+// TODO: still required?
+export function extractReturnToUrl(input: Request | { search: string }) {
+  const searchParams = 'search' in input ? new URLSearchParams(input.search) : new URL(input.url).searchParams;
+  return searchParams.get('returnTo') || '/';
+}
+
 export async function authContextLoader() {
   return {
     isAuthenticated: await authProvider.isAuthenticated(),
@@ -153,5 +154,5 @@ export async function authContextLoader() {
 
 export function useAuthContext() {
   //return useRouteLoaderData('auth');
-  return { isAuthenticated: false, user: null };
+  return { isAuthenticated: true, user: {} };
 }

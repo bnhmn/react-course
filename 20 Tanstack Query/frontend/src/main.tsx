@@ -13,7 +13,7 @@ import { theme } from './theme.ts';
 // https://tanstack.com/router/latest/docs/framework/react/quick-start
 // https://tanstack.com/router/latest/docs/framework/react/comparison
 
-// Create a new router instance
+// Create a new router instance from the generated route tree
 const router = createRouter({ routeTree });
 
 // Register the router instance for type safety

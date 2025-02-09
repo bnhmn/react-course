@@ -3,6 +3,12 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 
 import { titleAccentColor } from '../theme';
 
+// Routes can be defined via createFileRoute and createLazyFileRoute.
+// Although the route path of a file route is automatically derived from the source code file path, we need
+// to specify it explicitly as an argument to the function so that TypeScript knows that this path exists.
+// Don't worry: the TanStack plugin will automatically adjust the path here when you move the file around.
+// https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#anatomy-of-a-route
+
 export const Route = createFileRoute('/')({
   component: () => {
     // https://chakra-templates.vercel.app/page-sections/hero

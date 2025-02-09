@@ -1,18 +1,16 @@
-import { Form, useNavigation } from 'react-router';
-
 import { Stack } from '@chakra-ui/react';
+import { useRouterState } from '@tanstack/react-router';
 
-import { FormButton } from '../../components/form/FormButton';
-import { FormInput } from '../../components/form/FormInput';
 import { NewEventType } from '../../lib/backend';
+import { FormButton } from '../form/FormButton';
+import { FormInput } from '../form/FormInput';
 
-export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCancel: () => void }) {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+export function EventForm({ event, onCancel }: { event?: NewEventType; onCancel: () => void }) {
+  const { isLoading } = useRouterState();
 
   return (
-    //  https://reactrouter.com/6.29.0/components/form
-    <Form method="post">
+    // TODO: https://reactrouter.com/6.29.0/components/form
+    <form method="post">
       <Stack direction="column" w="100%" align="start" spacing="1.3rem">
         <FormInput name="title" type="text" label="Title" defaultValue={event?.title} isRequired />
         <FormInput
@@ -33,7 +31,7 @@ export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCan
           isRequired
         />
         <Stack direction="row" gap="0.3rem" mt="1rem">
-          <FormButton type="submit" name="command" value="edit" variant="solid" isLoading={isSubmitting}>
+          <FormButton type="submit" name="command" value="edit" variant="solid" isLoading={isLoading}>
             Submit
           </FormButton>
           <FormButton type="button" variant="ghost" onClick={onCancel}>
@@ -41,6 +39,6 @@ export function EditEventForm({ event, onCancel }: { event?: NewEventType; onCan
           </FormButton>
         </Stack>
       </Stack>
-    </Form>
+    </form>
   );
 }

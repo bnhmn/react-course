@@ -1,11 +1,11 @@
 import { Flex, Spinner, Text, VStack } from '@chakra-ui/react';
 
-import { spinnerAccentColor } from '../theme';
+import { spinnerAccentColor } from '../../theme';
 
 export function LoadingSpinner() {
   return (
-    <Flex height="100vh" align="center" justify="center" direction="column">
-      <VStack spacing={6} position="relative" top="-10%">
+    <Flex mt="20rem" align="center" justify="center" direction="column">
+      <VStack spacing={6}>
         <Spinner boxSize="16" thickness="6px" speed="0.65s" color={spinnerAccentColor} />
         <Text fontSize="lg" fontWeight="medium">
           Loading...
