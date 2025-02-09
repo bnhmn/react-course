@@ -20,7 +20,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "paths": {
+      // https://github.com/remix-run/react-router/issues/10847
+      "react": ["./node_modules/@types/react"]
+    }
   },
   "include": ["src"]
 }

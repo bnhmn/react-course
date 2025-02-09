@@ -8,6 +8,8 @@ export const headerBackground = color('#0180CC');
 export const headerTextColor = color('whitesmoke');
 export const headerHiglight = color('rgba(144, 205, 244, 0.12)');
 export const headerActive = color('whiteAlpha.300');
+export const titleAccentColor = color('blue.500');
+export const spinnerAccentColor = color('blue.500') as string;
 
 export const theme = extendTheme(
   {

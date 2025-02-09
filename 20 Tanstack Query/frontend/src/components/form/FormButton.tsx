@@ -1,8 +1,7 @@
-import { useNavigation } from 'react-router';
-
 import { Button, ButtonProps } from '@chakra-ui/react';
+import { useRouterState } from '@tanstack/react-router';
 
 export function FormButton(props: ButtonProps) {
-  const navigation = useNavigation();
-  return <Button {...props} disabled={navigation.state !== 'idle'} />;
+  const { isLoading } = useRouterState();
+  return <Button {...props} disabled={isLoading} />;
 }

@@ -1,6 +1,5 @@
-import { NavLink } from 'react-router';
-
 import { MenuItem } from '@chakra-ui/react';
+import { Link } from '@tanstack/react-router';
 
 export function UserMenuItem({
   label,
@@ -14,7 +13,7 @@ export function UserMenuItem({
   onClick?: () => void;
 }) {
   return (
-    <MenuItem as={uri ? NavLink : undefined} to={uri} icon={icon} onClick={onClick}>
+    <MenuItem as={uri ? Link : undefined} to={uri} icon={icon} onClick={onClick}>
       {label}
     </MenuItem>
   );

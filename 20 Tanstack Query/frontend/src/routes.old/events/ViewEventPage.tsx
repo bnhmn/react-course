@@ -5,7 +5,7 @@ import { useFetcher, useNavigate, useParams, useRouteLoaderData } from 'react-ro
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 
-import { DeleteDialog } from '../../components/DeleteDialog';
+import { DeleteDialog } from '../../components/form/DeleteDialog';
 import { Breadcrumbs } from '../../components/navigation/Breadcrumbs';
 import { useAuthContext } from '../../lib/auth';
 import { EventType } from '../../lib/backend';

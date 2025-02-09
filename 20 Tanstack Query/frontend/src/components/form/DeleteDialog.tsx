@@ -24,7 +24,7 @@ export function DeleteDialog({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isPending, setIsPending] = useState(false);
-  const cancelRef = useRef<any>();
+  const cancelRef = useRef<any>(null);
 
   useEffect(() => {
     if (open) {

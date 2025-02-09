@@ -2,21 +2,19 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 
 import { Spinner } from '@chakra-ui/react';
 
-import { RootLayout } from './components/RootLayout';
-import { authContextLoader, loginCallbackAction, requireUserLogin } from './lib/auth.ts';
-import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
-import { ViewAccountPage } from './routes/account/ViewAccountPage.tsx';
-import { ViewWatchlistPage } from './routes/account/ViewWatchlistPage.tsx';
-import { GenericErrorPage, LoginErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
-import { createEventAction } from './routes/events/CreateEventHandler.ts';
-import { CreateEventPage } from './routes/events/CreateEventPage';
-import { changeEventAction } from './routes/events/EditEventHandler.ts';
-import { EditEventPage } from './routes/events/EditEventPage';
-import { ViewEventPage } from './routes/events/ViewEventPage';
-import { ViewEventsPage } from './routes/events/ViewEventsPage';
-import { HomePage } from './routes/HomePage';
-import { LoadingPage } from './routes/LoadingPage.tsx';
-import { LoginPage } from './routes/LoginPage.tsx';
+import { LoadingSpinner } from '../components/LoadingSpinner.tsx';
+import { authContextLoader, loginCallbackAction, requireUserLogin } from '../lib/auth.ts';
+import { fetchEvents, fetchWatchingEvents } from '../lib/backend.ts';
+import { ViewAccountPage } from './account/ViewAccountPage.tsx';
+import { ViewWatchlistPage } from './account/ViewWatchlistPage.tsx';
+import { GenericErrorPage, LoginErrorPage, NotFoundPage } from './ErrorPages.tsx';
+import { createEventAction } from './events/CreateEventHandler.ts';
+import { CreateEventPage } from './events/CreateEventPage.tsx';
+import { changeEventAction } from './events/EditEventHandler.ts';
+import { EditEventPage } from './events/EditEventPage.tsx';
+import { ViewEventPage } from './events/ViewEventPage.tsx';
+import { ViewEventsPage } from './events/ViewEventsPage.tsx';
+import { LoginPage } from './LoginPage.tsx';
 
 // Using react-router, you can simulate a multi-page application with React.
 // You can create multiple routes between which the user can navigate back and forth.
@@ -32,7 +30,7 @@ export default function App() {
             element={<RootLayout links={navLinks} />}
             id="auth"
             loader={authContextLoader}
-            hydrateFallbackElement={<LoadingPage />}
+            hydrateFallbackElement={<LoadingSpinner />}
           >
             <Route hydrateFallbackElement={<Spinner />} errorElement={<GenericErrorPage />}>
               <Route path="/" element={<HomePage />}></Route>

@@ -22,8 +22,6 @@ Be sure to pay attention to the following features in this example:
 - The use of a `<fetcher.Form>` and an `action` to perform the logout
 */
 
-import { LoaderFunctionArgs, redirect, useRouteLoaderData } from 'react-router';
-
 import { Auth0Client, createAuth0Client, User } from '@auth0/auth0-spa-js';
 
 interface AuthProvider {
@@ -123,7 +121,7 @@ export async function requireUserLogin({ request }: LoaderFunctionArgs) {
   const isAuthenticated = await authProvider.isAuthenticated();
   if (!isAuthenticated) {
     const returnToUri = new URL(request.url).pathname;
-    return redirect(`/login?returnTo=${encodeURIComponent(returnToUri)}`);
+    //return redirect(`/login?returnTo=${encodeURIComponent(returnToUri)}`);
   }
   return null;
 }
@@ -135,12 +133,12 @@ export async function loginCallbackAction({ request }: LoaderFunctionArgs) {
   // Exit early if already authenticated
   const isAuthenticated = await authProvider.isAuthenticated();
   if (isAuthenticated) {
-    return redirect(extractReturnToUrl(request));
+    //return redirect(extractReturnToUrl(request));
   }
   // Finish the login
   const success = await authProvider.finishLogin();
   if (success) {
-    return redirect(extractReturnToUrl(request));
+    //return redirect(extractReturnToUrl(request));
   }
   // Return error response
   return null;
@@ -154,5 +152,6 @@ export async function authContextLoader() {
 }
 
 export function useAuthContext() {
-  return useRouteLoaderData('auth');
+  //return useRouteLoaderData('auth');
+  return { isAuthenticated: false, user: null };
 }

@@ -3,14 +3,15 @@ import './Progressbar.css';
 
 import NProgress from 'nprogress';
 import { useEffect } from 'react';
-import { useNavigation } from 'react-router';
+
+import { useRouterState } from '@tanstack/react-router';
 
 export function useProgressbar() {
-  const navigation = useNavigation();
+  const { isLoading } = useRouterState();
 
   // https://ricostacruz.com/nprogress https://www.npmjs.com/package/nprogress
   useEffect(() => {
-    if (navigation.state === 'loading') {
+    if (isLoading) {
       NProgress.start();
     } else {
       NProgress.done();
@@ -18,5 +19,5 @@ export function useProgressbar() {
     return () => {
       NProgress.done();
     };
-  }, [navigation.state]);
+  }, [isLoading]);
 }

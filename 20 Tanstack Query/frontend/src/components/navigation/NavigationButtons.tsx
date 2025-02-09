@@ -1,5 +1,3 @@
-import { NavLink } from 'react-router';
-
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -10,14 +8,15 @@ import {
   MenuButtonProps,
   useColorMode,
 } from '@chakra-ui/react';
+import { Link } from '@tanstack/react-router';
 
 import { headerActive, headerHiglight, headerTextColor } from '../../theme';
 
-export function NavigationButton({ label, uri }: { label: string; uri: string }) {
+export function NavigationLink({ label, uri }: { label: string; uri: string }) {
   return (
     <Button
-      /* Use NavLinks to link to other pages: https://reactrouter.com/start/library/navigating */
-      as={NavLink}
+      /* Link to other page: https://tanstack.com/router/latest/docs/framework/react/api/router/linkComponent */
+      as={Link}
       to={uri}
       variant="ghost"
       textColor={headerTextColor}
@@ -29,9 +28,10 @@ export function NavigationButton({ label, uri }: { label: string; uri: string })
   );
 }
 
-export function NavigationIconButton(props: IconButtonProps) {
+export function NavigationMenuButton({ as, ...props }: MenuButtonProps & IconButtonProps & ButtonProps) {
   return (
-    <IconButton
+    <MenuButton
+      as={as}
       variant="ghost"
       color={headerTextColor}
       background={props.isActive ? headerActive : undefined}
@@ -42,10 +42,9 @@ export function NavigationIconButton(props: IconButtonProps) {
   );
 }
 
-export function NavigationMenuButton({ as, ...props }: MenuButtonProps & IconButtonProps & ButtonProps) {
+export function NavigationIconButton(props: IconButtonProps) {
   return (
-    <MenuButton
-      as={as}
+    <IconButton
       variant="ghost"
       color={headerTextColor}
       background={props.isActive ? headerActive : undefined}
