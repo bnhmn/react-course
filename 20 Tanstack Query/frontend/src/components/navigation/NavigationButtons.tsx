@@ -15,7 +15,7 @@ import { headerActive, headerHiglight, headerTextColor } from '../../theme';
 export function NavigationLink({ label, uri }: { label: string; uri: string }) {
   return (
     <Button
-      /* Link to other page: https://tanstack.com/router/latest/docs/framework/react/api/router/linkComponent */
+      /* This links to another route: https://tanstack.com/router/latest/docs/framework/react/guide/navigation */
       as={Link}
       to={uri}
       variant="ghost"

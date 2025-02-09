@@ -21,10 +21,7 @@ export const Route = createFileRoute('/events/$eventId/edit')({
         <Breadcrumbs />
         <Heading mb="10">Edit Event Details</Heading>
         <Box w="100%" h="100%" maxW="45rem">
-          <EventForm
-            event={event!}
-            onCancel={() => navigate({ from: '/events/$eventId/edit', to: '/events/$eventId' })}
-          />
+          <EventForm event={event!} onCancel={() => navigate({ from: Route.fullPath, to: '/events/$eventId' })} />
         </Box>
       </>
     );

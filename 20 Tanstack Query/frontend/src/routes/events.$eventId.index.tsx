@@ -12,6 +12,7 @@ export const Route = createFileRoute('/events/$eventId/')({
   loader: async ({ params }) => await fetchEvent(params.eventId),
 
   component: function Component() {
+    // https://tanstack.com/router/latest/docs/framework/react/guide/navigation
     const navigate = useNavigate();
     const event = Route.useLoaderData();
     const [deleteDialogOpen, setDeleteOpen] = useState(false);
@@ -32,7 +33,7 @@ export const Route = createFileRoute('/events/$eventId/')({
             event={event}
             onWatch={() => fetcher.submit({ command: 'watch' }, { method: 'POST' })}
             onUnwatch={() => fetcher.submit({ command: 'unwatch' }, { method: 'POST' })}
-            onEdit={() => navigate({ from: '/events/$eventId', to: '/events/$eventId/edit' })}
+            onEdit={() => navigate({ from: Route.fullPath, to: 'edit' })}
             onDelete={() => setDeleteOpen(true)}
           />
         </Box>
