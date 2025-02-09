@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/app.js --bundle --outdir=out --platform=node --minify",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-async-errors": "^3.1.1",
+    "express-oauth2-jwt-bearer": "^1.6.0",
+    "express-validation": "^4.1.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "nodemon": "^3.1.9"
+  }
+}

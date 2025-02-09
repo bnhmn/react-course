@@ -1,0 +1,24 @@
+:root {
+  --progress-color: #6ed8ff;
+}
+
+#nprogress .bar {
+  background: var(--progress-color);
+  height: 5px;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--progress-color), 0 0 5px var(--progress-color);
+}
+
+#nprogress .spinner {
+  display: none;
+  position: fixed;
+  left: 20px;
+  top: 24px;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: var(--progress-color);
+  border-left-color: var(--progress-color);
+}
