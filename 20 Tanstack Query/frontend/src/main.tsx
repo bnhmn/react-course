@@ -37,7 +37,6 @@ declare module '@tanstack/react-router' {
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  // Strict mode may cause issues with the login redirect
   <StrictMode>
     <ChakraProvider theme={theme}>
       <RouterProvider router={router} />

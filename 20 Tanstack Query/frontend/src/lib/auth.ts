@@ -1,28 +1,18 @@
 /*
-# Auth Example (using RouterProvider)
-https://github.com/remix-run/react-router/tree/main/examples/auth-router-provider
 
-This example demonstrates how to restrict access to routes to authenticated users when using `<RouterProvider>`.
+Since TanStack Router decouples data loading from rendering, we unfortunately can't use React Hooks to access the
+user authentication status. Instead, we need to store the user authentication information outside the React component
+tree so that it can be used in route loaders and action functions.
 
-The primary difference compared to how authentication was handled in `BrowserRouter` is that since `RouterProvider`
-decouples fetching from rendering, we can no longer rely on React context and/or hooks to get our user authentication
-status. We need access to this information outside of the React tree so we can use it in our route `loader` and `action`
-functions.
-
-Be sure to pay attention to the following features in this example:
-
-- The use of a standalone object *outside of the React tree* that manages our authentication state
-- The use of `loader` functions to check for user authentication
-- The use of `redirect` from the `/protected` `loader` when the user is not logged in
-- The use of a `<Form>` and an `action` to perform the login
-- The use of a `from` search param and a `redirectTo` hidden input to preserve the previous location so you can send the
-  user there after they authenticate
-- The use of `<Form replace>` to replace the `/login` route in the history stack so the user doesn't return to the login
-  page when clicking the back button after logging in
-- The use of a `<fetcher.Form>` and an `action` to perform the logout
+- We store the authentication state in a global JavaScript object outside the React tree.
+- We create a loader to restrict access to certain routes, allowing only authenticated users.
+- If an unauthenticated user tries to access a protected route, they are redirected to the /login page.
+  We also store the originally requested url to redirect them back after login.
+- We use an action to handle the login callback and complete the authentication (see ./routes/login.callback.tsx).
 */
 
 import { Auth0Client, createAuth0Client, User } from '@auth0/auth0-spa-js';
+import { BeforeLoadContextOptions, redirect } from '@tanstack/react-router';
 
 interface AuthProvider {
   isAuthenticated(): Promise<boolean>;
@@ -104,48 +94,14 @@ export const authProvider: AuthProvider = {
   },
 };
 
-// https://reactrouter.com/6.29.0/route/action
-// https://reactrouter.com/6.29.0/route/loader#returning-responses
+// https://tanstack.com/router/latest/docs/framework/react/guide/authenticated-routes
 
 /**
  * A loader that can be used to protect a route.
  * If the user is not logged in and tries to access the protected route, it redirects them to the /login page
- * with a query parameter that allows login to redirect back to this page upon successful authentication.
+ * with a query parameter that allows to redirect back to this page upon successful authentication.
  */
-export async function requireUserLogin({ request }: LoaderFunctionArgs) {
-  const isAuthenticated = await authProvider.isAuthenticated();
-  if (!isAuthenticated) {
-    const returnToUri = new URL(request.url).pathname;
-    //return redirect(`/login?returnTo=${encodeURIComponent(returnToUri)}`);
-  }
-  return null;
-}
-
-/**
- * An action that handles the login callback and redirects to the initial page if the login is successful.
- */
-export async function loginCallbackAction({ request }: LoaderFunctionArgs) {
-  // Exit early if already authenticated
-  const isAuthenticated = await authProvider.isAuthenticated();
-  if (isAuthenticated) {
-    //return redirect(extractReturnToUrl(request));
-  }
-  // Finish the login
-  const success = await authProvider.finishLogin();
-  if (success) {
-    //return redirect(extractReturnToUrl(request));
-  }
-  // Return error response
-  return null;
-}
-
-// TODO: still required?
-export function extractReturnToUrl(input: Request | { search: string }) {
-  const searchParams = 'search' in input ? new URLSearchParams(input.search) : new URL(input.url).searchParams;
-  return searchParams.get('returnTo') || '/';
-}
-
-export async function authContextLoader() {
+export async function loadAuthContext() {
   return {
     isAuthenticated: await authProvider.isAuthenticated(),
     user: await authProvider.getUser(),
@@ -155,4 +111,16 @@ export async function authContextLoader() {
 export function useAuthContext() {
   //return useRouteLoaderData('auth');
   return { isAuthenticated: true, user: {} };
+}
+
+/**
+ * A loader that can be used to protect a route.
+ * If the user is not logged in and tries to access the protected route, it redirects them to the /login page
+ * with a query parameter that allows to redirect back to this page upon successful authentication.
+ */
+export async function ensureUserIsAuthenticated({ location }: BeforeLoadContextOptions<any, any, any, any, any>) {
+  const isAuthenticated = await authProvider.isAuthenticated();
+  if (!isAuthenticated) {
+    throw redirect({ to: '/login', search: { returnTo: location.href } });
+  }
 }

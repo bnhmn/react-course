@@ -4,7 +4,7 @@ import { Spinner } from '@chakra-ui/react';
 
 import { GenericErrorPage, LoginErrorPage, NotFoundPage } from '../components/ErrorPages.tsx';
 import { LoadingSpinner } from '../components/navigation/LoadingSpinner.tsx';
-import { authContextLoader, loginCallbackAction, requireUserLogin } from '../lib/auth.ts';
+import { ensureUserIsAuthenticated, loadAuthContext, loginCallbackAction } from '../lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from '../lib/backend.ts';
 import { ViewEventPage } from '../routes/events.$eventId.index.tsx';
 import { ViewEventsPage } from '../routes/events.index.tsx';
@@ -29,7 +29,7 @@ export default function App() {
           <Route
             element={<RootLayout links={navLinks} />}
             id="auth"
-            loader={authContextLoader}
+            loader={loadAuthContext}
             hydrateFallbackElement={<LoadingSpinner />}
           >
             <Route hydrateFallbackElement={<Spinner />} errorElement={<GenericErrorPage />}>
@@ -40,7 +40,7 @@ export default function App() {
                 <Route path=":eventId" element={<ViewEventPage />} action={changeEventAction} />
                 <Route path=":eventId/edit" element={<EditEventPage />} action={changeEventAction} />
               </Route>
-              <Route path="/account" loader={requireUserLogin}>
+              <Route path="/account" loader={ensureUserIsAuthenticated}>
                 <Route path="" element={<ViewAccountPage />} />
                 <Route path="watchlist" element={<ViewWatchlistPage />} loader={fetchWatchingEvents} />
               </Route>
