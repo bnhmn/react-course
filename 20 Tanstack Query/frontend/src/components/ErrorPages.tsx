@@ -19,7 +19,7 @@ export function NotFoundPage() {
       title="UH OH! You're lost."
       description={`
         The page you are looking for does not exist. How you got here is a mystery.
-        But you can click the button below to go back to the home page.`}
+        But you can click the button below to go back to the last known page.`}
     />
   );
 }

@@ -1,3 +1,5 @@
+import { notFound } from '@tanstack/react-router';
+
 import { authProvider } from './auth';
 
 export interface EventType {
@@ -83,6 +85,11 @@ async function fetchFromBackend(request: RequestType, baseUrl = 'http://localhos
     const responseBody = await resp.text();
     const error = `<== Received error ${resp.status} (${resp.statusText})\n${responseBody}`;
     console.error(error);
-    throw error;
+    if (resp.status === 404) {
+      // https://tanstack.com/router/latest/docs/framework/react/guide/not-found-errors
+      throw notFound();
+    } else {
+      throw error;
+    }
   }
 }
