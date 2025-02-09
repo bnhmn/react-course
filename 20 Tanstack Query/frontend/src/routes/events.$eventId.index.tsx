@@ -8,7 +8,7 @@ import { DeleteDialog } from '../components/form/DeleteDialog';
 import { Breadcrumbs } from '../components/navigation/Breadcrumbs';
 import { fetchEvent } from '../lib/backend';
 
-export const Route = createFileRoute('/events/$eventId')({
+export const Route = createFileRoute('/events/$eventId/')({
   loader: async ({ params }) => await fetchEvent(params.eventId),
 
   component: function Component() {

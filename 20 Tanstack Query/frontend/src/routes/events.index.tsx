@@ -6,14 +6,7 @@ import { EventsGrid } from '../components/events/EventsGrid';
 import { useAuthContext } from '../lib/auth';
 import { fetchEvents } from '../lib/backend';
 
-// This is an index route. It is displayed when the user visits the /events page, but not one of its subpages.
-// https://tanstack.com/router/latest/docs/framework/react/guide/file-based-routing#flat-routes
-
 export const Route = createFileRoute('/events/')({
-  // We can fetch data through a loader. TanStack executes the loader before rendering the component.
-  // It caches the loader result, which makes subsequent page views significantly faster.
-  // If a result is cached, it will be returned immediately, then potentially be refetched in the background.
-  // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading
   loader: async () => await fetchEvents(),
 
   component: function Component() {

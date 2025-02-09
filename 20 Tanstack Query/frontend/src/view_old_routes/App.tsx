@@ -6,7 +6,7 @@ import { GenericErrorPage, LoginErrorPage, NotFoundPage } from '../components/Er
 import { LoadingSpinner } from '../components/navigation/LoadingSpinner.tsx';
 import { authContextLoader, loginCallbackAction, requireUserLogin } from '../lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from '../lib/backend.ts';
-import { ViewEventPage } from '../routes/events.$eventId.tsx';
+import { ViewEventPage } from '../routes/events.$eventId.index.tsx';
 import { ViewEventsPage } from '../routes/events.index.tsx';
 import { ViewAccountPage } from './account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './account/ViewWatchlistPage.tsx';
