@@ -21,6 +21,8 @@ const router = createRouter({
   defaultPendingComponent: LoadingSpinner,
   defaultNotFoundComponent: NotFoundPage,
   defaultErrorComponent: GenericErrorPage,
+  // Enables link preloading: https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
+  // defaultPreload: 'intent',
 });
 
 // Register the router instance for type safety
