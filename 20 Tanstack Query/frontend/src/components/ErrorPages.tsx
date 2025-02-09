@@ -1,13 +1,14 @@
 import { Button, Container, Heading, Stack, Text } from '@chakra-ui/react';
-import { Link } from '@tanstack/react-router';
+import { ErrorComponentProps, Link } from '@tanstack/react-router';
 
-export function GenericErrorPage() {
+export function GenericErrorPage({ error }: ErrorComponentProps) {
   return (
     <ErrorPage
       title="Something went wrong."
       description={`
         Sorry, we couldn't load the page you asked for 😕
-        But you can click the button below to go back to the homepage.`}
+        But you can click the button below to go back to the last known page.
+        Details: ${error}`}
     />
   );
 }
@@ -18,7 +19,7 @@ export function NotFoundPage() {
       title="UH OH! You're lost."
       description={`
         The page you are looking for does not exist. How you got here is a mystery.
-        But you can click the button below to go back to the homepage.`}
+        But you can click the button below to go back to the home page.`}
     />
   );
 }
@@ -48,8 +49,8 @@ function ErrorPage({ title, description }: { title: string; description: string 
           </Text>
         </Stack>
         <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
-          <Button as={Link} to="/" rounded="full" px={6}>
-            Home
+          <Button as={Link} to=".." rounded="full" px={6}>
+            Go Back
           </Button>
         </Stack>
       </Stack>

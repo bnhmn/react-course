@@ -5,6 +5,10 @@ import { EventForm } from '../components/events/EventForm';
 import { Breadcrumbs } from '../components/navigation/Breadcrumbs';
 import { fetchEvent } from '../lib/backend';
 
+// This is a dynamic route.
+// Path segments that start with a $ are dynamic. Their values are captured into the params object.
+// https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#dynamic-route-segments
+
 export const Route = createFileRoute('/events/$eventId/edit')({
   loader: async ({ params }) => await fetchEvent(params.eventId),
 

@@ -5,6 +5,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
+import { GenericErrorPage, NotFoundPage } from './components/ErrorPages.tsx';
+import { LoadingSpinner } from './components/navigation/LoadingSpinner.tsx';
 import { routeTree } from './routeTree.gen';
 import { theme } from './theme.ts';
 
@@ -14,7 +16,12 @@ import { theme } from './theme.ts';
 // https://tanstack.com/router/latest/docs/framework/react/comparison
 
 // Create a new router instance from the generated route tree
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  defaultPendingComponent: LoadingSpinner,
+  defaultNotFoundComponent: NotFoundPage,
+  defaultErrorComponent: GenericErrorPage,
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
