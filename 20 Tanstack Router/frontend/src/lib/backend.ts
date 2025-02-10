@@ -74,43 +74,44 @@ export function useEventData(eventId: string) {
 /**
  * Clear the events data cache.
  */
-async function invalidateEventsData() {
+async function clearEventsData(exact = false) {
   // We use removeQueries so the router reloads the data via the loader and waits to re-render until the data is there.
   // https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation
   // https://tanstack.com/query/latest/docs/reference/QueryClient#queryclientremovequeries
-  queryClient.removeQueries({ queryKey: ['events'] });
+  queryClient.removeQueries({ queryKey: ['events'], exact });
 }
 
-async function invalidateEventData(eventId: string) {
-  queryClient.removeQueries({ queryKey: ['events'] });
-  queryClient.removeQueries({ queryKey: ['events', eventId] });
+async function reloadEventData(eventId: string) {
+  await queryClient.invalidateQueries({ queryKey: ['events', eventId] });
 }
 
 export async function createEvent(event: NewEventType) {
   const createdEvent = await fetchFromBackend<EventType>({ method: 'POST', uri: '/events', body: event });
-  await invalidateEventsData();
+  await clearEventsData();
   return createdEvent;
 }
 
 export async function updateEvent(eventId: string, event: NewEventType) {
   const updatedEvent = await fetchFromBackend<EventType>({ method: 'PATCH', uri: `/events/${eventId}`, body: event });
-  await invalidateEventData(eventId);
+  await clearEventsData();
   return updatedEvent;
 }
 
 export async function deleteEvent(eventId: string) {
   await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` });
-  await invalidateEventsData();
+  await clearEventsData();
 }
 
 export async function addEventToWatchlist(eventId: string) {
   await fetchFromBackend({ method: 'POST', uri: '/watchlist/items', body: { eventId } });
-  await invalidateEventsData();
+  await clearEventsData(true);
+  await reloadEventData(eventId);
 }
 
 export async function removeEventFromWatchlist(eventId: string) {
   await fetchFromBackend({ method: 'DELETE', uri: `/watchlist/items/${eventId}` });
-  await invalidateEventsData();
+  await clearEventsData(true);
+  await reloadEventData(eventId);
 }
 
 interface RequestType extends RequestInit {
