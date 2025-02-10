@@ -28,6 +28,8 @@ const router = createRouter({
   // Enables link preloading which can increase the perceived performance of the application with very little effort.
   // https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
   //defaultPreload: 'intent',
+  // Should be zero when using external cache https://tanstack.com/router/latest/docs/framework/react/guide/data-loading
+  //defaultPreloadStaleTime: 0
   // You can use the router context to share global state like authentication details with all routes:
   // https://tanstack.com/router/latest/docs/framework/react/guide/router-context
   context: undefined!, // Set by RouterProviderWithAuthContext
