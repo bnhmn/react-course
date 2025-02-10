@@ -3,7 +3,7 @@ import { FaRegStar, FaStar } from 'react-icons/fa';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 
-import { useAuthContext } from '../../lib/auth';
+import { useAuth } from '../../lib/auth-context';
 import { EventType } from '../../lib/backend';
 import { formatDate } from '../../lib/localization';
 
@@ -20,7 +20,7 @@ export function EventView({
   onEdit: () => void;
   onDelete: () => void;
 }) {
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated } = useAuth();
 
   return (
     <Stack direction="column" gap="3">

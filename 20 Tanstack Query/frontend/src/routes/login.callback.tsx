@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { LoginErrorPage } from '../components/ErrorPages';
-import { authProvider } from '../lib/auth';
 
 export const Route = createFileRoute('/login/callback')({
   // https://tanstack.com/router/latest/docs/framework/react/guide/search-params#validating-search-params
@@ -11,14 +10,13 @@ export const Route = createFileRoute('/login/callback')({
     returnTo: z.string().default('/'),
   }),
 
-  beforeLoad: async ({ search }) => {
+  beforeLoad: async ({ context, search }) => {
     // Exit early if already authenticated
-    const isAuthenticated = await authProvider.isAuthenticated();
-    if (isAuthenticated) {
+    if (context.isAuthenticated) {
       throw redirect({ to: search.returnTo });
     }
     // Finish the login
-    const success = await authProvider.finishLogin();
+    const success = await context.finishLogin();
     if (success) {
       throw redirect({ to: search.returnTo });
     }

@@ -1,6 +1,6 @@
 import { notFound } from '@tanstack/react-router';
 
-import { authProvider } from './auth';
+import { authClient } from './auth-client';
 
 export interface EventType {
   id: string;
@@ -61,9 +61,10 @@ interface RequestType extends RequestInit {
 async function fetchFromBackend(request: RequestType, baseUrl = 'http://localhost:8888') {
   const requestUrl = `${baseUrl}${request.uri}`;
 
-  const isAuthenticated = await authProvider.isAuthenticated();
+  // TODO: Access via context instead
+  const isAuthenticated = await authClient.isAuthenticated();
   if (isAuthenticated) {
-    const token = await authProvider.getAccessToken();
+    const token = await authClient.getAccessToken();
     request.headers = request.headers ?? {};
     request.headers['Authorization'] = `Bearer ${token}`;
   }

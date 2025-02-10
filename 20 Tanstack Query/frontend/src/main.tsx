@@ -2,11 +2,12 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { createRouter } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 import { GenericErrorPage, NotFoundPage } from './components/ErrorPages.tsx';
 import { LoadingSpinner } from './components/navigation/LoadingSpinner.tsx';
+import { AuthProvider, RouterProviderWithAuthContext } from './lib/auth-context.tsx';
 import { routeTree } from './routeTree.gen';
 import { theme } from './theme.ts';
 
@@ -27,6 +28,10 @@ const router = createRouter({
   // Enables link preloading which can increase the perceived performance of the application with very little effort.
   // https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
   // defaultPreload: 'intent',
+
+  // You can use the router context to share global state like authentication details with all routes:
+  // https://tanstack.com/router/latest/docs/framework/react/guide/router-context
+  context: undefined!, // Set by RouterProviderWithAuthContext
 });
 
 // Register the router instance for type safety
@@ -39,9 +44,11 @@ declare module '@tanstack/react-router' {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ChakraProvider theme={theme}>
-      <RouterProvider router={router} />
-      {/* https://vite.dev/guide/env-and-mode https://tanstack.com/router/latest/docs/framework/react/devtools */}
-      {import.meta.env.DEV && <TanStackRouterDevtools router={router} position="bottom-right" />}
+      <AuthProvider>
+        <RouterProviderWithAuthContext router={router} />
+        {/* https://vite.dev/guide/env-and-mode https://tanstack.com/router/latest/docs/framework/react/devtools */}
+        {import.meta.env.DEV && <TanStackRouterDevtools router={router} position="bottom-right" />}
+      </AuthProvider>
     </ChakraProvider>
   </StrictMode>,
 );

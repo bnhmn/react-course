@@ -4,7 +4,7 @@ import { Spinner } from '@chakra-ui/react';
 
 import { GenericErrorPage, LoginErrorPage, NotFoundPage } from '../components/ErrorPages.tsx';
 import { LoadingSpinner } from '../components/navigation/LoadingSpinner.tsx';
-import { ensureUserIsAuthenticated, loadAuthContext, loginCallbackAction } from '../lib/auth.ts';
+import { ensureUserIsAuthenticated, loadAuthContext, loginCallbackAction } from '../lib/auth-client.ts';
 import { fetchEvents, fetchWatchingEvents } from '../lib/backend.ts';
 import { ViewEventPage } from '../routes/events.$eventId.index.tsx';
 import { ViewEventsPage } from '../routes/events.index.tsx';

@@ -1,13 +1,18 @@
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 
 import { Navigation } from '../components/navigation/Navigation';
+import { AuthContext } from '../lib/auth-context';
 
 // The root route is the top-most route in the entire tree and encapsulates all other routes as children.
 // It has no path, it is always matched, and its component is always rendered.
 // https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#the-root-route
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<AuthContext>()({
+  // Initialize the auth context before any page loads:
+  // https://tanstack.com/router/latest/docs/framework/react/guide/router-context
+  beforeLoad: async ({ context }) => await context.refreshAuthContext(),
+
   component: () => (
     // https://v2.chakra-ui.com/docs/components/grid#template-areas
     <Grid

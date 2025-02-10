@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { Button, Container, Heading, Stack, Text } from '@chakra-ui/react';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { authProvider } from '../lib/auth';
+import { useAuth } from '../lib/auth-context';
 
 export const Route = createFileRoute('/login/')({
   // https://tanstack.com/router/latest/docs/framework/react/guide/search-params#validating-search-params
@@ -13,6 +13,7 @@ export const Route = createFileRoute('/login/')({
 
   component: function Component() {
     const { returnTo } = Route.useSearch();
+    const { startLogin } = useAuth();
 
     return (
       <Container maxW="3xl">
@@ -24,7 +25,7 @@ export const Route = createFileRoute('/login/')({
             <Text fontSize="lg">Please log in to access your account data.</Text>
           </Stack>
           <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
-            <Button rounded="full" px={6} onClick={() => authProvider.startLogin(returnTo)}>
+            <Button rounded="full" px={6} onClick={() => startLogin(returnTo)}>
               Login
             </Button>
           </Stack>

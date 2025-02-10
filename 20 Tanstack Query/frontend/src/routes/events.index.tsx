@@ -3,7 +3,7 @@ import { Flex, Heading, IconButton, Text } from '@chakra-ui/react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 import { EventsGrid } from '../components/events/EventsGrid';
-import { useAuthContext } from '../lib/auth';
+import { useAuth } from '../lib/auth-context';
 import { fetchEvents } from '../lib/backend';
 
 export const Route = createFileRoute('/events/')({
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/events/')({
   component: function Component() {
     const navigate = useNavigate();
     const events = Route.useLoaderData();
-    const { isAuthenticated } = useAuthContext();
+    const { isAuthenticated } = useAuth();
 
     return (
       <>
