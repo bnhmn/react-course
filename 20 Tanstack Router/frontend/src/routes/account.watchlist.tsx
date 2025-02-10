@@ -17,15 +17,17 @@ export const Route = createFileRoute('/account/watchlist')({
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading
   loader: async () => await fetchWatchingEvents(),
 
-  component: function Component() {
-    const events = Route.useLoaderData();
-
-    return (
-      <>
-        <Heading mb="10">Your Watchlist</Heading>
-        {events.length > 0 && <EventsGrid events={events} />}
-        {events.length === 0 && <Text fontSize="larger">Your watchlist is empty</Text>}
-      </>
-    );
-  },
+  component: Component,
 });
+
+function Component() {
+  const events = Route.useLoaderData();
+
+  return (
+    <>
+      <Heading mb="10">Your Watchlist</Heading>
+      {events.length > 0 && <EventsGrid events={events} />}
+      {events.length === 0 && <Text fontSize="larger">Your watchlist is empty</Text>}
+    </>
+  );
+}

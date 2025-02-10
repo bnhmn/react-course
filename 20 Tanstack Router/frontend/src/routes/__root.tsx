@@ -13,7 +13,14 @@ export const Route = createRootRouteWithContext<AuthContext>()({
   // https://tanstack.com/router/latest/docs/framework/react/guide/router-context
   beforeLoad: async ({ context }) => await context.refreshAuthContext(),
 
-  component: () => (
+  component: Component,
+});
+
+// The component must be defined as an extra function for Hot Module Reload (HMR) to work. HMR ensures that
+// changes are immediately displayed in the browser. This won't work if you inline the component above.
+
+function Component() {
+  return (
     // https://v2.chakra-ui.com/docs/components/grid#template-areas
     <Grid
       minHeight="100vh"
@@ -36,5 +43,5 @@ export const Route = createRootRouteWithContext<AuthContext>()({
         </Flex>
       </GridItem>
     </Grid>
-  ),
-});
+  );
+}

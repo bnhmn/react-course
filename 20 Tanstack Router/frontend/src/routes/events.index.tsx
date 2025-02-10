@@ -9,28 +9,30 @@ import { fetchEvents } from '../lib/backend';
 export const Route = createFileRoute('/events/')({
   loader: async () => await fetchEvents(),
 
-  component: function Component() {
-    const navigate = useNavigate();
-    const events = Route.useLoaderData();
-    const { isAuthenticated } = useAuth();
-
-    return (
-      <>
-        <Flex width="100%" justifyContent="center" alignItems="center" gap="6" mb="10">
-          <Heading>All Events</Heading>
-          {isAuthenticated && (
-            <IconButton
-              icon={<AddIcon />}
-              size="md"
-              rounded="3xl"
-              aria-label="Create event"
-              onClick={() => navigate({ to: '/events/new' })}
-            />
-          )}
-        </Flex>
-        {events.length > 0 && <EventsGrid events={events} />}
-        {events.length === 0 && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
-      </>
-    );
-  },
+  component: Component,
 });
+
+function Component() {
+  const navigate = useNavigate();
+  const events = Route.useLoaderData();
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <>
+      <Flex width="100%" justifyContent="center" alignItems="center" gap="6" mb="10">
+        <Heading>All Events</Heading>
+        {isAuthenticated && (
+          <IconButton
+            icon={<AddIcon />}
+            size="md"
+            rounded="3xl"
+            aria-label="Create event"
+            onClick={() => navigate({ to: '/events/new' })}
+          />
+        )}
+      </Flex>
+      {events.length > 0 && <EventsGrid events={events} />}
+      {events.length === 0 && <Text fontSize="larger">Currently, there are no events 🙁</Text>}
+    </>
+  );
+}

@@ -23,5 +23,5 @@ export const Route = createFileRoute('/login/callback')({
     // If login was not successful, show the error page
   },
 
-  component: () => <LoginErrorPage />,
+  component: LoginErrorPage,
 });
