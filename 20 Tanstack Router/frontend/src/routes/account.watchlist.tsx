@@ -2,7 +2,7 @@ import { Heading, Text } from '@chakra-ui/react';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { EventsGrid } from '../components/events/EventsGrid';
-import { fetchWatchingEvents } from '../lib/backend';
+import { ensureEventsData, useEventsData } from '../lib/backend';
 
 // Routes can be defined via createFileRoute and createLazyFileRoute.
 // Although the route path of a file route is automatically derived from the source code file path, we need
@@ -12,16 +12,13 @@ import { fetchWatchingEvents } from '../lib/backend';
 
 export const Route = createFileRoute('/account/watchlist')({
   // We can fetch data through a loader. TanStack executes the loader before rendering the component.
-  // It caches the loader result, which makes subsequent page views significantly faster.
-  // If a result is cached, it will be returned immediately, then potentially be refetched in the background.
   // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading
-  loader: async () => await fetchWatchingEvents(),
-
+  loader: ensureEventsData,
   component: Component,
 });
 
 function Component() {
-  const events = Route.useLoaderData();
+  const { events } = useEventsData((event) => event.watching === true);
 
   return (
     <>

@@ -5,7 +5,15 @@ import { RouterProps, RouterProvider } from '@tanstack/react-router';
 
 import { authClient } from './auth-client';
 
-// See https://github.com/TanStack/router/blob/main/examples/react/authenticated-routes.
+/*
+- We store the authentication state in the auth context.
+- We create a loader to restrict access to certain routes, allowing only authenticated users (see /routes/account.tsx).
+  If an unauthenticated user tries to access a protected route, they are redirected to the /login page.
+  We also store the originally requested url to redirect them back after login.
+- We use a loader to handle the login callback and complete the authentication (see /routes/login.callback.tsx).
+- See https://github.com/TanStack/router/blob/main/examples/react/authenticated-routes for the original auth example.
+*/
+//
 
 /**
  * Provides the global user authentication context.

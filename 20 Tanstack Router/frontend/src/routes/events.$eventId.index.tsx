@@ -6,18 +6,24 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { EventView } from '../components/events/EventView';
 import { DeleteDialog } from '../components/form/DeleteDialog';
 import { Breadcrumbs } from '../components/navigation/Breadcrumbs';
-import { addEventToWatchlist, deleteEvent, fetchEvent, removeEventFromWatchlist } from '../lib/backend';
+import {
+  addEventToWatchlist,
+  deleteEvent,
+  ensureEventData,
+  removeEventFromWatchlist,
+  useEventData,
+} from '../lib/backend';
 
 export const Route = createFileRoute('/events/$eventId/')({
-  loader: async ({ params }) => await fetchEvent(params.eventId),
-
+  loader: ({ params }) => ensureEventData(params.eventId),
   component: Component,
 });
 
 function Component() {
   // https://tanstack.com/router/latest/docs/framework/react/guide/navigation
   const navigate = useNavigate();
-  const event = Route.useLoaderData();
+  const { eventId } = Route.useParams();
+  const { event } = useEventData(eventId);
   const [deleteDialogOpen, setDeleteOpen] = useState(false);
 
   // TODO: Optimistic update: https://reactrouter.com/en/6.29.0/start/tutorial#optimistic-ui

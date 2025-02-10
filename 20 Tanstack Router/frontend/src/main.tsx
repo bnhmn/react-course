@@ -2,12 +2,14 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRouter } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 import { GenericErrorPage, NotFoundPage } from './components/ErrorPages.tsx';
 import { LoadingSpinner } from './components/navigation/LoadingSpinner.tsx';
 import { AuthProvider, RouterProviderWithAuthContext } from './lib/auth-context.tsx';
+import { queryClient } from './lib/backend.ts';
 import { routeTree } from './routeTree.gen.ts';
 import { theme } from './theme.ts';
 
@@ -25,14 +27,16 @@ const router = createRouter({
   defaultPendingComponent: LoadingSpinner,
   // Don't show a loading spinner after the first page load because we use our own navigation progress bar then.
   defaultPendingMs: Infinity,
-  // Enables link preloading which can increase the perceived performance of the application with very little effort.
-  // https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
-  //defaultPreload: 'intent',
-  // Should be zero when using external cache https://tanstack.com/router/latest/docs/framework/react/guide/data-loading
-  //defaultPreloadStaleTime: 0
   // You can use the router context to share global state like authentication details with all routes:
   // https://tanstack.com/router/latest/docs/framework/react/guide/router-context
   context: undefined!, // Set by RouterProviderWithAuthContext
+  // Disable router caching because we use the caching of TanStack Query
+  // https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#using-shouldreload-and-gctime-to-opt-out-of-caching
+  defaultGcTime: 0,
+  defaultPreloadStaleTime: 0,
+  // Enables link preloading which can increase the perceived performance of the application with very little effort.
+  // https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
+  //defaultPreload: 'intent',
 });
 
 // Register the router instance for type safety
@@ -46,9 +50,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ChakraProvider theme={theme}>
       <AuthProvider>
-        <RouterProviderWithAuthContext router={router} />
-        {/* https://vite.dev/guide/env-and-mode https://tanstack.com/router/latest/docs/framework/react/devtools */}
-        {import.meta.env.DEV && <TanStackRouterDevtools router={router} position="bottom-right" />}
+        <QueryClientProvider client={queryClient}>
+          <RouterProviderWithAuthContext router={router} />
+          <ReactQueryDevtools />
+        </QueryClientProvider>
       </AuthProvider>
     </ChakraProvider>
   </StrictMode>,

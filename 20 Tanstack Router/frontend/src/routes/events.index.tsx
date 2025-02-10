@@ -4,17 +4,16 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 import { EventsGrid } from '../components/events/EventsGrid';
 import { useAuth } from '../lib/auth-context';
-import { fetchEvents } from '../lib/backend';
+import { ensureEventsData, useEventsData } from '../lib/backend';
 
 export const Route = createFileRoute('/events/')({
-  loader: async () => await fetchEvents(),
-
+  loader: ensureEventsData,
   component: Component,
 });
 
 function Component() {
   const navigate = useNavigate();
-  const events = Route.useLoaderData();
+  const { events } = useEventsData();
   const { isAuthenticated } = useAuth();
 
   return (

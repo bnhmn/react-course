@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { Link, useLocation, useRouterState } from '@tanstack/react-router';
+import { Link, ParsedLocation, useLocation, useRouterState } from '@tanstack/react-router';
 
 export function Breadcrumbs() {
   const breadcrumbs = useBreadcrumbs();
@@ -29,23 +29,29 @@ export function Breadcrumbs() {
 function useBreadcrumbs() {
   const location = useLocation();
   const { isLoading } = useRouterState();
-  const [breadcrumbs, setBreadCrumbs] = useState<{ name: string; path: string }[]>([]);
+  const [breadcrumbs, setBreadcrumbs] = useState<{ name: string; path: string }[]>(extractBreadcrumbs(location));
 
   useEffect(() => {
-    // Only update the breadcrumbs when TanStack router has finished loading
+    // Update the breadcrumbs only after the router has finished loading. Otherwise, if both the new and old pages
+    // contain the Breadcrumb component, the new breadcrumbs may be displayed too early.
     if (!isLoading) {
-      const prevLocations = location.pathname.split('/').filter((segment) => segment?.length > 0);
-      const newBreadCrumbs = prevLocations.reduce(
-        (result, route) => {
-          const prevPath = result[result.length - 1]?.path ?? '';
-          result.push({ name: route, path: `${prevPath}/${route}` });
-          return result;
-        },
-        [] as { name: string; path: string }[],
-      );
-      setBreadCrumbs(newBreadCrumbs);
+      const newBreadcrumbs = extractBreadcrumbs(location);
+      setBreadcrumbs(newBreadcrumbs);
     }
-  }, [location, isLoading]);
+  }, [isLoading, location]);
 
   return breadcrumbs;
+}
+
+function extractBreadcrumbs(location: ParsedLocation) {
+  const prevLocations = location.pathname.split('/').filter((segment) => segment?.length > 0);
+  const breadCrumbs = prevLocations.reduce(
+    (result, route) => {
+      const prevPath = result[result.length - 1]?.path ?? '';
+      result.push({ name: route, path: `${prevPath}/${route}` });
+      return result;
+    },
+    [] as { name: string; path: string }[],
+  );
+  return breadCrumbs;
 }
