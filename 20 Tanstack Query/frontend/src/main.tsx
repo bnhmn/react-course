@@ -27,7 +27,7 @@ const router = createRouter({
   defaultPendingMs: Infinity,
   // Enables link preloading which can increase the perceived performance of the application with very little effort.
   // https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
-  defaultPreload: 'intent',
+  //defaultPreload: 'intent',
   // You can use the router context to share global state like authentication details with all routes:
   // https://tanstack.com/router/latest/docs/framework/react/guide/router-context
   context: undefined!, // Set by RouterProviderWithAuthContext

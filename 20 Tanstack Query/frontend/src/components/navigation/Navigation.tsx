@@ -1,4 +1,5 @@
 import { Stack } from '@chakra-ui/react';
+import { useRouterState } from '@tanstack/react-router';
 
 import { headerBackground } from '../../theme';
 import { DarkModeButton, NavigationLink } from './NavigationButtons';
@@ -6,7 +7,8 @@ import { useProgressBar } from './ProgressBar';
 import { UserMenu } from './UserMenu';
 
 export function Navigation({ links = { Home: '/', Events: '/events' } }: { links?: { [label: string]: string } }) {
-  useProgressBar();
+  const { isLoading } = useRouterState();
+  useProgressBar(isLoading);
   return (
     <Stack
       as="nav"

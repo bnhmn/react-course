@@ -4,20 +4,22 @@ import './ProgressBar.css';
 import NProgress from 'nprogress';
 import { useEffect } from 'react';
 
-import { useRouterState } from '@tanstack/react-router';
-
-export function useProgressBar() {
-  const { isLoading } = useRouterState();
-
+/**
+ * Show an indeterminate progress bar while the page is loading.
+ * @param isLoading: Whether the page is loading or not.
+ * @param delayMs: Only shows the progress bar if the page takes longer to load than specified here.
+ */
+export function useProgressBar(isLoading = false, delayMs = 200) {
   // https://ricostacruz.com/nprogress https://www.npmjs.com/package/nprogress
   useEffect(() => {
     if (isLoading) {
-      NProgress.start();
+      const timer = setTimeout(NProgress.start, delayMs);
+      return () => {
+        clearTimeout(timer);
+        NProgress.done();
+      };
     } else {
       NProgress.done();
     }
-    return () => {
-      NProgress.done();
-    };
-  }, [isLoading]);
+  }, [isLoading, delayMs]);
 }
