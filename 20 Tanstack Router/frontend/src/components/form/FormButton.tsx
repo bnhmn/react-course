@@ -1,7 +1,12 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
-import { useRouterState } from '@tanstack/react-router';
+import { UseFormReturn } from 'react-hook-form';
 
-export function FormButton(props: ButtonProps) {
-  const { isLoading } = useRouterState();
-  return <Button {...props} disabled={isLoading} />;
+import { Button, ButtonProps } from '@chakra-ui/react';
+
+type FormButtonProps = {
+  form: UseFormReturn<any, any, any>;
+} & Omit<ButtonProps, 'form'>;
+
+export function FormButton(props: FormButtonProps) {
+  const { form, ...rest } = props;
+  return <Button {...rest} disabled={form.formState.isSubmitting} />;
 }
