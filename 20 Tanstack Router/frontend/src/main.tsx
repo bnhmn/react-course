@@ -8,7 +8,7 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { GenericErrorPage, NotFoundPage } from './components/ErrorPages.tsx';
 import { LoadingSpinner } from './components/navigation/LoadingSpinner.tsx';
 import { AuthProvider, RouterProviderWithAuthContext } from './lib/auth-context.tsx';
-import { routeTree } from './routeTree.gen';
+import { routeTree } from './routeTree.gen.ts';
 import { theme } from './theme.ts';
 
 // TanStack Router is a fully type-safe router that integrates well with TanStack Query for better data fetching and
