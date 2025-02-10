@@ -7,7 +7,7 @@ import { authClient } from '../lib/auth-client';
 
 export const Route = createFileRoute('/account')({
   /**
-   * A loader that can be used to protect a route and its child routes.
+   * A loader that protects this route and its child routes.
    * If the user is not logged in and tries to access the /account route, it redirects them to the /login page
    * with a query parameter that allows to redirect back to this page upon successful authentication.
    * @see https://tanstack.com/router/latest/docs/framework/react/guide/authenticated-routes.
