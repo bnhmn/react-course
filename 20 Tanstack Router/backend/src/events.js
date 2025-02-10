@@ -1,4 +1,4 @@
-import eventData from '../events.json' with { type: "json" };
+import eventData from '../events.json' with { type: 'json' };
 import { findWatchlist } from './watchlist.js';
 
 const events = eventData.events;
@@ -13,9 +13,14 @@ export async function findAllEvents(userId, sleepSeconds = delaySeconds) {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
-export async function findEventById(eventId, sleepSeconds = delaySeconds) {
+export async function findEventById(userId, eventId, sleepSeconds = delaySeconds) {
   await sleep(sleepSeconds);
-  return events.find((event) => event.id === eventId);
+  const watchlist = await findWatchlist(userId);
+  const event = events.find((event) => event.id === eventId);
+  if (event) {
+    event.watching = watchlist?.has(event.id);
+  }
+  return event;
 }
 
 export async function addEvent(eventData, sleepSeconds = delaySeconds) {

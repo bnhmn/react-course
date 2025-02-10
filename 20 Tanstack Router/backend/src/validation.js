@@ -27,5 +27,6 @@ export function validationErrorHandler(error, req, res, next) {
 }
 
 export function internalServerErrorHandler(error, req, res, next) {
+  console.error(error);
   res.status(500).json({ code: 'internal_server_error' });
 }

@@ -20,8 +20,9 @@ app.get('/events', optionalAuth, async (req, res) => {
   res.json(events);
 });
 
-app.get('/events/:id', async (req, res) => {
-  const event = await findEventById(req.params.id);
+app.get('/events/:id', optionalAuth, async (req, res) => {
+  const userId = req.auth?.payload?.sub;
+  const event = await findEventById(userId, req.params.id);
   if (!event) {
     res.status(404).send();
   } else {

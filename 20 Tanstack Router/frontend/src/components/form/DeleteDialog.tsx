@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useTransition } from 'react';
 
 import {
   AlertDialog,
@@ -19,12 +19,13 @@ export function DeleteDialog({
 }: {
   label: string;
   open: boolean;
-  onSubmit: () => void;
+  onSubmit: () => Promise<any>;
   onCancel: () => void;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isPending, setIsPending] = useState(false);
   const cancelRef = useRef<any>(null);
+  // Show pending state via https://react.dev/reference/react/useTransition
+  const [isSubmitting, startTransition] = useTransition();
 
   useEffect(() => {
     if (open) {
@@ -34,17 +35,12 @@ export function DeleteDialog({
     }
   }, [open, onOpen, onClose]);
 
-  function handleSubmit() {
-    setIsPending(true);
-    onSubmit();
-  }
-
-  function handleClose() {
-    onCancel();
-  }
+  const handleSubmit = () => {
+    startTransition(() => onSubmit());
+  };
 
   return (
-    <AlertDialog isOpen={isOpen} isCentered leastDestructiveRef={cancelRef} onClose={handleClose}>
+    <AlertDialog isOpen={isOpen} isCentered leastDestructiveRef={cancelRef} onClose={onCancel}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -54,10 +50,10 @@ export function DeleteDialog({
           <AlertDialogBody>Are you sure? You can't undo this action afterwards.</AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button colorScheme="gray" variant="ghost" ref={cancelRef} onClick={handleClose} isDisabled={isPending}>
+            <Button colorScheme="gray" variant="ghost" ref={cancelRef} onClick={onCancel} isDisabled={isSubmitting}>
               Cancel
             </Button>
-            <Button colorScheme="red" variant="solid" onClick={handleSubmit} ml={3} isLoading={isPending}>
+            <Button colorScheme="red" variant="solid" onClick={handleSubmit} ml={3} isLoading={isSubmitting}>
               Delete
             </Button>
           </AlertDialogFooter>
