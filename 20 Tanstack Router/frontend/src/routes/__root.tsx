@@ -1,6 +1,7 @@
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
+import { CatchNotFound, createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 
+import { NotFoundPage } from '../components/ErrorPages';
 import { Navigation } from '../components/navigation/Navigation';
 import { AuthContext } from '../lib/auth-context';
 
@@ -38,8 +39,11 @@ function Component() {
       </GridItem>
       <GridItem area={'main'}>
         <Flex as="main" direction="column" w="100%" p={{ base: 5, sm: 10 }} alignItems="center">
-          {/* Outlet is the place where Tanstack Router inserts the child content */}
-          <Outlet />
+          {/* https://tanstack.com/router/latest/docs/framework/react/guide/not-found-errors#throwing-not-found-errors-in-components */}
+          <CatchNotFound fallback={NotFoundPage} onCatch={(error) => console.log(error)}>
+            {/* Outlet is the place where Tanstack Router inserts the child content */}
+            <Outlet />
+          </CatchNotFound>
         </Flex>
       </GridItem>
     </Grid>

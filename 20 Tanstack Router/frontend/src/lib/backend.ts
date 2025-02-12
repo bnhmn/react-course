@@ -23,29 +23,21 @@ export interface NewEventType {
 // states. It handles pagination, infinite scrolling, and declarative data fetching without extra logic.
 // https://tanstack.com/query/latest/docs/framework/react/overview
 
-export const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 0 } } });
-
 // We use TanStack Query together with TanStack Router, as described on this page:
 // https://tanstack.com/router/latest/docs/framework/react/guide/external-data-loading.
 // In this setup, each query requires a loader to initially load data into the cache and a hook to provide data to the
 // components. Thanks to caching, the user only experiences a loading delay on the first page visit. On subsequent
 // visits, the cached result is displayed immediately. However, the query still runs again in the background, and once
-// completed, the component re-renders to show the latest data if changes occurred on the server in the meantime
-// (Stale-While-Revalidate strategy).
+// completed, the component re-renders to show the latest data (Stale-While-Revalidate strategy).
+
+export const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 0 } } });
 
 const eventsQuery = queryOptions({
   // The queryKey is the id under which the query result is stored in the cache. Multiple values can be specified.
   // When a queryKey is invalidated, all queries containing that key are removed from the cache and will be reloaded
-  // the next time they are requested.
   queryKey: ['events'],
   queryFn: ({ signal }) => fetchFromBackend<EventType[]>({ method: 'GET', uri: '/events', signal }),
 });
-
-const eventQuery = (eventId: string) =>
-  queryOptions({
-    queryKey: ['events', eventId],
-    queryFn: ({ signal }) => fetchFromBackend<EventType>({ method: 'GET', uri: `/events/${eventId}`, signal }),
-  });
 
 /**
  * Ensure that the events data is loaded into the cache. Only executes the query if the cache is empty.
@@ -54,64 +46,59 @@ export async function ensureEventsData(): Promise<EventType[]> {
   return await queryClient.ensureQueryData(eventsQuery);
 }
 
-export async function ensureEventData(eventId: string): Promise<EventType> {
-  return await queryClient.ensureQueryData(eventQuery(eventId));
-}
-
 /**
  * Read the events data from the cache and subscribe to updates.
  */
 export function useEventsData(filter: (event: EventType) => boolean = () => true) {
-  const { data, ...rest } = useSuspenseQuery(eventsQuery);
-  return { events: data.filter(filter), ...rest };
-}
-
-export function useEventData(eventId: string) {
-  const { data, ...rest } = useSuspenseQuery(eventQuery(eventId));
-  return { event: data, ...rest };
+  const { data: events, ...rest } = useSuspenseQuery(eventsQuery);
+  return { events: events.filter(filter), ...rest };
 }
 
 /**
- * Clear the events data cache.
+ * Read the event data from the cache and subscribe to updates.
  */
-async function clearEventsData(exact = false) {
-  // We use removeQueries so the router reloads the data via the loader and waits to re-render until the data is there.
-  // https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation
-  // https://tanstack.com/query/latest/docs/reference/QueryClient#queryclientremovequeries
-  queryClient.removeQueries({ queryKey: ['events'], exact });
+export function useEventData(eventId: string) {
+  // We filter the event from the events data because we always load all events with it anyway
+  const { data: events, ...rest } = useSuspenseQuery(eventsQuery);
+  const event = events.filter((event) => event.id === eventId).at(0);
+  if (!event) {
+    // Note: Your components has to be wrapped in <CatchNotFound> if you want to use notFound() from within a component
+    // https://tanstack.com/router/latest/docs/framework/react/guide/not-found-errors#throwing-not-found-errors-in-components
+    throw notFound();
+  }
+  return { event, ...rest };
 }
 
-async function reloadEventData(eventId: string) {
-  await queryClient.invalidateQueries({ queryKey: ['events', eventId] });
+async function refreshEventsData() {
+  // https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation
+  // Use refetchType=all to make even inactive queries reload directly
+  await queryClient.invalidateQueries({ queryKey: ['events'], refetchType: 'all' });
 }
 
 export async function createEvent(event: NewEventType) {
   const createdEvent = await fetchFromBackend<EventType>({ method: 'POST', uri: '/events', body: event });
-  await clearEventsData();
+  await refreshEventsData();
   return createdEvent;
 }
 
 export async function updateEvent(eventId: string, event: NewEventType) {
-  const updatedEvent = await fetchFromBackend<EventType>({ method: 'PATCH', uri: `/events/${eventId}`, body: event });
-  await clearEventsData();
-  return updatedEvent;
+  await fetchFromBackend<EventType>({ method: 'PATCH', uri: `/events/${eventId}`, body: event });
+  await refreshEventsData();
 }
 
 export async function deleteEvent(eventId: string) {
   await fetchFromBackend({ method: 'DELETE', uri: `/events/${eventId}` });
-  await clearEventsData();
+  await refreshEventsData();
 }
 
 export async function addEventToWatchlist(eventId: string) {
   await fetchFromBackend({ method: 'POST', uri: '/watchlist/items', body: { eventId } });
-  await clearEventsData(true);
-  await reloadEventData(eventId);
+  await refreshEventsData();
 }
 
 export async function removeEventFromWatchlist(eventId: string) {
   await fetchFromBackend({ method: 'DELETE', uri: `/watchlist/items/${eventId}` });
-  await clearEventsData(true);
-  await reloadEventData(eventId);
+  await refreshEventsData();
 }
 
 interface RequestType extends RequestInit {

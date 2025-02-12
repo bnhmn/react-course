@@ -9,13 +9,13 @@ import { Breadcrumbs } from '../components/navigation/Breadcrumbs';
 import {
   addEventToWatchlist,
   deleteEvent,
-  ensureEventData,
+  ensureEventsData,
   removeEventFromWatchlist,
   useEventData,
 } from '../lib/backend';
 
 export const Route = createFileRoute('/events/$eventId/')({
-  loader: ({ params }) => ensureEventData(params.eventId),
+  loader: ensureEventsData,
   component: Component,
 });
 

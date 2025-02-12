@@ -3,14 +3,14 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 import { EventForm } from '../components/events/EventForm';
 import { Breadcrumbs } from '../components/navigation/Breadcrumbs';
-import { ensureEventData, updateEvent, useEventData } from '../lib/backend';
+import { ensureEventsData, updateEvent, useEventData } from '../lib/backend';
 
 // This is a dynamic route.
 // Path segments that start with a $ are dynamic. Their values are captured into the params object.
 // https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#dynamic-route-segments
 
 export const Route = createFileRoute('/events/$eventId/edit')({
-  loader: ({ params }) => ensureEventData(params.eventId),
+  loader: ensureEventsData,
   component: Component,
 });
 
