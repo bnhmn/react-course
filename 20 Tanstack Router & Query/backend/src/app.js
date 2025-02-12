@@ -8,19 +8,20 @@ import { internalServerErrorHandler, Joi, validate, validationErrorHandler } fro
 import { addToWatchlist, removeFromWatchlist } from './watchlist.js';
 
 const app = express();
-const port = 8888;
+const port = parseInt(process.env.PORT || '8888');
 
 app.use(cors());
+app.use(express.static('public')); // Serve frontend files from public folder
 app.use(morgan('short')); // request logging https://www.npmjs.com/package/morgan
 app.use(express.json());
 
-app.get('/events', optionalAuth, async (req, res) => {
+app.get('/api/events', optionalAuth, async (req, res) => {
   const userId = req.auth?.payload?.sub;
   const events = await findAllEvents(userId);
   res.json(events);
 });
 
-app.get('/events/:id', optionalAuth, async (req, res) => {
+app.get('/api/events/:id', optionalAuth, async (req, res) => {
   const userId = req.auth?.payload?.sub;
   const event = await findEventById(userId, req.params.id);
   if (!event) {
@@ -31,7 +32,7 @@ app.get('/events/:id', optionalAuth, async (req, res) => {
 });
 
 app.post(
-  '/events',
+  '/api/events',
   requiresAuth,
   requiresAdminPermission,
   validate({
@@ -53,7 +54,7 @@ app.post(
 );
 
 app.patch(
-  '/events/:id',
+  '/api/events/:id',
   requiresAuth,
   requiresAdminPermission,
   validate({
@@ -79,7 +80,7 @@ app.patch(
   },
 );
 
-app.delete('/events/:id', requiresAuth, requiresAdminPermission, async (req, res) => {
+app.delete('/api/events/:id', requiresAuth, requiresAdminPermission, async (req, res) => {
   const deletedEvent = await deleteEventById(req.params.id);
   if (!deletedEvent) {
     res.status(404).send();
@@ -89,7 +90,7 @@ app.delete('/events/:id', requiresAuth, requiresAdminPermission, async (req, res
 });
 
 app.post(
-  '/watchlist/items',
+  '/api/watchlist/items',
   requiresAuth,
   validate({
     body: Joi.object({
@@ -104,7 +105,7 @@ app.post(
   },
 );
 
-app.delete('/watchlist/items/:eventId', requiresAuth, async (req, res) => {
+app.delete('/api/watchlist/items/:eventId', requiresAuth, async (req, res) => {
   const userId = req.auth.payload.sub;
   const eventId = req.params.eventId;
   await removeFromWatchlist(userId, eventId);

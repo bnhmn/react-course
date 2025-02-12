@@ -1,4 +1,9 @@
-import { QueryClient, queryOptions, useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import {
+	QueryClient,
+	queryOptions,
+	useMutation,
+	useSuspenseQuery,
+} from '@tanstack/react-query';
 import { notFound } from '@tanstack/react-router';
 
 import { authClient } from './auth-client';
@@ -128,7 +133,7 @@ interface RequestType extends RequestInit {
 
 async function fetchFromBackend<ReturnType = void>(
   request: RequestType,
-  baseUrl = 'http://localhost:8888',
+  baseUrl = 'http://localhost:8888/api',
 ): Promise<ReturnType> {
   const requestUrl = `${baseUrl}${request.uri}`;
 
