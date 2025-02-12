@@ -2,19 +2,19 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 
 import { Spinner } from '@chakra-ui/react';
 
-import { RootLayout } from './components/RootLayout';
+import { RootLayout } from './components/RootLayout.tsx';
 import { authContextLoader, loginCallbackAction, requireUserLogin } from './lib/auth.ts';
 import { fetchEvents, fetchWatchingEvents } from './lib/backend.ts';
 import { ViewAccountPage } from './routes/account/ViewAccountPage.tsx';
 import { ViewWatchlistPage } from './routes/account/ViewWatchlistPage.tsx';
 import { GenericErrorPage, LoginErrorPage, NotFoundPage } from './routes/ErrorPages.tsx';
 import { createEventAction } from './routes/events/CreateEventHandler.ts';
-import { CreateEventPage } from './routes/events/CreateEventPage';
+import { CreateEventPage } from './routes/events/CreateEventPage.tsx';
 import { changeEventAction } from './routes/events/EditEventHandler.ts';
-import { EditEventPage } from './routes/events/EditEventPage';
-import { ViewEventPage } from './routes/events/ViewEventPage';
-import { ViewEventsPage } from './routes/events/ViewEventsPage';
-import { HomePage } from './routes/HomePage';
+import { EditEventPage } from './routes/events/EditEventPage.tsx';
+import { ViewEventPage } from './routes/events/ViewEventPage.tsx';
+import { ViewEventsPage } from './routes/events/ViewEventsPage.tsx';
+import { HomePage } from './routes/HomePage.tsx';
 import { LoadingPage } from './routes/LoadingPage.tsx';
 import { LoginPage } from './routes/LoginPage.tsx';
 
