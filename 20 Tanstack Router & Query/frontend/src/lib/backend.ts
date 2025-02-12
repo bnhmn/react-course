@@ -133,7 +133,7 @@ interface RequestType extends RequestInit {
 
 async function fetchFromBackend<ReturnType = void>(
   request: RequestType,
-  baseUrl = 'http://localhost:8888/api',
+  baseUrl = 'http://localhost:80/api',
 ): Promise<ReturnType> {
   const requestUrl = `${baseUrl}${request.uri}`;
 

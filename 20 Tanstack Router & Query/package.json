@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "concurrently -n backend,frontend -c blue,yellow \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
-    "build": "npm run build --workspace backend && npm run build --workspace frontend"
+    "build": "npm run build --workspace backend && npm run build --workspace frontend && npm run build:copy",
+    "build:copy": "rm -r ./out || true && mv ./backend/out . && mv ./frontend/dist ./out/public"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

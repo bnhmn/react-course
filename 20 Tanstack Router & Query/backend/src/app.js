@@ -8,7 +8,7 @@ import { internalServerErrorHandler, Joi, validate, validationErrorHandler } fro
 import { addToWatchlist, removeFromWatchlist } from './watchlist.js';
 
 const app = express();
-const port = parseInt(process.env.PORT || '8888');
+const port = parseInt(process.env.PORT || '80');
 
 app.use(cors());
 app.use(express.static('public')); // Serve frontend files from public folder
@@ -112,7 +112,8 @@ app.delete('/api/watchlist/items/:eventId', requiresAuth, async (req, res) => {
   res.status(204).send();
 });
 
-app.listen(8080);
+// Required to redirect all other routes to the Single Page Application
+app.use('*', (req, res) => res.sendFile(process.cwd() + '/public/index.html'));
 
 app.use(authErrorHandler);
 app.use(validationErrorHandler);

@@ -67,6 +67,10 @@ export const authClient = {
 
   startLogout: async () => {
     const client = await getAuthClient();
-    await client.logout();
+    await client.logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   },
 };
