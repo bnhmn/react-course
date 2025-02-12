@@ -6,13 +6,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { EventView } from '../components/events/EventView';
 import { DeleteDialog } from '../components/form/DeleteDialog';
 import { Breadcrumbs } from '../components/navigation/Breadcrumbs';
-import {
-  addEventToWatchlist,
-  deleteEvent,
-  ensureEventsData,
-  removeEventFromWatchlist,
-  useEventData,
-} from '../lib/backend';
+import { deleteEvent, ensureEventsData, useEventData, useWatchEventMutation } from '../lib/backend';
 
 export const Route = createFileRoute('/events/$eventId/')({
   loader: ensureEventsData,
@@ -24,10 +18,11 @@ function Component() {
   const navigate = useNavigate();
   const { eventId } = Route.useParams();
   const { event } = useEventData(eventId);
+  const { mutate, variables } = useWatchEventMutation(eventId);
   const [deleteDialogOpen, setDeleteOpen] = useState(false);
 
-  // TODO: Optimistic update: https://reactrouter.com/en/6.29.0/start/tutorial#optimistic-ui
-  // TODO: const watching = fetcher.formData ? fetcher.formData.get('command') === 'watch' : event.watching;
+  // Optimistic update: https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates
+  const watching = variables ? variables === 'watch' : event.watching;
 
   return (
     <>
@@ -35,9 +30,9 @@ function Component() {
       <Heading mb="10">Event Details</Heading>
       <Box w="100%" h="100%" maxW="45rem">
         <EventView
-          event={event}
-          onWatch={() => addEventToWatchlist(event.id)}
-          onUnwatch={() => removeEventFromWatchlist(event.id)}
+          event={{ ...event, watching }}
+          onWatch={() => mutate('watch')}
+          onUnwatch={() => mutate('unwatch')}
           onEdit={() => navigate({ from: Route.fullPath, to: 'edit' })}
           onDelete={() => setDeleteOpen(true)}
         />

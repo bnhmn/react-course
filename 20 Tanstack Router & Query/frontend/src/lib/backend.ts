@@ -1,4 +1,4 @@
-import { QueryClient, queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { QueryClient, queryOptions, useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { notFound } from '@tanstack/react-router';
 
 import { authClient } from './auth-client';
@@ -69,9 +69,27 @@ export function useEventData(eventId: string) {
   return { event, ...rest };
 }
 
+/**
+ * Watch or unwatch an event.
+ */
+export function useWatchEventMutation(eventId: string) {
+  // Mutations allow to create, delete or update data. They also allow us to do optimistic updates.
+  // https://tanstack.com/query/latest/docs/framework/react/guides/mutations
+  // https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates
+  return useMutation({
+    mutationFn: async (command: 'watch' | 'unwatch') =>
+      command === 'watch'
+        ? await fetchFromBackend({ method: 'POST', uri: '/watchlist/items', body: { eventId } })
+        : await fetchFromBackend({ method: 'DELETE', uri: `/watchlist/items/${eventId}` }),
+    onSettled: async () => {
+      // Invalidate the events query. Use refetchType=all to reload the query immediately even if it's inactive.
+      // https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation
+      await queryClient.invalidateQueries({ queryKey: ['events'], refetchType: 'all' });
+    },
+  });
+}
+
 async function refreshEventsData() {
-  // https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation
-  // Use refetchType=all to make even inactive queries reload directly
   await queryClient.invalidateQueries({ queryKey: ['events'], refetchType: 'all' });
 }
 
