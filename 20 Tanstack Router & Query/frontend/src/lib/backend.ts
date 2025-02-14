@@ -1,9 +1,4 @@
-import {
-	QueryClient,
-	queryOptions,
-	useMutation,
-	useSuspenseQuery,
-} from '@tanstack/react-query';
+import { QueryClient, queryOptions, useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { notFound } from '@tanstack/react-router';
 
 import { authClient } from './auth-client';
@@ -133,7 +128,7 @@ interface RequestType extends RequestInit {
 
 async function fetchFromBackend<ReturnType = void>(
   request: RequestType,
-  baseUrl = 'http://localhost:80/api',
+  baseUrl = import.meta.env.VITE_BACKEND_URL || `${window.location.origin}/api`,
 ): Promise<ReturnType> {
   const requestUrl = `${baseUrl}${request.uri}`;
 
