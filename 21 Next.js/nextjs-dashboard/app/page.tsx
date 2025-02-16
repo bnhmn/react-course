@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
-import AcmeLogo from './ui/acme-logo';
+import AcmeLogo from './_components/acme-logo';
 
 export default function Page() {
   return (
