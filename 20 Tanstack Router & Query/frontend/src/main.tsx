@@ -37,6 +37,8 @@ const router = createRouter({
   // Enables link preloading which can increase the perceived performance of the application with very little effort.
   // https://tanstack.com/router/latest/docs/framework/react/guide/navigation#link-preloading
   //defaultPreload: 'intent',
+  // Restore scroll position when the user navigates back
+  scrollRestoration: true,
 });
 
 // Register the router instance for type safety
