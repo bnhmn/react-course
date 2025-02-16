@@ -51,7 +51,7 @@ are welcome!
 
 ## Deployment
 
-For self hosting, see <https://nextjs.org/docs/app/building-your-application/deploying#self-hosting>.
+For self hosting, see [Dockerfile](./Dockerfile) and <https://nextjs.org/docs/app/building-your-application/deploying#self-hosting>.
 
-For easier deployments, you can also use managed services like the Vercel Platform from the creators of Next.js.
+You can also use managed services like the Vercel Platform from the creators of Next.js instead.
 It's free for hobby projects. See <https://vercel.com/pricing> and <https://vercel.com/new>.
